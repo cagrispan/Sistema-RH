@@ -19,7 +19,23 @@ public class SystemHR extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbDepTitle1 = new javax.swing.JLabel();
+        lbNewDepartment1 = new javax.swing.JLabel();
+        tfNewDepartment1 = new javax.swing.JTextField();
+        btNewDepartment1 = new javax.swing.JButton();
+        btDeleteDep1 = new javax.swing.JButton();
+        lbSystemTitle = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
+        jpEmployee = new javax.swing.JPanel();
+        lbDepTitle2 = new javax.swing.JLabel();
+        lbNewDepartment2 = new javax.swing.JLabel();
+        tfNewDepartment2 = new javax.swing.JTextField();
+        btNewDepartment2 = new javax.swing.JButton();
+        btDeleteDep2 = new javax.swing.JButton();
+        btNewDepartment3 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jpDepartments = new javax.swing.JPanel();
         lbDepTitle = new javax.swing.JLabel();
         tfNewDepartment = new javax.swing.JTextField();
@@ -36,14 +52,104 @@ public class SystemHR extends javax.swing.JFrame {
         lbNewSystem = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbSystems = new javax.swing.JTable();
-        lbSystemTitle = new javax.swing.JLabel();
         lbInstitution = new javax.swing.JLabel();
         lbCredits = new javax.swing.JLabel();
+
+        lbDepTitle1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lbDepTitle1.setText("Departamentos");
+
+        lbNewDepartment1.setText("Nome do Departamento");
+
+        btNewDepartment1.setText("Adicionar");
+        btNewDepartment1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNewDepartment1ActionPerformed(evt);
+            }
+        });
+
+        btDeleteDep1.setText("Excluir Selecionados");
+        btDeleteDep1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeleteDep1ActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1040, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(1040, 600));
+
+        lbSystemTitle.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
+        lbSystemTitle.setText("Sistema de Recursos Humanos");
+
+        lbDepTitle2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lbDepTitle2.setText("Funcionários");
+
+        lbNewDepartment2.setText("Nome do Funcionário");
+
+        btNewDepartment2.setText("Novo");
+
+        btDeleteDep2.setText("Excluir Selecionados");
+
+        btNewDepartment3.setText("Buscar");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
+        javax.swing.GroupLayout jpEmployeeLayout = new javax.swing.GroupLayout(jpEmployee);
+        jpEmployee.setLayout(jpEmployeeLayout);
+        jpEmployeeLayout.setHorizontalGroup(
+            jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpEmployeeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jpEmployeeLayout.createSequentialGroup()
+                        .addComponent(lbDepTitle2)
+                        .addGap(103, 103, 103)
+                        .addComponent(lbNewDepartment2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfNewDepartment2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, 0, 116, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btNewDepartment3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btNewDepartment2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btDeleteDep2)))
+                .addContainerGap())
+        );
+        jpEmployeeLayout.setVerticalGroup(
+            jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpEmployeeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbDepTitle2)
+                    .addComponent(lbNewDepartment2)
+                    .addComponent(tfNewDepartment2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btDeleteDep2)
+                    .addComponent(btNewDepartment2)
+                    .addComponent(btNewDepartment3)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
+        );
+
+        tabs.addTab("Funcionários", jpEmployee);
 
         lbDepTitle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lbDepTitle.setText("Departamentos");
@@ -164,9 +270,6 @@ public class SystemHR extends javax.swing.JFrame {
 
         tabs.addTab("Sistemas", jpSystems);
 
-        lbSystemTitle.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
-        lbSystemTitle.setText("Sistema de Recursos Humanos");
-
         lbInstitution.setText("UFPR - UNIVERSIDADE FEDERAL DO PARANÁ");
         lbInstitution.setEnabled(false);
 
@@ -235,6 +338,14 @@ public class SystemHR extends javax.swing.JFrame {
         tfNewSystem.setText(null);
     }//GEN-LAST:event_btNewSystemActionPerformed
 
+    private void btNewDepartment1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewDepartment1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btNewDepartment1ActionPerformed
+
+    private void btDeleteDep1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteDep1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btDeleteDep1ActionPerformed
+
 
     public static void main(String args[]) {
 
@@ -269,17 +380,30 @@ public class SystemHR extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btDeleteDep;
+    private javax.swing.JButton btDeleteDep1;
+    private javax.swing.JButton btDeleteDep2;
     private javax.swing.JButton btDeleteSystem;
     private javax.swing.JButton btNewDepartment;
+    private javax.swing.JButton btNewDepartment1;
+    private javax.swing.JButton btNewDepartment2;
+    private javax.swing.JButton btNewDepartment3;
     private javax.swing.JButton btNewSystem;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel jpDepartments;
+    private javax.swing.JPanel jpEmployee;
     private javax.swing.JPanel jpSystems;
     private javax.swing.JLabel lbCredits;
     private javax.swing.JLabel lbDepTitle;
+    private javax.swing.JLabel lbDepTitle1;
+    private javax.swing.JLabel lbDepTitle2;
     private javax.swing.JLabel lbInstitution;
     private javax.swing.JLabel lbNewDepartment;
+    private javax.swing.JLabel lbNewDepartment1;
+    private javax.swing.JLabel lbNewDepartment2;
     private javax.swing.JLabel lbNewSystem;
     private javax.swing.JLabel lbSysTitle;
     private javax.swing.JLabel lbSystemTitle;
@@ -287,6 +411,8 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JTable tbDepartments;
     private javax.swing.JTable tbSystems;
     private javax.swing.JTextField tfNewDepartment;
+    private javax.swing.JTextField tfNewDepartment1;
+    private javax.swing.JTextField tfNewDepartment2;
     private javax.swing.JTextField tfNewSystem;
     // End of variables declaration//GEN-END:variables
 }
