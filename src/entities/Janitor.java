@@ -5,10 +5,25 @@
  */
 package entities;
 
+import DAOs.EmployeeDAO;
+
 /**
  *
  * @author TUNTS
  */
-public class Janitor {
+public class Janitor extends Employee{
+    private int office = 12;
+
+    public int getOffice() {
+        return office;
+    }
+
+    public void setOffice(int office) {
+        this.office = office;
+    }
     
+    public void add() {
+        this.office += Integer.parseInt(super.getLevel());
+        EmployeeDAO.add(this);
+    }
 }
