@@ -81,9 +81,9 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="jButton2" min="-2" pref="75" max="-2" attributes="0"/>
+                              <Component id="btSaveNewEmp" min="-2" pref="75" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="btCancelNewEmp" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
@@ -147,9 +147,9 @@
                   <Component id="tfEmpPasswordConfirm" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btCancelNewEmp" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="btSaveNewEmp" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="13" max="32767" attributes="0"/>
           </Group>
@@ -216,26 +216,25 @@
     <Component class="javax.swing.JComboBox" name="cbEmpOffice">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
+          <StringArray count="5">
+            <StringItem index="0" value="Diretor"/>
+            <StringItem index="1" value="Gerente"/>
+            <StringItem index="2" value="Analista"/>
+            <StringItem index="3" value="Programador"/>
+            <StringItem index="4" value="Auxiliar de Limpeza"/>
           </StringArray>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbEmpDepartment">
       <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new javax.swing.DefaultComboBoxModel(combo)" type="code"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="this.departments = Department.getAll();&#xa;Department dep;&#xa;int size = departments.size();&#xa;String[] combo = new String[size];&#xa;for(int i=0;i&lt;departments.size();i++){&#xa;    dep = departments.get(i);    &#xa;    combo[i] = dep.getName();&#xa;}"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lbEmpOffice">
       <Properties>
@@ -253,10 +252,10 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
+            <StringItem index="0" value="1"/>
+            <StringItem index="1" value="2"/>
+            <StringItem index="2" value="3"/>
+            <StringItem index="3" value="4"/>
           </StringArray>
         </Property>
       </Properties>
@@ -267,15 +266,21 @@
         <Property name="text" type="java.lang.String" value="N&#xed;vel"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btCancelNewEmp">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCancelNewEmpActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btSaveNewEmp">
       <Properties>
         <Property name="text" type="java.lang.String" value="Salvar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSaveNewEmpActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbSystemTitle">
       <Properties>
