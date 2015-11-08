@@ -85,7 +85,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbSystemTitle" pref="58" max="32767" attributes="0"/>
+              <Component id="lbSystemTitle" pref="74" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tabs" min="-2" pref="478" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -134,7 +134,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="tfEmployeeSearch" min="-2" pref="284" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cbEmployeeSearchFilter" pref="116" max="32767" attributes="0"/>
+                              <Component id="cbEmployeeSearchFilter" pref="117" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btEmployeeSearch" min="-2" pref="65" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -217,12 +217,15 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="jtEmployee">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                      <Connection code="new TableEmployee(&#xa;    &#xa;)" type="code"/>
+                      <Connection code="new TableEmployee()" type="code"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="TableColumn officeColumn = jtEmployee.getColumnModel().getColumn(2);&#xa;officeColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)jtEmployee.getModel()).offices));"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -246,7 +249,7 @@
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="lbDepTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="137" max="32767" attributes="0"/>
+                              <EmptySpace pref="138" max="32767" attributes="0"/>
                               <Component id="lbNewDepartment" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfNewDepartment" min="-2" pref="400" max="-2" attributes="0"/>
@@ -353,7 +356,7 @@
                           <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lbSysTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="219" max="32767" attributes="0"/>
+                              <EmptySpace pref="220" max="32767" attributes="0"/>
                               <Component id="lbNewSystem" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfNewSystem" min="-2" pref="400" max="-2" attributes="0"/>
