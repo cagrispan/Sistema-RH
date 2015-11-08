@@ -6,6 +6,7 @@
 package entities;
 
 import DAOs.EmployeeDAO;
+import java.util.List;
 
 /**
  *
@@ -46,6 +47,21 @@ public class Employee extends Person{
 
     public  void add() {
         EmployeeDAO.add(this);
+    }
+    
+    public void update()
+    {
+        EmployeeDAO.update(this);
+    }
+    
+    public void setOffice()
+    {
+        
+    }
+    
+    public static List<Employee> getAll()
+    {
+        return EmployeeDAO.loadAll();
     }
 
     public int getOffice() {

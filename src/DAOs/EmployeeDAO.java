@@ -24,7 +24,7 @@ public class EmployeeDAO {
     private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idOffice, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
     private static final String selectAll = "SELECT * FROM employee";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
-    private static final String update = "UPDATE employee SET name=? WHERE id = ?";
+    private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=? WHERE id = ?";
 
     public static void add(Employee employee) {
         Connection con = null;
@@ -73,7 +73,10 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(update);
             statment.setString(1, employee.getName());
-            statment.setInt(2, employee.getId());
+            statment.setString(2, employee.getSurname());
+            statment.setString(3, employee.getRG());
+            statment.setString(4, employee.getCPF());
+            statment.setInt(5, employee.getId());
             statment.executeUpdate();
 
         } catch (SQLException ex) {
@@ -113,8 +116,12 @@ public class EmployeeDAO {
             resultSet = statment.executeQuery();
             while (resultSet.next()) {
                 Employee employee = new Employee();
-                employee.setName(resultSet.getString("name"));
+                employee.setName(resultSet.getString("name"));                
+                employee.setSurname(resultSet.getString("surname"));
                 employee.setId(resultSet.getInt("id"));
+                employee.setCPF(resultSet.getString("cpf"));                
+                employee.setRG(resultSet.getString("rg"));                
+                employee.setPhone(resultSet.getString("phone"));
                 list.add(employee);
             }
             return list;
@@ -137,6 +144,7 @@ public class EmployeeDAO {
                 System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
             };
         }
+        
     }
 
     public static void delete(Employee employee) {

@@ -85,7 +85,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbSystemTitle" pref="58" max="32767" attributes="0"/>
+              <Component id="lbSystemTitle" pref="74" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="tabs" min="-2" pref="478" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -128,19 +128,19 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane3" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="lbDepTitle2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbEmployee" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
-                              <Component id="lbNewDepartment2" min="-2" max="-2" attributes="0"/>
+                              <Component id="lbEmployeeSearch" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="tfNewDepartment2" min="-2" pref="284" max="-2" attributes="0"/>
+                              <Component id="tfEmployeeSearch" min="-2" pref="284" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBox1" pref="116" max="32767" attributes="0"/>
+                              <Component id="cbEmployeeSearchFilter" pref="117" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btNewDepartment3" min="-2" pref="65" max="-2" attributes="0"/>
+                              <Component id="btEmployeeSearch" min="-2" pref="65" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btNewDepartment2" min="-2" pref="65" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btDeleteDep2" min="-2" max="-2" attributes="0"/>
+                              <Component id="btDeleteEmployee" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -152,13 +152,13 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lbDepTitle2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lbNewDepartment2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tfNewDepartment2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btDeleteDep2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbEmployee" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbEmployeeSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfEmployeeSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btDeleteEmployee" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btNewDepartment2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btNewDepartment3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btEmployeeSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbEmployeeSearchFilter" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jScrollPane3" min="-2" pref="399" max="-2" attributes="0"/>
@@ -168,7 +168,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="lbDepTitle2">
+            <Component class="javax.swing.JLabel" name="lbEmployee">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="18" style="0"/>
@@ -176,12 +176,12 @@
                 <Property name="text" type="java.lang.String" value="Funcion&#xe1;rios"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="lbNewDepartment2">
+            <Component class="javax.swing.JLabel" name="lbEmployeeSearch">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nome do Funcion&#xe1;rio"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="tfNewDepartment2">
+            <Component class="javax.swing.JTextField" name="tfEmployeeSearch">
             </Component>
             <Component class="javax.swing.JButton" name="btNewDepartment2">
               <Properties>
@@ -191,17 +191,17 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btNewDepartment2ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btDeleteDep2">
+            <Component class="javax.swing.JButton" name="btDeleteEmployee">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Excluir Selecionados"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btNewDepartment3">
+            <Component class="javax.swing.JButton" name="btEmployeeSearch">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
+            <Component class="javax.swing.JComboBox" name="cbEmployeeSearchFilter">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
@@ -220,17 +220,15 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="jtEmployee">
                   <Properties>
-                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="4">
-                        <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                        <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                      </Table>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new TableEmployee()" type="code"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="TableColumn officeColumn = jtEmployee.getColumnModel().getColumn(2);&#xa;officeColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)jtEmployee.getModel()).offices));"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>
@@ -254,7 +252,7 @@
                           <Component id="jScrollPane1" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="lbDepTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="137" max="32767" attributes="0"/>
+                              <EmptySpace pref="138" max="32767" attributes="0"/>
                               <Component id="lbNewDepartment" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfNewDepartment" min="-2" pref="400" max="-2" attributes="0"/>
@@ -361,7 +359,7 @@
                           <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lbSysTitle" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="219" max="32767" attributes="0"/>
+                              <EmptySpace pref="220" max="32767" attributes="0"/>
                               <Component id="lbNewSystem" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="tfNewSystem" min="-2" pref="400" max="-2" attributes="0"/>

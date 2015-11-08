@@ -1,15 +1,16 @@
 package views;
 
-import entities.Department;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
+import entities.Employee;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.table.TableColumn;
 import resources.TableDepartments;
+import resources.TableEmployee;
 import resources.TableSystems;
 
 public class SystemHR extends javax.swing.JFrame {
 
-    private TableDepartments tbDepartment = new TableDepartments();
+    private final TableDepartments tbDepartment = new TableDepartments();
 
     public SystemHR() {
         initComponents();
@@ -27,15 +28,15 @@ public class SystemHR extends javax.swing.JFrame {
         lbSystemTitle = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         jpEmployee = new javax.swing.JPanel();
-        lbDepTitle2 = new javax.swing.JLabel();
-        lbNewDepartment2 = new javax.swing.JLabel();
-        tfNewDepartment2 = new javax.swing.JTextField();
+        lbEmployee = new javax.swing.JLabel();
+        lbEmployeeSearch = new javax.swing.JLabel();
+        tfEmployeeSearch = new javax.swing.JTextField();
         btNewDepartment2 = new javax.swing.JButton();
-        btDeleteDep2 = new javax.swing.JButton();
-        btNewDepartment3 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
+        btDeleteEmployee = new javax.swing.JButton();
+        btEmployeeSearch = new javax.swing.JButton();
+        cbEmployeeSearchFilter = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtEmployee = new javax.swing.JTable();
         jpDepartments = new javax.swing.JPanel();
         lbDepTitle = new javax.swing.JLabel();
         tfNewDepartment = new javax.swing.JTextField();
@@ -82,10 +83,10 @@ public class SystemHR extends javax.swing.JFrame {
         lbSystemTitle.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
         lbSystemTitle.setText("Sistema de Recursos Humanos");
 
-        lbDepTitle2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        lbDepTitle2.setText("Funcionários");
+        lbEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lbEmployee.setText("Funcionários");
 
-        lbNewDepartment2.setText("Nome do Funcionário");
+        lbEmployeeSearch.setText("Nome do Funcionário");
 
         btNewDepartment2.setText("Novo");
         btNewDepartment2.addActionListener(new java.awt.event.ActionListener() {
@@ -94,24 +95,16 @@ public class SystemHR extends javax.swing.JFrame {
             }
         });
 
-        btDeleteDep2.setText("Excluir Selecionados");
+        btDeleteEmployee.setText("Excluir Selecionados");
 
-        btNewDepartment3.setText("Buscar");
+        btEmployeeSearch.setText("Buscar");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbEmployeeSearchFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        jtEmployee.setModel(new TableEmployee());
+        TableColumn officeColumn = jtEmployee.getColumnModel().getColumn(2);
+        officeColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)jtEmployee.getModel()).offices));
+        jScrollPane3.setViewportView(jtEmployee);
 
         javax.swing.GroupLayout jpEmployeeLayout = new javax.swing.GroupLayout(jpEmployee);
         jpEmployee.setLayout(jpEmployeeLayout);
@@ -122,19 +115,19 @@ public class SystemHR extends javax.swing.JFrame {
                 .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(jpEmployeeLayout.createSequentialGroup()
-                        .addComponent(lbDepTitle2)
+                        .addComponent(lbEmployee)
                         .addGap(103, 103, 103)
-                        .addComponent(lbNewDepartment2)
+                        .addComponent(lbEmployeeSearch)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfNewDepartment2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, 0, 116, Short.MAX_VALUE)
+                        .addComponent(cbEmployeeSearchFilter, 0, 117, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btNewDepartment3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btNewDepartment2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btDeleteDep2)))
+                        .addComponent(btDeleteEmployee)))
                 .addContainerGap())
         );
         jpEmployeeLayout.setVerticalGroup(
@@ -142,13 +135,13 @@ public class SystemHR extends javax.swing.JFrame {
             .addGroup(jpEmployeeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbDepTitle2)
-                    .addComponent(lbNewDepartment2)
-                    .addComponent(tfNewDepartment2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btDeleteDep2)
+                    .addComponent(lbEmployee)
+                    .addComponent(lbEmployeeSearch)
+                    .addComponent(tfEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btDeleteEmployee)
                     .addComponent(btNewDepartment2)
-                    .addComponent(btNewDepartment3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btEmployeeSearch)
+                    .addComponent(cbEmployeeSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
@@ -189,7 +182,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(jpDepartmentsLayout.createSequentialGroup()
                         .addComponent(lbDepTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
                         .addComponent(lbNewDepartment)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNewDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -248,7 +241,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(jpSystemsLayout.createSequentialGroup()
                         .addComponent(lbSysTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 220, Short.MAX_VALUE)
                         .addComponent(lbNewSystem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNewSystem, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -302,7 +295,7 @@ public class SystemHR extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbSystemTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                .addComponent(lbSystemTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -392,38 +385,38 @@ public class SystemHR extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btDeleteDep;
     private javax.swing.JButton btDeleteDep1;
-    private javax.swing.JButton btDeleteDep2;
+    private javax.swing.JButton btDeleteEmployee;
     private javax.swing.JButton btDeleteSystem;
+    private javax.swing.JButton btEmployeeSearch;
     private javax.swing.JButton btNewDepartment;
     private javax.swing.JButton btNewDepartment1;
     private javax.swing.JButton btNewDepartment2;
-    private javax.swing.JButton btNewDepartment3;
     private javax.swing.JButton btNewSystem;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox cbEmployeeSearchFilter;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel jpDepartments;
     private javax.swing.JPanel jpEmployee;
     private javax.swing.JPanel jpSystems;
+    private javax.swing.JTable jtEmployee;
     private javax.swing.JLabel lbCredits;
     private javax.swing.JLabel lbDepTitle;
     private javax.swing.JLabel lbDepTitle1;
-    private javax.swing.JLabel lbDepTitle2;
+    private javax.swing.JLabel lbEmployee;
+    private javax.swing.JLabel lbEmployeeSearch;
     private javax.swing.JLabel lbInstitution;
     private javax.swing.JLabel lbNewDepartment;
     private javax.swing.JLabel lbNewDepartment1;
-    private javax.swing.JLabel lbNewDepartment2;
     private javax.swing.JLabel lbNewSystem;
     private javax.swing.JLabel lbSysTitle;
     private javax.swing.JLabel lbSystemTitle;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tbDepartments;
     private javax.swing.JTable tbSystems;
+    private javax.swing.JTextField tfEmployeeSearch;
     private javax.swing.JTextField tfNewDepartment;
     private javax.swing.JTextField tfNewDepartment1;
-    private javax.swing.JTextField tfNewDepartment2;
     private javax.swing.JTextField tfNewSystem;
     // End of variables declaration//GEN-END:variables
 }
