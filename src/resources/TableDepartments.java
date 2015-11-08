@@ -1,7 +1,6 @@
 package resources;
 
 import entities.Department;
-import DAOs.DepartmentDAO;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,9 +9,11 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableDepartments extends AbstractTableModel {
 
-    private List<Department> departments = new ArrayList();
-    private String[] columnsNames = {"Nome"};
-    private Class[] columnsClass = {Object.class};
+    private List<Department> departments = new ArrayList();    
+    private Column[] columns =
+    {
+        new Column("Nome", Object.class)
+    };
 
     public TableDepartments() {
         this.refreshTable();
@@ -25,18 +26,18 @@ public class TableDepartments extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 1;
+        return columns.length;
     }
 
     @Override
     public String getColumnName(int column) {
-        return columnsNames[column];
+        return columns [column].columnName;
 
     }
 
     @Override
     public Class getColumnClass(int column) {
-        return columnsClass[column];
+        return columns [column].columnClass;
 
     }
 
@@ -64,6 +65,11 @@ public class TableDepartments extends AbstractTableModel {
         this.refreshTable();
 
     }
+    
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return true;
+    }
 
     public void delete(int rows[]) {
 
@@ -82,11 +88,6 @@ public class TableDepartments extends AbstractTableModel {
         newDepartment.add();
         
         this.refreshTable();
-    }
-
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
     }
 
     public void refreshTable() {

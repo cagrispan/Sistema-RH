@@ -11,8 +11,10 @@ import javax.swing.table.AbstractTableModel;
 public class TableSystems extends AbstractTableModel {
 
     private List<CompanySystem> systems = new ArrayList();
-    private String[] columnsNames = {"Nome"};
-    private Class[] columnsClass = {Object.class};
+    private Column[] columns =
+    {
+        new Column("Nome", Object.class)
+    };
 
     public TableSystems() {
         this.refreshTable();
@@ -25,19 +27,18 @@ public class TableSystems extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 1;
+        return columns.length;
     }
 
     @Override
     public String getColumnName(int column) {
-        return columnsNames[column];
+        return columns [column].columnName;
 
     }
 
     @Override
     public Class getColumnClass(int column) {
-        return columnsClass[column];
-
+        return columns [column].columnClass;
     }
 
     @Override
