@@ -375,9 +375,11 @@ public class NewEmployee extends javax.swing.JFrame {
         switch (cbEmpOffice.getSelectedItem().toString().toLowerCase()) {
             case "diretor":
                 emp = (Employee) new Director();
+                emp.setDeps(deps);
                 break;
             case "gerente":
                 emp = (Employee) new Manager();
+                emp.setDep(departments.get(cbEmpDepartment1.getSelectedIndex()));
                 break;
             case "analista":
                 emp = (Employee) new Analyst();

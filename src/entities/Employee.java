@@ -68,4 +68,12 @@ public class Employee extends Person{
         return 0;
     }
 
+    public void setDeps(List<Department> deps) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setDep(Department get) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

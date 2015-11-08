@@ -5,7 +5,9 @@
  */
 package DAOs;
 
+import entities.Director;
 import entities.Employee;
+import entities.Manager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,6 +27,8 @@ public class EmployeeDAO {
     private static final String selectAll = "SELECT * FROM employee";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=? WHERE id = ?";
+    private static final String insertDirector = "INSERT INTO director(idEmployee) VALUES(?)";
+    private static final String insertManager = "INSERT INTO manager(idEmployee) VALUES(?)";
 
     public static void add(Employee employee) {
         Connection con = null;
@@ -116,11 +120,11 @@ public class EmployeeDAO {
             resultSet = statment.executeQuery();
             while (resultSet.next()) {
                 Employee employee = new Employee();
-                employee.setName(resultSet.getString("name"));                
+                employee.setName(resultSet.getString("name"));
                 employee.setSurname(resultSet.getString("surname"));
                 employee.setId(resultSet.getInt("id"));
-                employee.setCPF(resultSet.getString("cpf"));                
-                employee.setRG(resultSet.getString("rg"));                
+                employee.setCPF(resultSet.getString("cpf"));
+                employee.setRG(resultSet.getString("rg"));
                 employee.setPhone(resultSet.getString("phone"));
                 list.add(employee);
             }
@@ -144,7 +148,7 @@ public class EmployeeDAO {
                 System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
             };
         }
-        
+
     }
 
     public static void delete(Employee employee) {
@@ -175,6 +179,70 @@ public class EmployeeDAO {
                 System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
             };
         }
+    }
+
+    public static void addDirector(Director director) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(insertDirector, PreparedStatement.RETURN_GENERATED_KEYS);
+            statment.setInt(1, director.getId());
+            statment.executeUpdate();
+            director.setIdDirector(setID(statment));
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao inserir um empartamento no banco de dados.");
+            throw new RuntimeException(
+                    "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
+            );
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+
+    public static void addManager(Manager manager) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(insertManager, PreparedStatement.RETURN_GENERATED_KEYS);
+            statment.setInt(1, manager.getId());
+            statment.executeUpdate();
+            manager.setIdManager(setID(statment));
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao inserir um empartamento no banco de dados.");
+            throw new RuntimeException(
+                    "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
+            );
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
     }
 
 }
