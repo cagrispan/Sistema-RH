@@ -26,7 +26,7 @@ public class EmployeeDAO {
     private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idOffice, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
     private static final String selectAll = "SELECT * FROM employee";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
-    private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=? WHERE id = ?";
+    private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idOffice=? WHERE id = ?";   
     private static final String insertDirector = "INSERT INTO director(idEmployee) VALUES(?)";
     private static final String insertManager = "INSERT INTO manager(idEmployee) VALUES(?)";
 
@@ -49,7 +49,7 @@ public class EmployeeDAO {
             JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso.");
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir um empartamento no banco de dados.");
+            JOptionPane.showMessageDialog(null, "Erro ao inserir um empregado no banco de dados.");
             throw new RuntimeException(
                     "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
             );
@@ -79,8 +79,10 @@ public class EmployeeDAO {
             statment.setString(1, employee.getName());
             statment.setString(2, employee.getSurname());
             statment.setString(3, employee.getRG());
-            statment.setString(4, employee.getCPF());
-            statment.setInt(5, employee.getId());
+            statment.setString(4, employee.getCPF());            
+            statment.setString(5, employee.getPhone());            
+            statment.setInt(6, employee.getOffice());
+            statment.setInt(7, employee.getId());
             statment.executeUpdate();
 
         } catch (SQLException ex) {

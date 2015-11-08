@@ -31,7 +31,7 @@ public class SystemHR extends javax.swing.JFrame {
         lbEmployee = new javax.swing.JLabel();
         lbEmployeeSearch = new javax.swing.JLabel();
         tfEmployeeSearch = new javax.swing.JTextField();
-        btNewDepartment2 = new javax.swing.JButton();
+        btNewEmployee = new javax.swing.JButton();
         btDeleteEmployee = new javax.swing.JButton();
         btEmployeeSearch = new javax.swing.JButton();
         cbEmployeeSearchFilter = new javax.swing.JComboBox();
@@ -76,7 +76,6 @@ public class SystemHR extends javax.swing.JFrame {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1040, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(1040, 600));
 
@@ -88,10 +87,10 @@ public class SystemHR extends javax.swing.JFrame {
 
         lbEmployeeSearch.setText("Nome do Funcionário");
 
-        btNewDepartment2.setText("Novo");
-        btNewDepartment2.addActionListener(new java.awt.event.ActionListener() {
+        btNewEmployee.setText("Novo");
+        btNewEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btNewDepartment2ActionPerformed(evt);
+                btNewEmployeeActionPerformed(evt);
             }
         });
 
@@ -102,8 +101,10 @@ public class SystemHR extends javax.swing.JFrame {
         cbEmployeeSearchFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jtEmployee.setModel(new TableEmployee());
-        TableColumn officeColumn = jtEmployee.getColumnModel().getColumn(2);
+        TableColumn officeColumn = jtEmployee.getColumnModel().getColumn(5);
+        TableColumn levelColumn = jtEmployee.getColumnModel().getColumn(6);
         officeColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)jtEmployee.getModel()).offices));
+        levelColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)jtEmployee.getModel()).levels));
         jScrollPane3.setViewportView(jtEmployee);
 
         javax.swing.GroupLayout jpEmployeeLayout = new javax.swing.GroupLayout(jpEmployee);
@@ -125,7 +126,7 @@ public class SystemHR extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btNewDepartment2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btNewEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btDeleteEmployee)))
                 .addContainerGap())
@@ -139,7 +140,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(lbEmployeeSearch)
                     .addComponent(tfEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btDeleteEmployee)
-                    .addComponent(btNewDepartment2)
+                    .addComponent(btNewEmployee)
                     .addComponent(btEmployeeSearch)
                     .addComponent(cbEmployeeSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -344,11 +345,11 @@ public class SystemHR extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btDeleteDep1ActionPerformed
 
-    private void btNewDepartment2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewDepartment2ActionPerformed
+    private void btNewEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewEmployeeActionPerformed
         NewEmployee emp = new NewEmployee(this);
         emp.setVisible(true);
         this.setEnabled(false);
-    }//GEN-LAST:event_btNewDepartment2ActionPerformed
+    }//GEN-LAST:event_btNewEmployeeActionPerformed
 
 
     public static void main(String args[]) {
@@ -390,7 +391,7 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JButton btEmployeeSearch;
     private javax.swing.JButton btNewDepartment;
     private javax.swing.JButton btNewDepartment1;
-    private javax.swing.JButton btNewDepartment2;
+    private javax.swing.JButton btNewEmployee;
     private javax.swing.JButton btNewSystem;
     private javax.swing.JComboBox cbEmployeeSearchFilter;
     private javax.swing.JScrollPane jScrollPane1;
