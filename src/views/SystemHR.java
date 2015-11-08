@@ -1,16 +1,16 @@
 package views;
 
-import entities.Department;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JOptionPane;
+import entities.Employee;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.table.TableColumn;
 import resources.TableDepartments;
 import resources.TableEmployee;
 import resources.TableSystems;
 
 public class SystemHR extends javax.swing.JFrame {
 
-    private TableDepartments tbDepartment = new TableDepartments();
+    private final TableDepartments tbDepartment = new TableDepartments();
 
     public SystemHR() {
         initComponents();
@@ -36,7 +36,7 @@ public class SystemHR extends javax.swing.JFrame {
         btEmployeeSearch = new javax.swing.JButton();
         cbEmployeeSearchFilter = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtEmployee = new javax.swing.JTable();
         jpDepartments = new javax.swing.JPanel();
         lbDepTitle = new javax.swing.JLabel();
         tfNewDepartment = new javax.swing.JTextField();
@@ -101,10 +101,10 @@ public class SystemHR extends javax.swing.JFrame {
 
         cbEmployeeSearchFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTable1.setModel(new TableEmployee(
-
-        ));
-        jScrollPane3.setViewportView(jTable1);
+        jtEmployee.setModel(new TableEmployee());
+        TableColumn officeColumn = jtEmployee.getColumnModel().getColumn(2);
+        officeColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)jtEmployee.getModel()).offices));
+        jScrollPane3.setViewportView(jtEmployee);
 
         javax.swing.GroupLayout jpEmployeeLayout = new javax.swing.GroupLayout(jpEmployee);
         jpEmployee.setLayout(jpEmployeeLayout);
@@ -121,7 +121,7 @@ public class SystemHR extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(tfEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbEmployeeSearchFilter, 0, 116, Short.MAX_VALUE)
+                        .addComponent(cbEmployeeSearchFilter, 0, 117, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -182,7 +182,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(jpDepartmentsLayout.createSequentialGroup()
                         .addComponent(lbDepTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 138, Short.MAX_VALUE)
                         .addComponent(lbNewDepartment)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNewDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -241,7 +241,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(jpSystemsLayout.createSequentialGroup()
                         .addComponent(lbSysTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 219, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 220, Short.MAX_VALUE)
                         .addComponent(lbNewSystem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNewSystem, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -295,7 +295,7 @@ public class SystemHR extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbSystemTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                .addComponent(lbSystemTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -396,10 +396,10 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel jpDepartments;
     private javax.swing.JPanel jpEmployee;
     private javax.swing.JPanel jpSystems;
+    private javax.swing.JTable jtEmployee;
     private javax.swing.JLabel lbCredits;
     private javax.swing.JLabel lbDepTitle;
     private javax.swing.JLabel lbDepTitle1;
