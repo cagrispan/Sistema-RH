@@ -7,21 +7,22 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-public class TableDepartments extends AbstractTableModel {
+public class TableDepDirectors extends AbstractTableModel {
 
-    private List<Department> departments = new ArrayList();    
+    private List<Department> deps = new ArrayList();    
     private Column[] columns =
     {
         new Column("Nome", Object.class)
     };
 
-    public TableDepartments() {
+    public TableDepDirectors(List<Department> deps) {
+        this.deps = deps;
         this.refreshTable();
     }
 
     @Override
     public int getRowCount() {
-        return departments.size();
+        return deps.size();
     }
 
     @Override
@@ -44,11 +45,11 @@ public class TableDepartments extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        if (departments.size() == 0) {
+        if (deps.size() == 0) {
             return false;
         }
 
-        Department d = departments.get(rowIndex);
+        Department d = deps.get(rowIndex);
 
         if (columnIndex == 0) {
             return d.getName();
@@ -59,7 +60,7 @@ public class TableDepartments extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object newName, int rowIndex, int columnIndex) {
-        Department dep = departments.get(rowIndex);
+        Department dep = deps.get(rowIndex);
         dep.setName(newName.toString());
         dep.update();
         this.refreshTable();
@@ -74,7 +75,7 @@ public class TableDepartments extends AbstractTableModel {
     public void delete(int rows[]) {
 
         for (int i = 0; i < rows.length; i++) {
-            Department dep = departments.get(rows[i]);
+            Department dep = deps.get(rows[i]);
             dep.delete();
         }
         this.refreshTable();
@@ -90,37 +91,29 @@ public class TableDepartments extends AbstractTableModel {
         this.refreshTable();
     }
     
-    public List<Department> remove(int rows[], List<Department> deps){
+    public List<Department> remove(int rows[]){
+        
+        List<Department> departments = new ArrayList();
         
         for (int i=0;i<rows.length;i++){
-            deps.add(departments.remove(rows[i]-i));
+            departments.add(deps.remove(rows[i]-i));
         }
         
         fireTableDataChanged();
-        return deps;     
+        return departments;     
         
     }
 
     public void refreshTable() {
-        departments = Department.getAll();
         this.sort();
         fireTableDataChanged();
     }
 
     public void sort() {
-        Collections.sort(departments, new Comparator<Department>() {
+        Collections.sort(deps, new Comparator<Department>() {
             public int compare(Department arg0, Department arg1) {
                 return arg0.getName().compareToIgnoreCase(arg1.getName());
             }
         });
-    }
-
-    public void addToList(List<Department> deps) {
-        
-        for (Department dep: deps){
-            departments.add(dep);
-        }
-        this.sort();
-        fireTableDataChanged();
     }
 }
