@@ -88,6 +88,11 @@ public class SystemHR extends javax.swing.JFrame {
         lbNewDepartment2.setText("Nome do Funcionário");
 
         btNewDepartment2.setText("Novo");
+        btNewDepartment2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btNewDepartment2ActionPerformed(evt);
+            }
+        });
 
         btDeleteDep2.setText("Excluir Selecionados");
 
@@ -345,6 +350,12 @@ public class SystemHR extends javax.swing.JFrame {
     private void btDeleteDep1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteDep1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btDeleteDep1ActionPerformed
+
+    private void btNewDepartment2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewDepartment2ActionPerformed
+        NewEmployee emp = new NewEmployee(this);
+        emp.setVisible(true);
+        this.setEnabled(false);
+    }//GEN-LAST:event_btNewDepartment2ActionPerformed
 
 
     public static void main(String args[]) {
