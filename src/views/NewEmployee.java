@@ -5,16 +5,35 @@
  */
 package views;
 
+import entities.Analyst;
+import entities.Department;
+import entities.Director;
+import entities.Employee;
+import entities.Janitor;
+import entities.Manager;
+import entities.Programmer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 /**
  *
  * @author TUNTS
  */
 public class NewEmployee extends javax.swing.JFrame {
 
+    private SystemHR calledBy = null;
+    private List<Department> departments = new ArrayList();
+
     /**
      * Creates new form NewEmployee
      */
-    public NewEmployee() {
+    public NewEmployee(SystemHR calledBy) {
+        initComponents();
+        this.calledBy = calledBy;
+    }
+
+    private NewEmployee() {
         initComponents();
     }
 
@@ -47,8 +66,8 @@ public class NewEmployee extends javax.swing.JFrame {
         lbEmpDepartment = new javax.swing.JLabel();
         cbEmpLevel = new javax.swing.JComboBox();
         lbEmpLevel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btCancelNewEmp = new javax.swing.JButton();
+        btSaveNewEmp = new javax.swing.JButton();
         lbSystemTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -74,9 +93,17 @@ public class NewEmployee extends javax.swing.JFrame {
         lbEmpPasswordConfirm.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpPasswordConfirm.setText("Confirmar Senha");
 
-        cbEmpOffice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbEmpOffice.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Diretor", "Gerente", "Analista", "Programador", "Auxiliar de Limpeza" }));
 
-        cbEmpDepartment.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        this.departments = Department.getAll();
+        Department dep;
+        int size = departments.size();
+        String[] combo = new String[size];
+        for(int i=0;i<departments.size();i++){
+            dep = departments.get(i);
+            combo[i] = dep.getName();
+        }
+        cbEmpDepartment.setModel(new javax.swing.DefaultComboBoxModel(combo));
 
         lbEmpOffice.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpOffice.setText("Cargo");
@@ -84,14 +111,24 @@ public class NewEmployee extends javax.swing.JFrame {
         lbEmpDepartment.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpDepartment.setText("Departamento");
 
-        cbEmpLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbEmpLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
 
         lbEmpLevel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpLevel.setText("Nível");
 
-        jButton1.setText("Cancelar");
+        btCancelNewEmp.setText("Cancelar");
+        btCancelNewEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelNewEmpActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Salvar");
+        btSaveNewEmp.setText("Salvar");
+        btSaveNewEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSaveNewEmpActionPerformed(evt);
+            }
+        });
 
         lbSystemTitle.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
         lbSystemTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -146,9 +183,9 @@ public class NewEmployee extends javax.swing.JFrame {
                                     .addGap(54, 54, 54)
                                     .addComponent(cbEmpDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btSaveNewEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)))
+                                .addComponent(btCancelNewEmp)))
                         .addGap(0, 11, Short.MAX_VALUE))
                     .addComponent(lbSystemTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -197,14 +234,53 @@ public class NewEmployee extends javax.swing.JFrame {
                     .addComponent(lbEmpPasswordConfirm)
                     .addComponent(tfEmpPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btCancelNewEmp)
+                    .addComponent(btSaveNewEmp))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btSaveNewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveNewEmpActionPerformed
+
+        Employee emp = null;
+
+        switch (cbEmpOffice.getSelectedItem().toString().toLowerCase()) {
+            case "diretor":
+                emp = (Employee) new Director();
+                break;
+            case "gerente":
+                emp = (Employee) new Manager();
+                break;
+            case "analista":
+                emp = (Employee) new Analyst();
+                break;
+            case "programador":
+                emp = (Employee) new Programmer();
+                break;
+            case "auxiliar de Limpeza":
+                emp = (Employee) new Janitor();
+                break;
+        }
+
+        emp.setName(tfEmpName.getText());
+        emp.setSurname(tfEmpSurname.getText());
+        emp.setRG(tfEmpRG.getText());
+        emp.setCPF(tfEmpCPF.getText());
+        emp.setPhone(tfEmpPhone.getText());
+        emp.setLevel(cbEmpLevel.getSelectedItem().toString());
+        emp.setPassword(tfEmpPassword.getText());
+        emp.setDepartment(departments.get(cbEmpDepartment.getSelectedIndex()));
+        
+        emp.add();
+    }//GEN-LAST:event_btSaveNewEmpActionPerformed
+
+    private void btCancelNewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelNewEmpActionPerformed
+        this.dispose();
+        calledBy.setVisible(true);
+    }//GEN-LAST:event_btCancelNewEmpActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,7 +293,7 @@ public class NewEmployee extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -242,11 +318,11 @@ public class NewEmployee extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btCancelNewEmp;
+    private javax.swing.JButton btSaveNewEmp;
     private javax.swing.JComboBox cbEmpDepartment;
     private javax.swing.JComboBox cbEmpLevel;
     private javax.swing.JComboBox cbEmpOffice;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel lbEmpCPF;
     private javax.swing.JLabel lbEmpDepartment;
     private javax.swing.JLabel lbEmpLevel;
