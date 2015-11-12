@@ -16,6 +16,7 @@ public class Employee extends Person{
     
     private String password;
     private String level;
+    private int idOffice;
     private Department department;
 
     public Department getDepartment() {
@@ -54,9 +55,38 @@ public class Employee extends Person{
         EmployeeDAO.update(this);
     }
     
-    public void setOffice()
+    public void setOffice(String office)
     {
-        
+        office = office.toLowerCase();
+        switch (office) {
+            case "diretor":
+                idOffice = 0;
+                break;
+            case "gerente":
+                idOffice = 3;
+                break;
+            case "analista":
+                idOffice = 6;
+                break;
+            case "programador":
+                idOffice = 9;
+                break;
+            case "auxiliar de limpeza":
+                idOffice = 12;
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+    
+    public void setOffice(int id)
+    {
+        this.idOffice = id;
+    }
+    
+    public int getOffice()
+    {
+        return this.idOffice;
     }
     
     public static List<Employee> getAll()
@@ -64,8 +94,13 @@ public class Employee extends Person{
         return EmployeeDAO.loadAll();
     }
 
-    public int getOffice() {
-        return 0;
+
+    public void setDeps(List<Department> deps) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setDep(Department get) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -6,13 +6,33 @@
 package entities;
 
 import DAOs.EmployeeDAO;
+import entities.Department;
 
 /**
  *
  * @author TUNTS
  */
-public class Manager extends Employee{
+public class Manager extends Employee {
+
     private int office = 3;
+    private int idManager;
+    private Department dep;
+
+    public Department getDep() {
+        return dep;
+    }
+
+    public void setDep(Department dep) {
+        this.dep = dep;
+    }
+
+    public int getIdManager() {
+        return idManager;
+    }
+
+    public void setIdManager(int idManager) {
+        this.idManager = idManager;
+    }
 
     public int getOffice() {
         return office;
@@ -21,9 +41,13 @@ public class Manager extends Employee{
     public void setOffice(int office) {
         this.office = office;
     }
-    
+
     public void add() {
         this.office += Integer.parseInt(super.getLevel());
         EmployeeDAO.add(this);
+        EmployeeDAO.addManager(this);
+        dep.setIdManager(idManager);
+        dep.addManager();
+
     }
 }

@@ -25,6 +25,8 @@ public class DepartmentDAO {
     private static final String selectAll = "SELECT * FROM department";
     private static final String delete = "DELETE FROM department WHERE id = ?";
     private static final String update = "UPDATE department SET name=? WHERE id = ?";
+    private static final String updateDirector = "UPDATE department SET idDirector=? WHERE id = ?";
+    private static final String updateManager = "UPDATE department SET idManager=? WHERE id = ?";
 
     public static void add(Department department) {
         Connection con = null;
@@ -160,6 +162,68 @@ public class DepartmentDAO {
                 System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
             };
         }
+    }
+
+    public static void addDirector(Department department) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(updateDirector);
+            statment.setInt(1, department.getIdDirector());
+            statment.setInt(2, department.getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao alterar um departamento no banco de dados. Origem=" + ex.getMessage()
+            );
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
+    }
+
+    public static void addManager(Department department) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(updateManager);
+            statment.setInt(1, department.getIdManager());
+            statment.setInt(2, department.getId());
+            statment.executeUpdate();
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao alterar um departamento no banco de dados. Origem=" + ex.getMessage()
+            );
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+
     }
 
 }

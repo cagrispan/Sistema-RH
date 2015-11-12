@@ -15,7 +15,25 @@ import java.util.List;
 public class Department {
     
     private int id;
+    private int idDirector;
+    private int idManager;
     private String name;
+
+    public int getIdDirector() {
+        return idDirector;
+    }
+
+    public void setIdDirector(int idDirector) {
+        this.idDirector = idDirector;
+    }
+
+    public int getIdManager() {
+        return idManager;
+    }
+
+    public void setIdManager(int idManager) {
+        this.idManager = idManager;
+    }
 
     public int getId() {
         return id;
@@ -51,6 +69,13 @@ public class Department {
         DepartmentDAO.delete(this);
     }
     
+    public void addDirector(){
+        DepartmentDAO.addDirector(this);
+    }
+    
+    public void addManager(){
+        DepartmentDAO.addManager(this);
+    }
     
     
        
