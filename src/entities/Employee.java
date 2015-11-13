@@ -15,7 +15,8 @@ import java.util.List;
 public class Employee extends Person{
     
     private String password;
-    private String level;
+    private int idSalary;
+    private int level;
     private int idOffice;
     private Department department;
 
@@ -27,12 +28,13 @@ public class Employee extends Person{
         this.department = department;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
-
-    public void setLevel(String level) {
-        this.level = level;
+    
+    public void setLevel(int level)
+    {        
+        this.level  = level;
     }
 
     public String getPassword() {
@@ -55,28 +57,17 @@ public class Employee extends Person{
         EmployeeDAO.update(this);
     }
     
-    public void setOffice(String office)
+    public static List<Employee> getAll()
     {
-        office = office.toLowerCase();
-        switch (office) {
-            case "diretor":
-                idOffice = 0;
-                break;
-            case "gerente":
-                idOffice = 3;
-                break;
-            case "analista":
-                idOffice = 6;
-                break;
-            case "programador":
-                idOffice = 9;
-                break;
-            case "auxiliar de limpeza":
-                idOffice = 12;
-                break;
-            default:
-                throw new AssertionError();
-        }
+        return EmployeeDAO.loadAll();
+    }
+    
+    public int getIdSalary() {
+        return idSalary;
+    }
+
+    public void setIdSalary(int idSalary) {
+        this.idSalary = idSalary;
     }
     
     public void setOffice(int id)
@@ -88,12 +79,6 @@ public class Employee extends Person{
     {
         return this.idOffice;
     }
-    
-    public static List<Employee> getAll()
-    {
-        return EmployeeDAO.loadAll();
-    }
-
 
     public void setDeps(List<Department> deps) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

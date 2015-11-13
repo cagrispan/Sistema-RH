@@ -43,7 +43,6 @@ public class Manager extends Employee {
     }
 
     public void add() {
-        this.office += Integer.parseInt(super.getLevel());
         EmployeeDAO.add(this);
         EmployeeDAO.addManager(this);
         dep.setIdManager(idManager);
