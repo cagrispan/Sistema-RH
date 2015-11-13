@@ -20,8 +20,8 @@ public class TableEmployee extends AbstractTableModel{
         new Column("RG",            String.class),
         new Column("CPF",           String.class),
         new Column("Telefone",      String.class),
-        new Column("Cargo",         Object.class),
-        new Column("Nível",         Object.class)
+        new Column("Cargo",         String.class),
+        new Column("Nível",         String.class)
     };
     
             
@@ -71,6 +71,13 @@ public class TableEmployee extends AbstractTableModel{
     }
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
+        Employee e = employees.get(rowIndex);
+        
+        if(columnIndex == 6 && e.getOffice()== 4)
+        {
+            e.setLevel(0);
+            return false;
+        }
         return true;
     }
 
@@ -88,8 +95,8 @@ public class TableEmployee extends AbstractTableModel{
         if(columnIndex == 2) return e.getRG();
         if(columnIndex == 3) return e.getCPF();
         if(columnIndex == 4) return e.getPhone();
-        if(columnIndex == 5) return e.getOffice();
-        if(columnIndex == 6) return e.getLevel();
+        if(columnIndex == 5) return offices.getItemAt(e.getOffice());
+        if(columnIndex == 6) return levels.getItemAt(e.getLevel());
         //if(columnIndex == 7) return e.getDepartment().getName();
                 
         return false;
@@ -105,10 +112,18 @@ public class TableEmployee extends AbstractTableModel{
         else if(columnIndex == 2) e.setRG(aValue.toString());
         else if(columnIndex == 3) e.setCPF(aValue.toString());
         else if(columnIndex == 4) e.setPhone(aValue.toString());
-        else if(columnIndex == 5) e.setOffice(aValue.toString());
-        else if(columnIndex == 6) e.setLevel(aValue.toString());
+        else if(columnIndex == 5)
+        {
+            e.setOffice(offices.getSelectedIndex());
+            
+            if(e.getOffice()==4)
+                e.setLevel(0);
+        }
+        else if(columnIndex == 6) e.setLevel(levels.getSelectedIndex());
         //else if(columnIndex == 7) e.setDepartment(aValue.toString()).getName();
         
+        System.out.println();   
+             
         e.update();
         this.refreshTable();
     }

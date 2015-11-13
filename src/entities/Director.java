@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class Director extends Employee{
     
-   private int office = 0;
    private List<Department> deps = new ArrayList();
    private int idDirector;
 
@@ -35,16 +34,8 @@ public class Director extends Employee{
         this.deps = deps;
     }
 
-    public int getOffice() {
-        return office;
-    }
-
-    public void setOffice(int office) {
-        this.office = office;
-    }
-    
+   
     public void add() {
-        this.office += Integer.parseInt(super.getLevel());
         EmployeeDAO.add(this);
         EmployeeDAO.addDirector(this);
         for (Department dep: deps){

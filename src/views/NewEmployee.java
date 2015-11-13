@@ -113,8 +113,8 @@ public class NewEmployee extends javax.swing.JFrame {
         pnDirector = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbDeps = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btGoIn = new javax.swing.JButton();
+        btGoOut = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbDepsDirector = new javax.swing.JTable();
 
@@ -205,17 +205,17 @@ public class NewEmployee extends javax.swing.JFrame {
         tbDeps.setModel(new TableDepartments());
         jScrollPane3.setViewportView(tbDeps);
 
-        jButton3.setText(">>>");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btGoIn.setText(">>>");
+        btGoIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btGoInActionPerformed(evt);
             }
         });
 
-        jButton4.setText("<<<");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btGoOut.setText("<<<");
+        btGoOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btGoOutActionPerformed(evt);
             }
         });
 
@@ -231,8 +231,8 @@ public class NewEmployee extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnDirectorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(btGoIn, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btGoOut, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -241,9 +241,9 @@ public class NewEmployee extends javax.swing.JFrame {
             pnDirectorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnDirectorLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addComponent(jButton3)
+                .addComponent(btGoIn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
+                .addComponent(btGoOut)
                 .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(pnDirectorLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -369,26 +369,20 @@ public class NewEmployee extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSaveNewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveNewEmpActionPerformed
+        
+        int idOffice = cbEmpOffice.getSelectedIndex();
+        
+        Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
+        Employee emp = classes[idOffice];
 
-        Employee emp = null;
-
-        switch (cbEmpOffice.getSelectedItem().toString().toLowerCase()) {
-            case "diretor":
-                emp = (Employee) new Director();
+        switch (cbEmpOffice.getSelectedIndex()) {
+            case 0:
                 emp.setDeps(deps);
                 break;
-            case "gerente":
-                emp = (Employee) new Manager();
+            case 1:
                 emp.setDep(departments.get(cbEmpDepartment1.getSelectedIndex()));
                 break;
-            case "analista":
-                emp = (Employee) new Analyst();
-                break;
-            case "programador":
-                emp = (Employee) new Programmer();
-                break;
-            case "auxiliar de limpeza":
-                emp = (Employee) new Janitor();
+            case 4:
                 cbEmpLevel.setSelectedIndex(0);
                 break;
         }
@@ -398,7 +392,8 @@ public class NewEmployee extends javax.swing.JFrame {
         emp.setRG(tfEmpRG.getText());
         emp.setCPF(tfEmpCPF.getText());
         emp.setPhone(tfEmpPhone.getText());
-        emp.setLevel(cbEmpLevel.getSelectedItem().toString());
+        emp.setOffice(idOffice);
+        emp.setLevel(cbEmpLevel.getSelectedIndex());
         emp.setPassword(tfEmpPassword.getText());
         emp.setDepartment(departments.get(cbEmpDepartment.getSelectedIndex()));
 
@@ -414,50 +409,40 @@ public class NewEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_btCancelNewEmpActionPerformed
 
     private void cbEmpOfficeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEmpOfficeActionPerformed
-
-        if (cbEmpOffice.getSelectedItem().toString() == "Auxiliar de Limpeza") {
-
-            cbEmpLevel.setEnabled(false);
-            setManagerEnable(false);
-            setDirectorEnable(false);
-
-        } else if (cbEmpOffice.getSelectedItem().toString() == "Diretor") {
-
-            cbEmpLevel.setEnabled(true);
-            setManagerEnable(false);
-            setDirectorEnable(true);
-
-        } else if (cbEmpOffice.getSelectedItem().toString() == "Gerente") {
-
-            cbEmpLevel.setEnabled(true);
-            setManagerEnable(true);
-            setDirectorEnable(false);
-
-        } else {
-
-            cbEmpLevel.setEnabled(true);
-            setManagerEnable(false);
-            setDirectorEnable(false);
-
-        }
+        
+        int selectedItem = cbEmpOffice.getSelectedIndex();
+        
+        boolean[][] permissions =
+        {
+        //     Level / Manager / Director
+            {   true,   false,  true},  // Director
+            {   true,   true ,  false}, // Manager
+            {   true,   false,  false}, // Analistic
+            {   true,   false,  false}, // Programmer
+            {   false,  false,  false}  // Janitor
+        };
+        
+        cbEmpLevel.setEnabled(permissions[selectedItem][0]);
+        setManagerEnable(permissions[selectedItem][1]);
+        setDirectorEnable(permissions[selectedItem][2]);
     }//GEN-LAST:event_cbEmpOfficeActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btGoInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoInActionPerformed
 
         int rows[] = tbDeps.getSelectedRows();
         ((TableDepartments) tbDeps.getModel()).remove(rows, deps);
         tbDepsDirector.setModel(new TableDepDirectors(deps));
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btGoInActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void btGoOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoOutActionPerformed
         
         int rows[] = tbDepsDirector.getSelectedRows();
         List<Department> departs = ((TableDepDirectors) tbDepsDirector.getModel()).remove(rows);
         ((TableDepartments) tbDeps.getModel()).addToList(departs);
         
         
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_btGoOutActionPerformed
 
     public void setManagerEnable(boolean status) {
         Component[] manager = pnManager.getComponents();
@@ -477,7 +462,7 @@ public class NewEmployee extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+        /* Set the Windows look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -515,13 +500,13 @@ public class NewEmployee extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancelNewEmp;
+    private javax.swing.JButton btGoIn;
+    private javax.swing.JButton btGoOut;
     private javax.swing.JButton btSaveNewEmp;
     private javax.swing.JComboBox cbEmpDepartment;
     private javax.swing.JComboBox cbEmpDepartment1;
     private javax.swing.JComboBox cbEmpLevel;
     private javax.swing.JComboBox cbEmpOffice;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lbEmpCPF;
