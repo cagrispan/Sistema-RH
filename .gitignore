@@ -5,3 +5,4 @@ nbproject/private/private.properties
 *.form
 /build/*
 /build/*.*
+*.properties
