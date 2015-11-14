@@ -24,9 +24,9 @@ import resources.ConnectionFactory;
 public class EmployeeDAO {
 
     private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idOffice, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
-    private static final String selectAll = "SELECT * FROM employee";
+    private static final String selectAll = "SELECT e.*, s.idOffice,s.level FROM employee e, salary s WHERE e.idSalary=s.id";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
-    private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idOffice=? WHERE id = ?";   
+    private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=? WHERE id = ?";
     private static final String insertDirector = "INSERT INTO director(idEmployee) VALUES(?)";
     private static final String insertManager = "INSERT INTO manager(idEmployee) VALUES(?)";
 
@@ -42,7 +42,7 @@ public class EmployeeDAO {
             statment.setString(4, employee.getCPF());
             statment.setString(5, employee.getPhone());
             statment.setString(6, employee.getPassword());
-            statment.setInt(7, employee.getOffice());
+            statment.setInt(7, employee.getOffice() + employee.getLevel());
             statment.setInt(8, employee.getDepartment().getId());
             statment.executeUpdate();
             employee.setId(setID(statment));
@@ -69,19 +69,43 @@ public class EmployeeDAO {
         }
 
     }
+    
+    private static int getSalaryId(int idOffice, int level, Connection con)
+    {
+        String query = "SELECT id FROM salary WHERE idOffice=? AND level=?";
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        
+        int id;
+        try
+        {
+            statment = con.prepareStatement(query);
+            statment.setInt(1, idOffice+1);
+            statment.setInt(2, level+1);
+            resultSet = statment.executeQuery();
+            resultSet.next();            
+            id = resultSet.getInt("id");
+        } catch(SQLException ex)
+        {
+            throw new RuntimeException("Erro ao buscar id de salario do Funcionario (idOffice:"+(idOffice+1) + " Level:"+ (level+1) + " Erro: " + ex.getMessage());
+        }
+        return id;
+    }
 
     public static void update(Employee employee) {
         Connection con = null;
         PreparedStatement statment = null;
         try {
             con = ConnectionFactory.getConnection();
+            int idSalary = getSalaryId(employee.getOffice(), employee.getLevel(), con);
+            
             statment = con.prepareStatement(update);
             statment.setString(1, employee.getName());
             statment.setString(2, employee.getSurname());
             statment.setString(3, employee.getRG());
             statment.setString(4, employee.getCPF());            
             statment.setString(5, employee.getPhone());            
-            statment.setInt(6, employee.getOffice());
+            statment.setInt(6, idSalary);
             statment.setInt(7, employee.getId());
             statment.executeUpdate();
 
@@ -128,6 +152,9 @@ public class EmployeeDAO {
                 employee.setCPF(resultSet.getString("cpf"));
                 employee.setRG(resultSet.getString("rg"));
                 employee.setPhone(resultSet.getString("phone"));
+                employee.setOffice(resultSet.getInt("idOffice")-1);
+                employee.setLevel(resultSet.getInt("level")-1);                
+                
                 list.add(employee);
             }
             return list;

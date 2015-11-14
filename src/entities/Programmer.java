@@ -12,18 +12,4 @@ import DAOs.EmployeeDAO;
  * @author TUNTS
  */
 public class Programmer extends Employee{
-    private int office = 9;
-
-    public int getOffice() {
-        return office;
-    }
-
-    public void setOffice(int office) {
-        this.office = office;
-    }
-    
-    public void add() {
-        this.office += Integer.parseInt(super.getLevel());
-        EmployeeDAO.add(this);
-    }
 }
