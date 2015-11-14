@@ -19,6 +19,7 @@ public class Employee extends Person{
     private int level;
     private int idOffice;
     private Department department;
+    private float bonus;
 
     public Department getDepartment() {
         return department;
@@ -80,12 +81,23 @@ public class Employee extends Person{
         return this.idOffice;
     }
 
-    public void setDeps(List<Department> deps) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getIdOffice() {
+        return idOffice;
     }
 
-    public void setDep(Department get) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setIdOffice(int idOffice) {
+        this.idOffice = idOffice;
     }
 
+    public float getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(float bonus) {
+        this.bonus = bonus;
+    }
+    
+    public float calcBonus(float salary) {
+        return 0;
+    }
 }

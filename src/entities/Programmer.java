@@ -11,5 +11,9 @@ import DAOs.EmployeeDAO;
  *
  * @author TUNTS
  */
-public class Programmer extends Employee{
+public class Programmer extends Employee {
+
+    public float calcBonus(float salary) {
+        return salary*0.8f;
+    }
 }
