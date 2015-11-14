@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAOs;
 
 import entities.Department;
@@ -15,10 +10,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import resources.ConnectionFactory;
 
-/**
- *
- * @author TUNTS
- */
 public class DepartmentDAO {
 
     private static final String insert = "INSERT INTO department(name) VALUES(?)";
