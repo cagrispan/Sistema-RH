@@ -1,5 +1,9 @@
 
 package entities;
+
+import DAOs.SalaryDAO;
+import java.util.List;
+
 public class Salary {
     private int idOffice;
     private int level;
@@ -27,6 +31,11 @@ public class Salary {
 
     public void setValue(float value) {
         this.value = value;
+    }
+    
+    public static List<Salary> getAll()
+    {
+        return SalaryDAO.loadAll();
     }
     
     
