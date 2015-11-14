@@ -23,6 +23,7 @@ public class DepartmentDAO {
 
     private static final String insert = "INSERT INTO department(name) VALUES(?)";
     private static final String selectAll = "SELECT * FROM department";
+    private static final String selectId = "SELECT * FROM department WHERE id=?";
     private static final String delete = "DELETE FROM department WHERE id = ?";
     private static final String update = "UPDATE department SET name=? WHERE id = ?";
     private static final String updateDirector = "UPDATE department SET idDirector=? WHERE id = ?";
@@ -95,6 +96,48 @@ public class DepartmentDAO {
         ResultSet resultSet = statment.getGeneratedKeys();
         resultSet.next();
         return resultSet.getInt(1);
+    }
+    
+    public static Department loadById(int id)
+    {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        Department dep = new Department();
+        
+        try
+        {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(selectId);
+            statment.setInt(1, id);
+            resultSet = statment.executeQuery();
+            
+            resultSet.next();
+            
+            dep.setId(resultSet.getInt("id"));
+            dep.setName(resultSet.getString("name"));
+            
+            return dep;
+            
+            
+        } catch (SQLException ex) {
+            throw new RuntimeException(
+                    "Erro ao alterar um departamento no banco de dados. Origem=" + ex.getMessage()
+            );
+        } finally {
+
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+
+            try {
+                con.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }        
     }
 
     public static List<Department> loadAll() {

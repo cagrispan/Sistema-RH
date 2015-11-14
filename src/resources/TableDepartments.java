@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableDepartments extends AbstractTableModel {
 
-    private List<Department> departments = new ArrayList();    
+    private List<Department> departments = Department.getAll();    
     private Column[] columns =
     {
         new Column("Nome", Object.class)
@@ -108,11 +108,11 @@ public class TableDepartments extends AbstractTableModel {
     }
 
     public void sort() {
-        Collections.sort(departments, new Comparator<Department>() {
-            public int compare(Department arg0, Department arg1) {
-                return arg0.getName().compareToIgnoreCase(arg1.getName());
-            }
-        });
+//        Collections.sort(departments, new Comparator<Department>() {
+//            public int compare(Department arg0, Department arg1) {
+//                return arg0.getName().compareToIgnoreCase(arg1.getName());
+//            }
+//        });
     }
 
     public void addToList(List<Department> deps) {

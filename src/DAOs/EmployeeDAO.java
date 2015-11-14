@@ -23,7 +23,7 @@ import resources.ConnectionFactory;
  */
 public class EmployeeDAO {
 
-    private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idOffice, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
+    private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idSalary, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
     private static final String selectAll = "SELECT e.*, s.idOffice,s.level FROM employee e, salary s WHERE e.idSalary=s.id";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=? WHERE id = ?";
@@ -42,7 +42,7 @@ public class EmployeeDAO {
             statment.setString(4, employee.getCPF());
             statment.setString(5, employee.getPhone());
             statment.setString(6, employee.getPassword());
-            statment.setInt(7, employee.getOffice() + employee.getLevel());
+            statment.setInt(7, getSalaryId(employee.getOffice(), employee.getLevel(), con));
             statment.setInt(8, employee.getDepartment().getId());
             statment.executeUpdate();
             employee.setId(setID(statment));
