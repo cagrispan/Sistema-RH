@@ -47,9 +47,9 @@ public class Salary {
         return SalaryDAO.loadAll();
     }
     
-    public String getOfficeName (int id)
+    public String getOfficeName ()
     {
-        return Employee.getOfficeNameById(id);
+        return Employee.getOfficeNameById(this.getIdOffice());
     }
     
     public void update()

@@ -1,6 +1,7 @@
 package resources;
 
 import DAOs.EmployeeDAO;
+import entities.Employee;
 import entities.Salary;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -60,7 +61,7 @@ public class TableSalary extends AbstractTableModel
 
         Salary s = salarys.get(rowIndex);
 
-        if(columnIndex == 0) return s.getIdOffice(); 
+        if(columnIndex == 0) return s.getOfficeName();
         if(columnIndex == 1) return s.getLevel();
         if(columnIndex == 2) return s.getValue();
                 
