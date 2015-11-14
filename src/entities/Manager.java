@@ -49,4 +49,12 @@ public class Manager extends Employee {
         dep.addManager();
 
     }
+
+    public float calcBonus(float salary) {
+        return salary * 2 + 100 * this.depSize();
+    }
+
+    private int depSize() {
+        return EmployeeDAO.getDepartmentSize();
+    }
 }
