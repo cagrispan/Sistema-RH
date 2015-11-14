@@ -1,5 +1,6 @@
 package resources;
 
+import DAOs.DepartmentDAO;
 import entities.Department;
 import entities.Employee;
 import java.util.ArrayList;
@@ -21,12 +22,14 @@ public class TableEmployee extends AbstractTableModel{
         new Column("CPF",           String.class),
         new Column("Telefone",      String.class),
         new Column("Cargo",         String.class),
-        new Column("Nível",         String.class)
+        new Column("Nível",         String.class),
+        new Column("Departamento",  Department.class)
     };
     
             
     public JComboBox offices = new JComboBox();
     public JComboBox levels = new JComboBox();
+    public JComboBox departments = new JComboBox();
         
     
 //        new Column("Departamento",  Object.class)
@@ -44,7 +47,8 @@ public class TableEmployee extends AbstractTableModel{
         levels.addItem("1");
         levels.addItem("2");
         levels.addItem("3");
-    this.refreshTable();
+        
+        this.refreshTable();
         
     }
     
@@ -120,7 +124,7 @@ public class TableEmployee extends AbstractTableModel{
                 e.setLevel(0);
         }
         else if(columnIndex == 6) e.setLevel(levels.getSelectedIndex());
-        //else if(columnIndex == 7) e.setDepartment(aValue.toString()).getName();
+       // else if(columnIndex == 7) e.setDepartment(departments.getSelectedIndex());
         
         System.out.println();   
              
@@ -129,12 +133,8 @@ public class TableEmployee extends AbstractTableModel{
     }
     
     
-    public void sort(String field) {
-    }
-    
     public void refreshTable() {
         employees = Employee.getAll();
-//        this.sort();
         fireTableDataChanged();
     }
 }

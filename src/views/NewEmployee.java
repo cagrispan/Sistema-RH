@@ -119,6 +119,7 @@ public class NewEmployee extends javax.swing.JFrame {
         tbDepsDirector = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         lbEmpName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpName.setText("Nome");
@@ -156,7 +157,7 @@ public class NewEmployee extends javax.swing.JFrame {
         lbEmpDepartment.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpDepartment.setText("Departamento");
 
-        cbEmpLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
+        cbEmpLevel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
 
         lbEmpLevel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpLevel.setText("Nível");
@@ -203,6 +204,7 @@ public class NewEmployee extends javax.swing.JFrame {
         pnDirector.setBorder(javax.swing.BorderFactory.createTitledBorder("Opções de Diretor - Departamentos Dirigidos"));
 
         tbDeps.setModel(new TableDepartments());
+        tbDeps.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tbDeps);
 
         btGoIn.setText(">>>");
@@ -220,6 +222,7 @@ public class NewEmployee extends javax.swing.JFrame {
         });
 
         tbDepsDirector.setModel(new TableDepDirectors(deps));
+        tbDepsDirector.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(tbDepsDirector);
 
         javax.swing.GroupLayout pnDirectorLayout = new javax.swing.GroupLayout(pnDirector);

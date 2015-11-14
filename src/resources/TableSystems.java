@@ -10,7 +10,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableSystems extends AbstractTableModel {
 
-    private List<CompanySystem> systems = new ArrayList();
+    private List<CompanySystem> systems = CompanySystem.getAll();
     private Column[] columns =
     {
         new Column("Nome", Object.class)
@@ -92,15 +92,15 @@ public class TableSystems extends AbstractTableModel {
 
     public void refreshTable() {
         systems = CompanySystem.getAll();
-        this.sort();
+        //this.sort();
         fireTableDataChanged();
     }
-
-    public void sort() {
-        Collections.sort(systems, new Comparator<CompanySystem>() {
-            public int compare(CompanySystem arg0, CompanySystem arg1) {
-                return arg0.getName().compareToIgnoreCase(arg1.getName());
-            }
-        });
-    }
+//
+//    public void sort() {
+//        Collections.sort(systems, new Comparator<CompanySystem>() {
+//            public int compare(CompanySystem arg0, CompanySystem arg1) {
+//                return arg0.getName().compareToIgnoreCase(arg1.getName());
+//            }
+//        });
+//    }
 }
