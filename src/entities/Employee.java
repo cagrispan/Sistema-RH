@@ -102,4 +102,12 @@ public class Employee extends Person{
     public float calcBonus(float salary) {
         return 0;
     }
+
+    public void setDeps(List<Department> deps) {
+        //Function overrided by Director and Manager class
+    }
+
+    public void setDep(Department get) {
+        //Function overrided by Director and Manager class
+    }
 }
