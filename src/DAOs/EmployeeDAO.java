@@ -25,6 +25,7 @@ public class EmployeeDAO {
 
     private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idSalary, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
     private static final String selectAll = "SELECT e.*, s.idOffice,s.level FROM employee e, salary s WHERE e.idSalary=s.id";
+    private static final String selectOfficeName = "SELECT name FROM Office WHERE id=?";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=? WHERE id = ?";
     private static final String insertDirector = "INSERT INTO director(idEmployee) VALUES(?)";
@@ -91,6 +92,43 @@ public class EmployeeDAO {
         }
         return id;
     }
+    
+    public static String getOfficeNamebyId(int id)
+    {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(selectOfficeName);
+            
+            statment.setInt(1, id);
+            
+            resultSet = statment.executeQuery();
+            resultSet.next();
+
+            return resultSet.getString("name");
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+    }
+    
 
     public static void update(Employee employee) {
         Connection con = null;

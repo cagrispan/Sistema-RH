@@ -5,10 +5,19 @@ import DAOs.SalaryDAO;
 import java.util.List;
 
 public class Salary {
+    private int id;
     private int idOffice;
     private int level;
     private float value;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public int getIdOffice() {
         return idOffice;
     }
@@ -36,6 +45,16 @@ public class Salary {
     public static List<Salary> getAll()
     {
         return SalaryDAO.loadAll();
+    }
+    
+    public String getOfficeName (int id)
+    {
+        return Employee.getOfficeNameById(id);
+    }
+    
+    public void update()
+    {
+        SalaryDAO.update(this);
     }
     
     

@@ -6,3 +6,4 @@ nbproject/private/private.properties
 /build/*
 /build/*.*
 *.properties
+/dist/

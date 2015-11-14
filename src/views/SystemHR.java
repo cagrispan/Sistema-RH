@@ -6,6 +6,7 @@ import javax.swing.JComboBox;
 import javax.swing.table.TableColumn;
 import resources.TableDepartments;
 import resources.TableEmployee;
+import resources.TableSalary;
 import resources.TableSystems;
 
 public class SystemHR extends javax.swing.JFrame {
@@ -278,7 +279,7 @@ public class SystemHR extends javax.swing.JFrame {
 
         tabs.addTab("Sistemas", jpSystems);
 
-        tbSalary.setModel(new TableSystems());
+        tbSalary.setModel(new TableSalary());
         jScrollPane4.setViewportView(tbSalary);
 
         lbSalary.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N

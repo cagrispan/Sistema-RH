@@ -13,7 +13,7 @@ import java.util.List;
  * @author TUNTS
  */
 public class Employee extends Person{
-    
+
     private String password;
     private int idSalary;
     private int level;
@@ -45,8 +45,6 @@ public class Employee extends Person{
         this.password = password;
     }
 
-    public Employee() {
-    }
 
     public  void add() {
         EmployeeDAO.add(this);
@@ -86,6 +84,10 @@ public class Employee extends Person{
 
     public void setDep(Department get) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public static String getOfficeNameById(int id) {
+        return EmployeeDAO.getOfficeNamebyId(id);
     }
 
 }
