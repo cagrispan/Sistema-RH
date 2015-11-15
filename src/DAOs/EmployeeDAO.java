@@ -5,10 +5,13 @@
  */
 package DAOs;
 
+import entities.Analyst;
 import entities.Department;
 import entities.Director;
 import entities.Employee;
+import entities.Janitor;
 import entities.Manager;
+import entities.Programmer;
 import entities.Salary;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,7 +29,7 @@ import resources.ConnectionFactory;
 public class EmployeeDAO {
 
     private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idSalary, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
-    private static final String selectAll = "SELECT e.*, s.idSalary, s.idOffice,s.level,s.salary FROM employee e, salary s WHERE e.idSalary=s.idSalary";
+    private static final String selectAll = "SELECT e.*,s.*, o.name as officeName FROM employee e, salary s, office o WHERE e.idSalary=s.idSalary AND s.idOffice = o.id";
     private static final String countDepSize = "SELECT count(*) as size FROM employee WHERE idDepartment=?";
     private static final String selectOfficeName = "SELECT name FROM Office WHERE id=?";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
@@ -184,7 +187,8 @@ public class EmployeeDAO {
             statment = con.prepareStatement(selectAll);
             resultSet = statment.executeQuery();
             while (resultSet.next()) {
-                Employee employee = new Employee();
+                Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
+                Employee employee = classes[resultSet.getInt("idOffice") - 1];
                 employee.setName(resultSet.getString("name"));
                 employee.setSurname(resultSet.getString("surname"));
                 employee.setId(resultSet.getInt("id"));
@@ -198,7 +202,7 @@ public class EmployeeDAO {
                 s.setIdOffice(resultSet.getInt("idOffice") - 1);
                 s.setLevel(resultSet.getInt("level") - 1);
                 s.setValue(resultSet.getFloat("salary"));
-
+                s.setOfficeName(resultSet.getString("officeName"));
                 employee.setSalary(s);
 
                 Department d = new Department();
