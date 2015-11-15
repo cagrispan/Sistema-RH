@@ -384,7 +384,6 @@ public class NewEmployee extends javax.swing.JFrame {
                 emp.setDeps(deps);
                 break;
             case 1:
-                System.out.println(departments.get(cbEmpDep.getSelectedIndex()).getName());
                 emp.setDep(departments.get(cbEmpDep.getSelectedIndex()));
                 break;
             case 4:
