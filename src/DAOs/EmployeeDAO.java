@@ -35,7 +35,7 @@ public class EmployeeDAO {
     private static final String delete = "DELETE FROM employee WHERE id = ?";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=?, idDepartment=? WHERE id = ?";
     private static final String insertDirector = "INSERT INTO director(idEmployee) VALUES(?)";
-    private static final String insertManager = "INSERT INTO manager(idEmployee) VALUES(?)";
+    private static final String insertManager = "INSERT INTO manager(idEmployee, idDepartment) VALUES(?, ?)";
 
     public static void add(Employee employee) {
         Connection con = null;
@@ -306,6 +306,7 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(insertManager, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, manager.getId());
+            statment.setInt(2, manager.getDep().getId());
             statment.executeUpdate();
             manager.setIdManager(setID(statment));
 
@@ -338,8 +339,11 @@ public class EmployeeDAO {
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(countDepSize);
+            System.out.println(statment.toString());
+            System.out.println(manager.getName());
             statment.setInt(1, manager.getDep().getId());
             resultSet = statment.executeQuery();
+            resultSet.next();
             return resultSet.getInt("size");
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());

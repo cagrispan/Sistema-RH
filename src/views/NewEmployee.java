@@ -12,6 +12,7 @@ import entities.Employee;
 import entities.Janitor;
 import entities.Manager;
 import entities.Programmer;
+import entities.Salary;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +110,7 @@ public class NewEmployee extends javax.swing.JFrame {
         btSaveNewEmp = new javax.swing.JButton();
         lbSystemTitle = new javax.swing.JLabel();
         pnManager = new javax.swing.JPanel();
-        cbEmpDepartment1 = new javax.swing.JComboBox();
+        cbEmpDep = new javax.swing.JComboBox();
         pnDirector = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbDeps = new javax.swing.JTable();
@@ -182,7 +183,7 @@ public class NewEmployee extends javax.swing.JFrame {
 
         pnManager.setBorder(javax.swing.BorderFactory.createTitledBorder("Opções de Gerente - Departamento Gerenciado"));
 
-        cbEmpDepartment1.setModel(new javax.swing.DefaultComboBoxModel(this.combo));
+        cbEmpDep.setModel(new javax.swing.DefaultComboBoxModel(this.combo));
 
         javax.swing.GroupLayout pnManagerLayout = new javax.swing.GroupLayout(pnManager);
         pnManager.setLayout(pnManagerLayout);
@@ -190,14 +191,14 @@ public class NewEmployee extends javax.swing.JFrame {
             pnManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnManagerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cbEmpDepartment1, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbEmpDep, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnManagerLayout.setVerticalGroup(
             pnManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnManagerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(cbEmpDepartment1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbEmpDep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -376,13 +377,15 @@ public class NewEmployee extends javax.swing.JFrame {
         
         Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
         Employee emp = classes[idOffice];
+        emp.setSalary(new Salary());
 
         switch (cbEmpOffice.getSelectedIndex()) {
             case 0:
                 emp.setDeps(deps);
                 break;
             case 1:
-                emp.setDep(departments.get(cbEmpDepartment1.getSelectedIndex()));
+                System.out.println(departments.get(cbEmpDep.getSelectedIndex()).getName());
+                emp.setDep(departments.get(cbEmpDep.getSelectedIndex()));
                 break;
             case 4:
                 cbEmpLevel.setSelectedIndex(0);
@@ -394,7 +397,7 @@ public class NewEmployee extends javax.swing.JFrame {
         emp.setRG(tfEmpRG.getText());
         emp.setCPF(tfEmpCPF.getText());
         emp.setPhone(tfEmpPhone.getText());
-        emp.getSalary().setIdOffice(idOffice);
+        emp.getSalary().setIdOffice(cbEmpOffice.getSelectedIndex());
         emp.getSalary().setLevel(cbEmpLevel.getSelectedIndex());
         emp.setPassword(tfEmpPassword.getText());
         emp.setDepartment(departments.get(cbEmpDepartment.getSelectedIndex()));
@@ -505,8 +508,8 @@ public class NewEmployee extends javax.swing.JFrame {
     private javax.swing.JButton btGoIn;
     private javax.swing.JButton btGoOut;
     private javax.swing.JButton btSaveNewEmp;
+    private javax.swing.JComboBox cbEmpDep;
     private javax.swing.JComboBox cbEmpDepartment;
-    private javax.swing.JComboBox cbEmpDepartment1;
     private javax.swing.JComboBox cbEmpLevel;
     private javax.swing.JComboBox cbEmpOffice;
     private javax.swing.JScrollPane jScrollPane2;
