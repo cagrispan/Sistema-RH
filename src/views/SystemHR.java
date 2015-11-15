@@ -107,6 +107,12 @@ public class SystemHR extends javax.swing.JFrame {
         lbSystemTitle.setFont(new java.awt.Font("Calibri Light", 0, 24)); // NOI18N
         lbSystemTitle.setText("Sistema de Recursos Humanos");
 
+        tabs.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabsMouseClicked(evt);
+            }
+        });
+
         lbEmployee.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lbEmployee.setText("Funcionários");
 
@@ -128,8 +134,11 @@ public class SystemHR extends javax.swing.JFrame {
         tbEmployee.setModel(new TableEmployee());
         TableColumn officeColumn = tbEmployee.getColumnModel().getColumn(5);
         TableColumn levelColumn = tbEmployee.getColumnModel().getColumn(6);
+        TableColumn deparmentColumn = tbEmployee.getColumnModel().getColumn(7);
+
         officeColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).offices));
         levelColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).levels));
+        deparmentColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).departments));
 
         tbEmployee.setAutoCreateRowSorter(true);
         tbEmployee.getTableHeader().setReorderingAllowed(false);
@@ -510,7 +519,7 @@ public class SystemHR extends javax.swing.JFrame {
     private void btNewDepartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewDepartmentActionPerformed
 
         ((TableDepartments) tbDepartments.getModel()).add(tfNewDepartment.getText());
-        
+
         tfNewDepartment.setText(null);
 
     }//GEN-LAST:event_btNewDepartmentActionPerformed
@@ -531,7 +540,7 @@ public class SystemHR extends javax.swing.JFrame {
 
     private void btNewSystemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewSystemActionPerformed
         ((TableSystems) tbSystems.getModel()).add(tfNewSystem.getText());
-        
+
         tfNewSystem.setText(null);
     }//GEN-LAST:event_btNewSystemActionPerformed
 
@@ -551,6 +560,32 @@ public class SystemHR extends javax.swing.JFrame {
         this.setEnabled(false);
     }//GEN-LAST:event_btNewEmployeeActionPerformed
 
+    private void tabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabsMouseClicked
+        System.out.println(tabs.getSelectedIndex());
+
+        switch (tabs.getSelectedIndex()) {
+            case 0:
+                System.out.println("oioi");
+                ((TableEmployee) tbEmployee.getModel()).refreshTable();
+                break;
+            case 1:
+                ((TableDepartments) tbDepartments.getModel()).refreshTable();
+                break;
+            case 2:
+                ((TableSystems) tbSystems.getModel()).refreshTable();
+                break;
+            case 3:
+                ((TableEmployee) tbEmployee.getModel()).refreshTable();
+                break;
+            case 4:
+                ((TableEmployee) tbEmployee.getModel()).refreshTable();
+                break;
+            case 5:
+                ((TableEmployee) tbEmployee.getModel()).refreshTable();
+                break;
+        };
+        
+    }//GEN-LAST:event_tabsMouseClicked
 
     public static void main(String args[]) {
 

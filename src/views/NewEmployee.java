@@ -41,7 +41,7 @@ public class NewEmployee extends javax.swing.JFrame {
         int size = departments.size();
         this.combo = new String[size];
 
-        for (int i = 0; i < departments.size(); i++) {
+        for (int i = 0; i < size; i++) {
             Department dep;
             dep = departments.get(i);
             this.combo[i] = dep.getName();
@@ -395,8 +395,8 @@ public class NewEmployee extends javax.swing.JFrame {
         emp.setRG(tfEmpRG.getText());
         emp.setCPF(tfEmpCPF.getText());
         emp.setPhone(tfEmpPhone.getText());
-        emp.setOffice(idOffice);
-        emp.setLevel(cbEmpLevel.getSelectedIndex());
+        emp.getSalary().setIdOffice(idOffice);
+        emp.getSalary().setLevel(cbEmpLevel.getSelectedIndex());
         emp.setPassword(tfEmpPassword.getText());
         emp.setDepartment(departments.get(cbEmpDepartment.getSelectedIndex()));
 

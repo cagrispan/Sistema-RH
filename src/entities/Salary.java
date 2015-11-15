@@ -7,6 +7,7 @@ import java.util.List;
 public class Salary {
     private int id;
     private int idOffice;
+    private String officeName;
     private int level;
     private float value;
 
@@ -49,7 +50,7 @@ public class Salary {
     
     public String getOfficeName ()
     {
-        return Employee.getOfficeNameById(this.getIdOffice());
+        return this.officeName;
     }
     
     public void update()

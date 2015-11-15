@@ -13,7 +13,7 @@ import resources.ConnectionFactory;
 public class SalaryDAO {
     
     public static final String selectAll = "SELECT * FROM salary";
-    public static final String update = "UPDATE salary SET salary=? WHERE id=?";
+    public static final String update = "UPDATE salary SET salary=? WHERE idSalary=?";
     
     public static List<Salary> loadAll()
     {
@@ -27,7 +27,7 @@ public class SalaryDAO {
             resultSet = statment.executeQuery();
             while (resultSet.next()) {
                 Salary salary = new Salary();
-                salary.setId(resultSet.getInt("id"));
+                salary.setId(resultSet.getInt("idSalary"));
                 salary.setIdOffice(resultSet.getInt("idOffice"));
                 salary.setLevel(resultSet.getInt("level"));
                 salary.setValue(resultSet.getFloat("salary"));

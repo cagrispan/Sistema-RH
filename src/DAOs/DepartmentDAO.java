@@ -89,26 +89,24 @@ public class DepartmentDAO {
         return resultSet.getInt(1);
     }
     
-    public static Department loadById(int id)
+    public static Department loadById(Department department)
     {
         Connection con = null;
         PreparedStatement statment = null;
         ResultSet resultSet = null;
-        Department dep = new Department();
         
         try
         {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(selectId);
-            statment.setInt(1, id);
+            statment.setInt(1, department.getId());
             resultSet = statment.executeQuery();
             
             resultSet.next();
             
-            dep.setId(resultSet.getInt("id"));
-            dep.setName(resultSet.getString("name"));
+            department.setName(resultSet.getString("name"));
             
-            return dep;
+            return department;
             
             
         } catch (SQLException ex) {

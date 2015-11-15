@@ -1,49 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package entities;
 
 import DAOs.EmployeeDAO;
 import java.util.List;
 
-/**
- *
- * @author TUNTS
- */
 public class Employee extends Person{
 
-    private String password;
-    private Department department;
-    private float bonus;
-    private Salary salary;
+    
+    private int     id;    
+    private float   bonus;
+    private String  password;
+    
+    private Department  department;
+    private Salary      salary;
 
-    public Salary getSalary() {
-        return salary;
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
+    public int getId() {
+        return id;
     }
 
-    public void setSalary(Salary salary) {
-        this.salary = salary;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public int getLevel() {
-        return level;
+    public void setId(int id) {
+        this.id = id;
     }
     
-    public void setLevel(int level)
-    {        
-        this.level  = level;
+    public float getBonus() {
+        return bonus;
     }
 
+    public void setBonus() {
+        this.bonus = this.calcBonus(this.salary.getValue());
+    }
+    
     public String getPassword() {
         return password;
     }
@@ -51,8 +38,25 @@ public class Employee extends Person{
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public Department getDepartment() {
+        return department;
+    }
 
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+    
+    public Salary getSalary() {
+        return salary;
+    }
 
+    public void setSalary(Salary salary) {
+        this.salary = salary;
+    }  
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Database Access">
     public  void add() {
         EmployeeDAO.add(this);
     }
@@ -62,55 +66,20 @@ public class Employee extends Person{
         EmployeeDAO.update(this);
     }
     
+    public void delete()
+    {
+        EmployeeDAO.delete(this);
+    }
+    
     public static List<Employee> getAll()
     {
         return EmployeeDAO.loadAll();
     }
+    // </editor-fold>
     
-    public int getIdSalary() {
-        return idSalary;
-    }
-
-    public void setIdSalary(int idSalary) {
-        this.idSalary = idSalary;
-    }
-    
-    public void setOffice(int id)
-    {
-        this.idOffice = id;
-    }
-    
-    public int getOffice()
-    {
-        return this.idOffice;
-    }
-
-    public int getIdOffice() {
-        return idOffice;
-    }
-
-    public void setIdOffice(int idOffice) {
-        this.idOffice = idOffice;
-    }
-    
-    public String getOfficeName()
-    {
-        return EmployeeDAO.getOfficeNamebyId(getSalary().getIdOffice());
-    }
-    
-    public static String getOfficeNameById(int id) {
-        return EmployeeDAO.getOfficeNamebyId(id);
-    }
-
-    public float getBonus() {
-        return bonus;
-    }
-
-    public void setBonus(float bonus) {
-        this.bonus = bonus;
-    }
-    
+    // <editor-fold defaultstate="collapsed" desc="Overrided methods">
     public float calcBonus(float salary) {
+        //Function overrided by children classes
         return 0;
     }
 
@@ -121,4 +90,5 @@ public class Employee extends Person{
     public void setDep(Department get) {
         //Function overrided by Director and Manager class
     }
+    // </editor-fold>
 }
