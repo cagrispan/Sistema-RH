@@ -1,5 +1,6 @@
 package resources;
 
+import entities.CompanySystem;
 import entities.Department;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,22 +8,22 @@ import java.util.Comparator;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-public class TableDepDirectors extends AbstractTableModel {
+public class TablePermSystems extends AbstractTableModel {
 
-    private List<Department> deps = new ArrayList();    
+    private List<CompanySystem> sys = new ArrayList();    
     private Column[] columns =
     {
         new Column("Nome", Object.class)
     };
 
-    public TableDepDirectors(List<Department> deps) {
-        this.deps = deps;
+    public TablePermSystems(List<CompanySystem> deps) {
+        this.sys = deps;
         this.refreshTable();
     }
 
     @Override
     public int getRowCount() {
-        return deps.size();
+        return sys.size();
     }
 
     @Override
@@ -45,14 +46,14 @@ public class TableDepDirectors extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        if (deps.size() == 0) {
+        if (sys.size() == 0) {
             return false;
         }
 
-        Department d = deps.get(rowIndex);
+        CompanySystem s = sys.get(rowIndex);
 
         if (columnIndex == 0) {
-            return d.getName();
+            return s.getName();
         }
 
         return false;
@@ -60,10 +61,6 @@ public class TableDepDirectors extends AbstractTableModel {
 
     @Override
     public void setValueAt(Object newName, int rowIndex, int columnIndex) {
-//        Department dep = deps.get(rowIndex);
-//        dep.setName(newName.toString());
-//        dep.update();
-//        this.refreshTable();
 
     }
     
@@ -75,8 +72,8 @@ public class TableDepDirectors extends AbstractTableModel {
     public void delete(int rows[]) {
 
         for (int i = 0; i < rows.length; i++) {
-            Department dep = deps.get(rows[i]);
-            dep.delete();
+            CompanySystem csys = sys.get(rows[i]);
+            csys.delete();
         }
         this.refreshTable();
     }
@@ -91,16 +88,16 @@ public class TableDepDirectors extends AbstractTableModel {
         this.refreshTable();
     }
     
-    public List<Department> remove(int rows[]){
+    public List<CompanySystem> remove(int rows[]){
         
-        List<Department> departments = new ArrayList();
+        List<CompanySystem> systems = new ArrayList();
         
         for (int i=0;i<rows.length;i++){
-            departments.add(deps.remove(rows[i]-i));
+            systems.add(sys.remove(rows[i]-i));
         }
         
         fireTableDataChanged();
-        return departments;     
+        return systems;     
         
     }
 
@@ -110,8 +107,8 @@ public class TableDepDirectors extends AbstractTableModel {
     }
 
     public void sort() {
-        Collections.sort(deps, new Comparator<Department>() {
-            public int compare(Department arg0, Department arg1) {
+        Collections.sort(sys, new Comparator<CompanySystem>() {
+            public int compare(CompanySystem arg0, CompanySystem arg1) {
                 return arg0.getName().compareToIgnoreCase(arg1.getName());
             }
         });

@@ -55,12 +55,14 @@ public class TableReport extends AbstractTableModel{
             return false;
         }
         
+        e.setBonus();
+        
         Object[] values = 
         {
             e.getName(),
             e.getDepartment().getName(),
             e.getSalary().getOfficeName(),
-            e.getSalary().getLevel(),
+            (e.getSalary().getLevel() + 1),
             e.getSalary().getValue(),
             e.getBonus()
         };

@@ -93,15 +93,37 @@ public class TableSystems extends AbstractTableModel {
 
     public void refreshTable() {
         systems = CompanySystem.getAll();
-        //this.sort();
+        this.sort();
         fireTableDataChanged();
     }
-//
-//    public void sort() {
-//        Collections.sort(systems, new Comparator<CompanySystem>() {
-//            public int compare(CompanySystem arg0, CompanySystem arg1) {
-//                return arg0.getName().compareToIgnoreCase(arg1.getName());
-//            }
-//        });
-//    }
+
+    public void sort() {
+        Collections.sort(systems, new Comparator<CompanySystem>() {
+            public int compare(CompanySystem arg0, CompanySystem arg1) {
+                return arg0.getName().compareToIgnoreCase(arg1.getName());
+            }
+        });
+    }
+
+    public List<CompanySystem> remove(int[] rows, List<CompanySystem> syst) {
+        for (int i=0;i<rows.length;i++){
+            syst.add(systems.remove(rows[i]-i));
+        }
+        
+        fireTableDataChanged();
+        return syst; 
+    }
+
+    public void addToList(List<CompanySystem> systemArray) {
+        
+        System.out.println("Entrei");
+        for (CompanySystem sys: systemArray){
+            
+            System.out.println("iterando " + sys.getName());
+            this.systems.add(sys);
+        }
+        
+        this.sort();
+        fireTableDataChanged();
+    }
 }

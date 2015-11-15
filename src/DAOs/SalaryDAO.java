@@ -12,7 +12,7 @@ import resources.ConnectionFactory;
 
 public class SalaryDAO {
     
-    public static final String selectAll = "SELECT * FROM salary";
+    public static final String selectAll = "SELECT *, o.name as officeName FROM salary s, office o WHERE idOffice = o.id";
     public static final String update = "UPDATE salary SET salary=? WHERE idSalary=?";
     
     public static List<Salary> loadAll()
@@ -31,6 +31,8 @@ public class SalaryDAO {
                 salary.setIdOffice(resultSet.getInt("idOffice"));
                 salary.setLevel(resultSet.getInt("level"));
                 salary.setValue(resultSet.getFloat("salary"));
+                salary.setOfficeName(resultSet.getString("officeName"));
+                       
                 list.add(salary);
             }
             return list;
