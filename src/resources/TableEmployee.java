@@ -93,17 +93,19 @@ public class TableEmployee extends AbstractTableModel{
         }
 
         Employee e = employees.get(rowIndex);
-
-        if(columnIndex == 0) return e.getName();
-        if(columnIndex == 1) return e.getSurname(); 
-        if(columnIndex == 2) return e.getRG();
-        if(columnIndex == 3) return e.getCPF();
-        if(columnIndex == 4) return e.getPhone();
-        if(columnIndex == 5) return offices.getItemAt(e.getOffice());
-        if(columnIndex == 6) return levels.getItemAt(e.getLevel());
-        //if(columnIndex == 7) return e.getDepartment().getName();
+        Object[] values = 
+        {
+            e.getName(),
+            e.getSurname(),
+            e.getRG(),
+            e.getCPF(),
+            e.getPhone(),
+            offices.getItemAt(e.getOffice()),
+            levels.getItemAt(e.getLevel()),
+            e.getSalary().getOfficeName()
+        };
                 
-        return false;
+        return values[columnIndex];
     }
 
     @Override

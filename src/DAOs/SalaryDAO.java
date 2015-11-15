@@ -48,7 +48,7 @@ public class SalaryDAO {
                 System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
             };
             try {
-                con.close();;
+                con.close();
             } catch (Exception ex) {
                 System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
             };
@@ -64,8 +64,6 @@ public class SalaryDAO {
             statment = con.prepareStatement(update);
             statment.setFloat(1, salary.getValue());
             statment.setInt(2, salary.getId());
-            
-            System.out.println("id "+salary.getId() + "value " + salary.getValue());
             statment.executeUpdate();
 
         } catch (SQLException ex) {

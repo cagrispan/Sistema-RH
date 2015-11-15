@@ -50,11 +50,12 @@ public class TableSystems extends AbstractTableModel {
 
         CompanySystem s = systems.get(rowIndex);
 
-        if (columnIndex == 0) {
-            return s.getName();
-        }
+        Object[] values =
+        {
+          s.getName()
+        };
 
-        return false;
+        return values[columnIndex];
     }
 
     @Override

@@ -15,11 +15,17 @@ import java.util.List;
 public class Employee extends Person{
 
     private String password;
-    private int idSalary;
-    private int level;
-    private int idOffice;
     private Department department;
     private float bonus;
+    private Salary salary;
+
+    public Salary getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Salary salary) {
+        this.salary = salary;
+    }
 
     public Department getDepartment() {
         return department;
@@ -85,6 +91,11 @@ public class Employee extends Person{
 
     public void setIdOffice(int idOffice) {
         this.idOffice = idOffice;
+    }
+    
+    public String getOfficeName()
+    {
+        return EmployeeDAO.getOfficeNamebyId(getSalary().getIdOffice());
     }
     
     public static String getOfficeNameById(int id) {

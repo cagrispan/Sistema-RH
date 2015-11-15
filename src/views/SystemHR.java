@@ -6,6 +6,7 @@ import javax.swing.JComboBox;
 import javax.swing.table.TableColumn;
 import resources.TableDepartments;
 import resources.TableEmployee;
+import resources.TableReport;
 import resources.TableSalary;
 import resources.TableSystems;
 
@@ -61,7 +62,7 @@ public class SystemHR extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         lbReports = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbReport = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         tfSearchEmp = new javax.swing.JTextField();
@@ -76,7 +77,7 @@ public class SystemHR extends javax.swing.JFrame {
         lbPermLevel = new javax.swing.JLabel();
         lbPermLevelEmp = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbPermission = new javax.swing.JTable();
         lbInstitution = new javax.swing.JLabel();
         lbCredits = new javax.swing.JLabel();
 
@@ -299,6 +300,7 @@ public class SystemHR extends javax.swing.JFrame {
         tabs.addTab("Sistemas", jpSystems);
 
         tbSalary.setModel(new TableSalary());
+        tbSalary.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(tbSalary);
 
         lbSalary.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -332,15 +334,9 @@ public class SystemHR extends javax.swing.JFrame {
         lbReports.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lbReports.setText("Relatórios");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane5.setViewportView(jTable1);
+        tbReport.setModel(new TableReport());
+        tbReport.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(tbReport);
 
         jButton1.setText("Imprimir");
 
@@ -393,7 +389,7 @@ public class SystemHR extends javax.swing.JFrame {
 
         lbPermLevelEmp.setText("jLabel1");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbPermission.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -401,7 +397,8 @@ public class SystemHR extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane6.setViewportView(jTable2);
+        tbPermission.getTableHeader().setReorderingAllowed(false);
+        jScrollPane6.setViewportView(tbPermission);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -610,8 +607,6 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel jpDepartments;
     private javax.swing.JPanel jpEmployee;
     private javax.swing.JPanel jpSalary;
@@ -641,6 +636,8 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tbDepartments;
     private javax.swing.JTable tbEmployee;
+    private javax.swing.JTable tbPermission;
+    private javax.swing.JTable tbReport;
     private javax.swing.JTable tbSalary;
     private javax.swing.JTable tbSystems;
     private javax.swing.JTextField tfEmployeeSearch;

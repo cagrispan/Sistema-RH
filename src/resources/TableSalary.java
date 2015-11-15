@@ -61,11 +61,14 @@ public class TableSalary extends AbstractTableModel
 
         Salary s = salarys.get(rowIndex);
 
-        if(columnIndex == 0) return s.getOfficeName();
-        if(columnIndex == 1) return s.getLevel();
-        if(columnIndex == 2) return s.getValue();
+        Object[] values = 
+        {
+            s.getOfficeName(),
+            s.getLevel(),
+            s.getValue()
+        };
                 
-        return false;
+        return values[columnIndex];
     }
     
     @Override

@@ -50,11 +50,12 @@ public class TableDepartments extends AbstractTableModel {
 
         Department d = departments.get(rowIndex);
 
-        if (columnIndex == 0) {
-            return d.getName();
-        }
+        Object[] values = 
+        {
+            d.getName()
+        };
 
-        return false;
+        return values[columnIndex];
     }
 
     @Override
