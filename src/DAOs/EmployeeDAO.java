@@ -27,6 +27,7 @@ public class EmployeeDAO {
 
     private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idSalary, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
     private static final String selectAll = "SELECT e.*, s.idSalary, s.idOffice,s.level,s.salary FROM employee e, salary s WHERE e.idSalary=s.idSalary";
+    private static final String countDepSize = "SELECT count(*) as size FROM employee WHERE idDepartment=?";
     private static final String selectOfficeName = "SELECT name FROM Office WHERE id=?";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=?, idDepartment=? WHERE id = ?";
@@ -72,42 +73,38 @@ public class EmployeeDAO {
         }
 
     }
-    
-    private static int getSalaryId(int idOffice, int level, Connection con)
-    {
+
+    private static int getSalaryId(int idOffice, int level, Connection con) {
         String query = "SELECT idSalary FROM salary WHERE idOffice=? AND level=?";
         PreparedStatement statment = null;
         ResultSet resultSet = null;
-        
+
         int id;
-        try
-        {
+        try {
             statment = con.prepareStatement(query);
-            statment.setInt(1, idOffice+1);
-            statment.setInt(2, level+1);
+            statment.setInt(1, idOffice + 1);
+            statment.setInt(2, level + 1);
             resultSet = statment.executeQuery();
-            resultSet.next();            
+            resultSet.next();
             id = resultSet.getInt("idSalary");
-        } catch(SQLException ex)
-        {
-            throw new RuntimeException("Erro ao buscar id de salario do Funcionario (idOffice:"+(idOffice+1) + " Level:"+ (level+1) + " Erro: " + ex.getMessage());
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao buscar id de salario do Funcionario (idOffice:" + (idOffice + 1) + " Level:" + (level + 1) + " Erro: " + ex.getMessage());
         }
         return id;
     }
-    
-    public static String getOfficeNamebyId(int id)
-    {
+
+    public static String getOfficeNamebyId(int id) {
         Connection con = null;
         PreparedStatement statment = null;
         ResultSet resultSet = null;
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(selectOfficeName);
-            
+
             System.out.println("id: " + id);
-            
+
             statment.setInt(1, id);
-            
+
             resultSet = statment.executeQuery();
             resultSet.next();
 
@@ -132,7 +129,6 @@ public class EmployeeDAO {
             };
         }
     }
-    
 
     public static void update(Employee employee) {
         Connection con = null;
@@ -140,13 +136,13 @@ public class EmployeeDAO {
         try {
             con = ConnectionFactory.getConnection();
             int idSalary = getSalaryId(employee.getSalary().getIdOffice(), employee.getSalary().getLevel(), con);
-            
+
             statment = con.prepareStatement(update);
             statment.setString(1, employee.getName());
             statment.setString(2, employee.getSurname());
             statment.setString(3, employee.getRG());
-            statment.setString(4, employee.getCPF());            
-            statment.setString(5, employee.getPhone());            
+            statment.setString(4, employee.getCPF());
+            statment.setString(5, employee.getPhone());
             statment.setInt(6, idSalary);
             statment.setInt(7, employee.getDepartment().getId());
             statment.setInt(8, employee.getId());
@@ -195,23 +191,23 @@ public class EmployeeDAO {
                 employee.setCPF(resultSet.getString("cpf"));
                 employee.setRG(resultSet.getString("rg"));
                 employee.setPhone(resultSet.getString("phone"));
-                
+
                 Salary s = new Salary();
-                
+
                 s.setId(resultSet.getInt("idSalary"));
-                s.setIdOffice(resultSet.getInt("idOffice")-1);
-                s.setLevel(resultSet.getInt("level")-1);
+                s.setIdOffice(resultSet.getInt("idOffice") - 1);
+                s.setLevel(resultSet.getInt("level") - 1);
                 s.setValue(resultSet.getFloat("salary"));
-                
+
                 employee.setSalary(s);
-                
+
                 Department d = new Department();
-                
+
                 d.setId(resultSet.getInt("idDepartment"));
                 d.get();
-                
+
                 employee.setDepartment(d);
-                
+
                 list.add(employee);
             }
             return list;
@@ -331,8 +327,35 @@ public class EmployeeDAO {
 
     }
 
-    public static int getDepartmentSize() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static int getDepartmentSize(Manager manager) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(countDepSize);
+            statment.setInt(1, manager.getDep().getId());
+            resultSet = statment.executeQuery();
+            return resultSet.getInt("size");
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
     }
 
 }

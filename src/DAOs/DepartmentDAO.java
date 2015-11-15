@@ -103,7 +103,7 @@ public class DepartmentDAO {
             resultSet = statment.executeQuery();
             
             resultSet.next();
-            
+            department.setId(resultSet.getInt("id"));
             department.setName(resultSet.getString("name"));
             
             return department;

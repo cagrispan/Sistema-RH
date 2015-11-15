@@ -55,6 +55,6 @@ public class Manager extends Employee {
     }
 
     private int depSize() {
-        return EmployeeDAO.getDepartmentSize();
+        return EmployeeDAO.getDepartmentSize(this);
     }
 }

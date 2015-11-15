@@ -575,10 +575,10 @@ public class SystemHR extends javax.swing.JFrame {
                 ((TableSystems) tbSystems.getModel()).refreshTable();
                 break;
             case 3:
-                ((TableEmployee) tbEmployee.getModel()).refreshTable();
+                ((TableSalary) tbSalary.getModel()).refreshTable();
                 break;
             case 4:
-                ((TableEmployee) tbEmployee.getModel()).refreshTable();
+                ((TableReport) tbReport.getModel()).refreshTable();
                 break;
             case 5:
                 ((TableEmployee) tbEmployee.getModel()).refreshTable();
