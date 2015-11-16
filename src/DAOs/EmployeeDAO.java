@@ -31,6 +31,8 @@ public class EmployeeDAO {
     private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idSalary, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
     private static final String selectAll = "SELECT e.*,s.*, o.name as officeName FROM employee e, salary s, office o WHERE e.idSalary=s.idSalary AND s.idOffice = o.id";
     private static final String countDepSize = "SELECT count(*) as size FROM employee WHERE idDepartment=?";
+    private static final String getDep = "SELECT d.name, d.id, m.idManager FROM department d, manager m, employee e WHERE e.id=? AND d.id=m.idDepartment AND e.id = m.idEmployee";
+    private static final String getDeps = "SELECT d.name, d.id, dir.idDirector FROM department d, director dir, employee e WHERE e.id=? AND e.id = dir.idEmployee";
     private static final String selectOfficeName = "SELECT name FROM Office WHERE id=?";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=?, idDepartment=? WHERE id = ?";
@@ -196,6 +198,14 @@ public class EmployeeDAO {
                 employee.setRG(resultSet.getString("rg"));
                 employee.setPhone(resultSet.getString("phone"));
 
+                if (resultSet.getInt("idOffice") == 1) {
+                    getDepsDir((Director) employee);
+                }
+
+                if (resultSet.getInt("idOffice") == 2) {
+                    getDepMan((Manager) employee);
+                }
+
                 Salary s = new Salary();
 
                 s.setId(resultSet.getInt("idSalary"));
@@ -339,12 +349,99 @@ public class EmployeeDAO {
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(countDepSize);
-            System.out.println(statment.toString());
-            System.out.println(manager.getName());
             statment.setInt(1, manager.getDep().getId());
             resultSet = statment.executeQuery();
             resultSet.next();
             return resultSet.getInt("size");
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+    }
+
+    public static Department getDepMan(Manager manager) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        try {
+            Department d = new Department();
+
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(getDep);
+            statment.setInt(1, manager.getId());
+            resultSet = statment.executeQuery();
+            resultSet.next();
+            manager.setIdManager(resultSet.getInt("idManager"));
+            d.setId(resultSet.getInt("id"));
+            d.setName(resultSet.getString("name"));
+
+            return d;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+    }
+
+    private static void getDepsDir(Director director) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        try {
+            List<Department> deps = new ArrayList();
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(getDeps);
+            statment.setInt(1, director.getId());
+            
+            
+            resultSet = statment.executeQuery();
+            boolean set = false;
+            while (resultSet.next()) {
+
+                Department d = new Department();
+                
+                if(!set)
+                {
+                    director.setIdDirector(resultSet.getInt("idDirector"));
+                    set = true;
+                }
+                
+                d.setId(resultSet.getInt("id"));
+                d.setName(resultSet.getString("name"));
+                deps.add(d);
+            }
+
+            director.setDeps(deps);
+            
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
         } finally {

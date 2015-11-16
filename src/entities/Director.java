@@ -46,6 +46,7 @@ public class Director extends Employee{
     }
     
     public float calcBonus(float salary) {
-        return salary*4+3000*deps.size();
+//        System.out.println("DepSize" + deps.size());
+        return (salary*4)+(3000*deps.size());
     }
 }

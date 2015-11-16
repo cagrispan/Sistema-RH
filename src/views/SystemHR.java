@@ -587,11 +587,9 @@ public class SystemHR extends javax.swing.JFrame {
     }//GEN-LAST:event_btNewEmployeeActionPerformed
 
     private void tabsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabsMouseClicked
-        System.out.println(tabs.getSelectedIndex());
 
         switch (tabs.getSelectedIndex()) {
             case 0:
-                System.out.println("oioi");
                 ((TableEmployee) tbEmployee.getModel()).refreshTable();
                 break;
             case 1:

@@ -19,7 +19,7 @@ public class Manager extends Employee {
     private Department dep;
 
     public Department getDep() {
-        return dep;
+        return EmployeeDAO.getDepMan(this);
     }
 
     public void setDep(Department dep) {
