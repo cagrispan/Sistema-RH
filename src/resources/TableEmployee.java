@@ -148,6 +148,7 @@ public class TableEmployee extends AbstractTableModel {
         {
            employees.get(rows[i]).delete();
         }
+        this.refreshTable();
     }
     
     public void refreshTable() {
