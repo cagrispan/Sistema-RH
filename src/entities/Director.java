@@ -8,6 +8,7 @@ package entities;
 import DAOs.EmployeeDAO;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -52,6 +53,8 @@ public class Director extends Employee {
     public boolean authenticate(String systemName, String user, String password) {
         if (user.equals(this.getCPF()) && password.equals(this.getPassword())) {
                 return true;
+        }else{
+            JOptionPane.showMessageDialog(null, "Senha incorreta.");
         }
         return false;
     }
