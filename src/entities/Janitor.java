@@ -15,4 +15,8 @@ public class Janitor extends Employee{
     public float calcBonus(float salary) {
         return salary*0.5f;
     }
+    
+    public boolean authenticate(String systemName, String user, String password) {
+        return false;
+    }
 }

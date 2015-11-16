@@ -10,5 +10,5 @@ package interfaces;
  * @author TUNTS
  */
 public interface Authenticatable {
-    
+    public boolean authenticate(String systemName, String user, String password);
 }

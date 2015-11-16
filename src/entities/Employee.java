@@ -2,14 +2,15 @@
 package entities;
 
 import DAOs.EmployeeDAO;
+import interfaces.Authenticatable;
 import java.util.List;
 
-public class Employee extends Person{
-
+public class Employee extends Person implements Authenticatable{
     
     private int     id;    
     private float   bonus;
     private String  password;
+    private List<String>  systems;
     
     private Department  department;
     private Salary      salary;
@@ -78,6 +79,15 @@ public class Employee extends Person{
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Overrided methods">
+    public boolean authenticate(String systemName, String user, String password){
+        if(user.equals(this.getCPF()) && password.equals(this.getPassword())){
+            if(this.systems.contains(systemName)){
+                return true;
+            }
+        }
+        return false;  
+    }
+    
     public float calcBonus(float salary) {
         //Function overrided by children classes
         return 0;
