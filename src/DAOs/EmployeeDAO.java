@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAOs;
 
 import entities.Analyst;
@@ -22,10 +17,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import resources.ConnectionFactory;
 
-/**
- *
- * @author TUNTS
- */
 public class EmployeeDAO {
 
     private static final String insert = "INSERT INTO employee(name, surname, rg, cpf, phone, password, idSalary, idDepartment) VALUES(?,?,?,?,?,?,?,?)";
@@ -117,21 +108,7 @@ public class EmployeeDAO {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment,resultSet,con);
         }
     }
 

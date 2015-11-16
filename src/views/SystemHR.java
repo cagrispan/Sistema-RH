@@ -136,6 +136,11 @@ public class SystemHR extends javax.swing.JFrame {
         });
 
         btDeleteEmployee.setText("Excluir Selecionados");
+        btDeleteEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeleteEmployeeActionPerformed(evt);
+            }
+        });
 
         btEmployeeSearch.setText("Buscar");
 
@@ -624,6 +629,12 @@ public class SystemHR extends javax.swing.JFrame {
         System.out.println("Tabela esquerda: "+ systems.size());
         ((TableSystems) tbPermissionAvailable.getModel()).addToList(systems);
     }//GEN-LAST:event_btGoOutActionPerformed
+
+    private void btDeleteEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteEmployeeActionPerformed
+        int rows[] = tbEmployee.getSelectedRows();
+
+        ((TableEmployee) tbEmployee.getModel()).delete(rows);
+    }//GEN-LAST:event_btDeleteEmployeeActionPerformed
 
     public static void main(String args[]) {
 
