@@ -54,18 +54,7 @@ public class EmployeeDAO {
                     "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
             );
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
 
     }
@@ -108,7 +97,7 @@ public class EmployeeDAO {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
         } finally {
-            ConnectionFactory.close(statment,resultSet,con);
+            ConnectionFactory.close(statment, resultSet, con);
         }
     }
 
@@ -135,18 +124,7 @@ public class EmployeeDAO {
                     "Erro ao alterar um empregado no banco de dados. Origem=" + ex.getMessage()
             );
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
     }
 
@@ -205,21 +183,7 @@ public class EmployeeDAO {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, resultSet, con);
         }
 
     }
@@ -239,18 +203,7 @@ public class EmployeeDAO {
                     "Erro ao deletar um empartamento no banco de dados. Origem=" + ex.getMessage()
             );
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment,con);
         }
     }
 
@@ -270,18 +223,7 @@ public class EmployeeDAO {
                     "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
             );
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment,con);
         }
 
     }
@@ -303,18 +245,7 @@ public class EmployeeDAO {
                     "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
             );
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
 
     }
@@ -333,21 +264,7 @@ public class EmployeeDAO {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, resultSet, con);
         }
     }
 
@@ -371,21 +288,7 @@ public class EmployeeDAO {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, resultSet, con);
         }
     }
 
@@ -398,45 +301,29 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(getDeps);
             statment.setInt(1, director.getId());
-            
-            
+
             resultSet = statment.executeQuery();
             boolean set = false;
             while (resultSet.next()) {
 
                 Department d = new Department();
-                
-                if(!set)
-                {
+
+                if (!set) {
                     director.setIdDirector(resultSet.getInt("idDirector"));
                     set = true;
                 }
-                
+
                 d.setId(resultSet.getInt("id"));
                 d.setName(resultSet.getString("name"));
                 deps.add(d);
             }
 
             director.setDeps(deps);
-            
+
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, resultSet, con);
         }
     }
 
