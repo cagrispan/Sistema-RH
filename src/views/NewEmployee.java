@@ -13,12 +13,19 @@ import entities.Janitor;
 import entities.Manager;
 import entities.Programmer;
 import entities.Salary;
+import java.awt.Color;
 import java.awt.Component;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 import resources.TableDepDirectors;
 import resources.TableDepartments;
+import resources.Validation;
 
 /**
  *
@@ -90,10 +97,6 @@ public class NewEmployee extends javax.swing.JFrame {
         tfEmpName = new javax.swing.JTextField();
         tfEmpSurname = new javax.swing.JTextField();
         tfEmpRG = new javax.swing.JTextField();
-        tfEmpCPF = new javax.swing.JTextField();
-        tfEmpPhone = new javax.swing.JTextField();
-        tfEmpPassword = new javax.swing.JTextField();
-        tfEmpPasswordConfirm = new javax.swing.JTextField();
         lbEmpSurname = new javax.swing.JLabel();
         lbEmpRG = new javax.swing.JLabel();
         lbEmpCPF = new javax.swing.JLabel();
@@ -118,12 +121,34 @@ public class NewEmployee extends javax.swing.JFrame {
         btGoOut = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbDepsDirector = new javax.swing.JTable();
+        tfEmpCPF = new javax.swing.JFormattedTextField();
+        tfEmpPhone = new javax.swing.JFormattedTextField();
+        tfEmpPassword = new javax.swing.JPasswordField();
+        tfEmpPasswordConfirm = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         lbEmpName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpName.setText("Nome");
+
+        tfEmpName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfEmpNameKeyPressed(evt);
+            }
+        });
+
+        tfEmpSurname.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfEmpSurnameKeyPressed(evt);
+            }
+        });
+
+        tfEmpRG.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfEmpRGKeyPressed(evt);
+            }
+        });
 
         lbEmpSurname.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmpSurname.setText("Sobrenome");
@@ -256,6 +281,30 @@ public class NewEmployee extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        tfEmpCPF.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfEmpCPFFocusGained(evt);
+            }
+        });
+
+        tfEmpPhone.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                tfEmpPhoneFocusGained(evt);
+            }
+        });
+
+        tfEmpPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfEmpPasswordKeyReleased(evt);
+            }
+        });
+
+        tfEmpPasswordConfirm.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfEmpPasswordConfirmKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -285,8 +334,6 @@ public class NewEmployee extends javax.swing.JFrame {
                                             .addComponent(lbEmpOffice, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(tfEmpPhone, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                                            .addComponent(tfEmpCPF, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                                             .addComponent(tfEmpRG, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                                             .addComponent(tfEmpSurname, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -294,22 +341,26 @@ public class NewEmployee extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(lbEmpLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cbEmpLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(cbEmpLevel, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(tfEmpCPF)
+                                            .addComponent(tfEmpPhone)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(lbEmpName, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(tfEmpName, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lbEmpDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbEmpDepartment, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lbEmpDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(342, 342, 342))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(lbEmpPassword, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lbEmpPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(tfEmpPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tfEmpPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(cbEmpDepartment, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(tfEmpPassword)
+                                            .addComponent(tfEmpPasswordConfirm))))
                                 .addComponent(pnDirector, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(pnManager, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(26, 26, Short.MAX_VALUE))))
@@ -333,12 +384,12 @@ public class NewEmployee extends javax.swing.JFrame {
                     .addComponent(lbEmpRG))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfEmpCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbEmpCPF))
+                    .addComponent(lbEmpCPF)
+                    .addComponent(tfEmpCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfEmpPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbEmpPhone))
+                    .addComponent(lbEmpPhone)
+                    .addComponent(tfEmpPhone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbEmpOffice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -351,13 +402,13 @@ public class NewEmployee extends javax.swing.JFrame {
                     .addComponent(lbEmpDepartment))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfEmpPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbEmpPassword))
+                    .addComponent(lbEmpPassword)
+                    .addComponent(tfEmpPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbEmpPasswordConfirm)
                     .addComponent(tfEmpPasswordConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(21, 21, 21)
                 .addComponent(pnManager, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnDirector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -365,16 +416,16 @@ public class NewEmployee extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btCancelNewEmp)
                     .addComponent(btSaveNewEmp))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSaveNewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveNewEmpActionPerformed
-        
+
         int idOffice = cbEmpOffice.getSelectedIndex();
-        
+
         Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
         Employee emp = classes[idOffice];
         emp.setSalary(new Salary());
@@ -413,19 +464,19 @@ public class NewEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_btCancelNewEmpActionPerformed
 
     private void cbEmpOfficeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEmpOfficeActionPerformed
-        
+
         int selectedItem = cbEmpOffice.getSelectedIndex();
-        
-        boolean[][] permissions =
-        {
-        //     Level / Manager / Director
-            {   true,   false,  true},  // Director
-            {   true,   true ,  false}, // Manager
-            {   true,   false,  false}, // Analistic
-            {   true,   false,  false}, // Programmer
-            {   false,  false,  false}  // Janitor
-        };
-        
+
+        boolean[][] permissions
+                = {
+                    //     Level / Manager / Director
+                    {true, false, true}, // Director
+                    {true, true, false}, // Manager
+                    {true, false, false}, // Analistic
+                    {true, false, false}, // Programmer
+                    {false, false, false} // Janitor
+                };
+
         cbEmpLevel.setEnabled(permissions[selectedItem][0]);
         setManagerEnable(permissions[selectedItem][1]);
         setDirectorEnable(permissions[selectedItem][2]);
@@ -440,13 +491,61 @@ public class NewEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_btGoInActionPerformed
 
     private void btGoOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoOutActionPerformed
-        
+
         int rows[] = tbDepsDirector.getSelectedRows();
         List<Department> departs = ((TableDepDirectors) tbDepsDirector.getModel()).remove(rows);
         ((TableDepartments) tbDeps.getModel()).addToList(departs);
-        
-        
+
+
     }//GEN-LAST:event_btGoOutActionPerformed
+
+    private void tfEmpNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpNameKeyPressed
+        Validation.validateTextField(tfEmpName);        // TODO add your handling code here:
+    }//GEN-LAST:event_tfEmpNameKeyPressed
+
+    private void tfEmpSurnameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpSurnameKeyPressed
+        Validation.validateTextField(tfEmpSurname);
+    }//GEN-LAST:event_tfEmpSurnameKeyPressed
+
+    private void tfEmpRGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpRGKeyPressed
+        Validation.validateNumberField(tfEmpRG);
+    }//GEN-LAST:event_tfEmpRGKeyPressed
+
+    private void tfEmpCPFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmpCPFFocusGained
+        try {
+            Validation.maskCPF(tfEmpCPF);
+        } catch (ParseException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tfEmpCPFFocusGained
+
+    private void tfEmpPhoneFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmpPhoneFocusGained
+        try {
+            Validation.maskPhone(tfEmpPhone);
+        } catch (ParseException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }// TODO add your handling code here:
+    }//GEN-LAST:event_tfEmpPhoneFocusGained
+
+    private void tfEmpPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpPasswordKeyReleased
+        if (new String(tfEmpPassword.getPassword()).equals(new String(tfEmpPasswordConfirm.getPassword()))) {
+            Validation.setBorderGreen(tfEmpPassword);
+            Validation.setBorderGreen(tfEmpPasswordConfirm);
+        } else {
+            Validation.setBorderRed(tfEmpPassword);
+            Validation.setBorderRed(tfEmpPasswordConfirm);
+        }   
+    }//GEN-LAST:event_tfEmpPasswordKeyReleased
+
+    private void tfEmpPasswordConfirmKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpPasswordConfirmKeyReleased
+        if (new String(tfEmpPassword.getPassword()).equals(new String(tfEmpPasswordConfirm.getPassword()))) {
+            Validation.setBorderGreen(tfEmpPassword);
+            Validation.setBorderGreen(tfEmpPasswordConfirm);
+        } else {
+            Validation.setBorderRed(tfEmpPassword);
+            Validation.setBorderRed(tfEmpPasswordConfirm);
+        }   
+    }//GEN-LAST:event_tfEmpPasswordConfirmKeyReleased
 
     public void setManagerEnable(boolean status) {
         Component[] manager = pnManager.getComponents();
@@ -528,11 +627,11 @@ public class NewEmployee extends javax.swing.JFrame {
     private javax.swing.JPanel pnManager;
     private javax.swing.JTable tbDeps;
     private javax.swing.JTable tbDepsDirector;
-    private javax.swing.JTextField tfEmpCPF;
+    private javax.swing.JFormattedTextField tfEmpCPF;
     private javax.swing.JTextField tfEmpName;
-    private javax.swing.JTextField tfEmpPassword;
-    private javax.swing.JTextField tfEmpPasswordConfirm;
-    private javax.swing.JTextField tfEmpPhone;
+    private javax.swing.JPasswordField tfEmpPassword;
+    private javax.swing.JPasswordField tfEmpPasswordConfirm;
+    private javax.swing.JFormattedTextField tfEmpPhone;
     private javax.swing.JTextField tfEmpRG;
     private javax.swing.JTextField tfEmpSurname;
     // End of variables declaration//GEN-END:variables
