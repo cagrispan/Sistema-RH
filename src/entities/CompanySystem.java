@@ -46,6 +46,11 @@ public class CompanySystem {
         return CompanySystemDAO.getSystems(id);
     }
     
+    public static List<CompanySystem> getAvailable(int id)
+    {
+        return CompanySystemDAO.getOutterSystems(id);
+    }
+    
     
        
 }

@@ -1,6 +1,7 @@
 package DAOs;
 
 import entities.Analyst;
+import entities.CompanySystem;
 import entities.Department;
 import entities.Director;
 import entities.Employee;
@@ -25,7 +26,7 @@ public class EmployeeDAO {
     private static final String getDep = "SELECT d.name, d.id, m.idManager FROM department d, manager m, employee e WHERE e.id=? AND d.id=m.idDepartment AND e.id = m.idEmployee";
     private static final String getDeps = "SELECT d.name, d.id, dir.idDirector FROM department d, director dir, employee e WHERE d.idDirector = dir.idDirector AND e.id = dir.idEmployee AND e.id=?";
     private static final String getManager = "SELECT e.*, m.*, s.*,o.name as officeName FROM employee e, manager m, salary s, office o WHERE e.id = m.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND m.idManager = ?";
-    private static final String getDirector = "SELECT e.*, d.*, s.*,o.name as officeName FROM employee e, director d, salary s, office o WHERE e.id = d.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND d.idDirector = ?";
+    private static final String getDirector = "SELECT e.*, d.*, s.*,o.name as officeName FROM employee e, director d, salary s, office o WHERE e.id = d.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND d.idDirector = ?";;
     private static final String getByCPF = "SELECT e.*,s.* FROM employee e, salary s, office o WHERE e.cpf=? AND e.idSalary=s.idSalary AND s.idOffice = o.id";
     private static final String selectOfficeName = "SELECT name FROM Office WHERE id=?";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
@@ -253,6 +254,8 @@ public class EmployeeDAO {
         }
 
     }
+    
+    
 
     public static Manager getManager(int id) {
         Connection con = null;

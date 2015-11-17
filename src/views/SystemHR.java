@@ -12,6 +12,7 @@ import javax.swing.table.TableColumn;
 import resources.TableDepartments;
 import resources.TableEmployee;
 import resources.TablePermSystems;
+import resources.TablePermSystemsAvailable;
 import resources.TableReport;
 import resources.TableSalary;
 import resources.TableSystems;
@@ -25,8 +26,7 @@ public class SystemHR extends javax.swing.JFrame {
         initComponents();
 
 //        syst = CompanySystem.getAll();
-        
-         String[] values = {"", "", "", ""};
+        String[] values = {"", "", "", ""};
 
         JLabel[] labels
                 = {
@@ -34,7 +34,7 @@ public class SystemHR extends javax.swing.JFrame {
                     lbPermCPFEmp,
                     lbPermOfficeEmp,
                     lbPermLevelEmp};
-   
+
         for (int i = 0; i < labels.length; i++) {
             labels[i].setText(values[i]);
         }
@@ -431,7 +431,8 @@ public class SystemHR extends javax.swing.JFrame {
         tbPermissionSelected.setModel(new TablePermSystems(syst));
         jScrollPane7.setViewportView(tbPermissionSelected);
 
-        tbPermissionAvailable.setModel(new TableSystems());
+        List<CompanySystem> compsys = new ArrayList();
+        tbPermissionAvailable.setModel(new TablePermSystemsAvailable(compsys));
         jScrollPane8.setViewportView(tbPermissionAvailable);
 
         btGoOn.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -666,13 +667,16 @@ public class SystemHR extends javax.swing.JFrame {
                     lbPermCPFEmp,
                     lbPermOfficeEmp,
                     lbPermLevelEmp};
-        if (employee != null) {
-            values[0] = employee.getName();
-            values[1] = employee.getCPF();
-            values[2] = employee.getSalary().getOfficeName();
-            values[3] += employee.getSalary().getLevel();
-
+        if (employee == null) {
+            return;
         }
+        
+        values[0] = employee.getName();
+        values[1] = employee.getCPF();
+        values[2] = employee.getSalary().getOfficeName();
+        values[3] += employee.getSalary().getLevel();
+        
+        tbPermissionAvailable.setModel(new TablePermSystemsAvailable(CompanySystem.getAvailable(employee.getId())));
 
         for (int i = 0; i < labels.length; i++) {
             labels[i].setText(values[i]);
