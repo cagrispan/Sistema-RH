@@ -51,6 +51,9 @@ public class CompanySystem {
         CompanySystemDAO.delete(this);
     }
     
+    public static List<String> getSystems(int id) {
+        return CompanySystemDAO.getSystems(id);
+    }
     
     
        

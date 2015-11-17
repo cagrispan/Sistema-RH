@@ -23,6 +23,7 @@ public class CompanySystemDAO {
 
     private static final String insert = "INSERT INTO company_system(name) VALUES(?)";
     private static final String selectAll = "SELECT * FROM company_system";
+    private static final String getSystems = "SELECT c.name FROM company_system c, permission p, employee e WHERE e.id=? AND p.idEmployee=e.id AND p.idCompanySystem=c.id";
     private static final String delete = "DELETE FROM company_system WHERE id = ?";
     private static final String update = "UPDATE company_system SET name=? WHERE id = ?";
 
@@ -114,6 +115,41 @@ public class CompanySystemDAO {
             );
         } finally {
             ConnectionFactory.close(statment, con);
+        }
+    }
+
+    public static List<String> getSystems(int id) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        List<String> list = new ArrayList();
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(getSystems);
+            statment.setInt(1, id);
+            resultSet = statment.executeQuery();
+            while (resultSet.next()) {
+                list.add(resultSet.getString("name"));
+            }
+            return list;
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
         }
     }
 

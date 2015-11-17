@@ -26,6 +26,7 @@ public class EmployeeDAO {
     private static final String getDeps = "SELECT d.name, d.id, dir.idDirector FROM department d, director dir, employee e WHERE d.idDirector = dir.idDirector AND e.id = dir.idEmployee AND e.id=?";
     private static final String getManager = "SELECT e.*, m.*, s.*,o.name as officeName FROM employee e, manager m, salary s, office o WHERE e.id = m.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND m.idManager = ?";
     private static final String getDirector = "SELECT e.*, d.*, s.*,o.name as officeName FROM employee e, director d, salary s, office o WHERE e.id = d.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND d.idDirector = ?";
+    private static final String getByCPF = "SELECT e.*,s.* FROM employee e, salary s, office o WHERE e.cpf=? AND e.idSalary=s.idSalary AND s.idOffice = o.id";
     private static final String selectOfficeName = "SELECT name FROM Office WHERE id=?";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=?, idDepartment=? WHERE id = ?";
@@ -442,7 +443,48 @@ public class EmployeeDAO {
             }
 
             director.setDeps(deps);
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+        } finally {
+            try {
+                resultSet.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
+            };
+            try {
+                statment.close();
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
+            };
+            try {
+                con.close();;
+            } catch (Exception ex) {
+                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
+            };
+        }
+    }
 
+    public static Employee getByCPF(String cpf) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(getByCPF);
+            statment.setString(1, cpf);
+            resultSet = statment.executeQuery();
+            resultSet.next();
+
+            Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
+            Employee employee = classes[resultSet.getInt("idOffice") - 1];
+
+            employee.setCPF(resultSet.getString("cpf"));
+            employee.setId(resultSet.getInt("id"));
+            employee.setPassword(resultSet.getString("password"));
+            
+            employee.setSystems();
+
+            return employee;
         } catch (SQLException ex) {
             String error = "Erro ao buscar departamentos do diretor.\n\n Origem = " + ex.getMessage();
 
