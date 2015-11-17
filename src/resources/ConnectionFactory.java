@@ -10,8 +10,11 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class ConnectionFactory {
+    
+    private static int num = 0;
 
     public static Connection getConnection() throws SQLException {
+        num++;        
         return DriverManager.getConnection("jdbc:mysql://localhost/sistemarh", "root", "root");
     }
 
@@ -64,11 +67,16 @@ public class ConnectionFactory {
     private static boolean closeConnection(Connection connection) {
         try {
             connection.close();
+            num--;
             return true;
         } catch (Exception ex) {
             String error = "Erro ao fechar conexão. Erro= " + ex.getMessage();
 
             System.out.println(error);
+        }
+        finally
+        {
+            System.out.println("Conexões abertas: " + num);
         }
         return false;
     }

@@ -1,6 +1,7 @@
 package DAOs;
 
 import entities.Department;
+import entities.Manager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ public class DepartmentDAO {
     private static final String selectAll = "SELECT * FROM department";
     private static final String selectId = "SELECT * FROM department WHERE id=?";
     private static final String delete = "DELETE FROM department WHERE id = ?";
-    private static final String update = "UPDATE department SET name=? WHERE id = ?";
+    private static final String update = "UPDATE department SET name=?,idManager=?,idDirector =? WHERE id = ?";
     private static final String updateDirector = "UPDATE department SET idDirector=? WHERE id = ?";
     private static final String updateManager = "UPDATE department SET idManager=? WHERE id = ?";
 
@@ -32,23 +33,12 @@ public class DepartmentDAO {
             JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso.");
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir um departamento no banco de dados.");
-            throw new RuntimeException(
-                    "Erro ao inserir um departamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao adicionar departamento.\n\n Origem = " + ex.getMessage();
+            
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
 
     }
@@ -60,26 +50,18 @@ public class DepartmentDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(update);
             statment.setString(1, department.getName());
-            statment.setInt(2, department.getId());
+            statment.setInt(2, department.getManager().getIdManager());
+            statment.setInt(3, department.getDirector().getIdDirector());
+            statment.setInt(4, department.getId());
             statment.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new RuntimeException(
-                    "Erro ao alterar um departamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao atualizar departamento.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
     }
 
@@ -88,45 +70,37 @@ public class DepartmentDAO {
         resultSet.next();
         return resultSet.getInt(1);
     }
-    
-    public static Department loadById(Department department)
-    {
+
+    public static Department loadById(int id) {
         Connection con = null;
         PreparedStatement statment = null;
         ResultSet resultSet = null;
-        
-        try
-        {
+
+        try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(selectId);
-            statment.setInt(1, department.getId());
+            statment.setInt(1, id);
             resultSet = statment.executeQuery();
+            Department department = new Department();
             
+
             resultSet.next();
             department.setId(resultSet.getInt("id"));
             department.setName(resultSet.getString("name"));
+            department.setManager(EmployeeDAO.getManager(resultSet.getInt("idManager")));
+            department.setDirector(EmployeeDAO.getDirector(resultSet.getInt("idDirector")));
             
+
             return department;
-            
-            
+
         } catch (SQLException ex) {
-            throw new RuntimeException(
-                    "Erro ao alterar um departamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao buscar departamento pelo id.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
-        }        
+            ConnectionFactory.close(statment, con);
+        }
     }
 
     public static List<Department> loadAll() {
@@ -138,34 +112,31 @@ public class DepartmentDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(selectAll);
             resultSet = statment.executeQuery();
+            
             while (resultSet.next()) {
+                int idManager = resultSet.getInt("idManager");
+                int idDirector = resultSet.getInt("idDirector");
+                
+                
                 Department department = new Department();
                 department.setName(resultSet.getString("name"));
                 department.setId(resultSet.getInt("id"));
+                
+                department.setManager(EmployeeDAO.getManager(idManager));
+                department.setDirector(EmployeeDAO.getDirector(idDirector));
                 list.add(department);
             }
             return list;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao carregar departamentos.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, resultSet, con);
         }
     }
-
+    
     public static void delete(Department department) {
         Connection con = null;
         PreparedStatement statment = null;
@@ -175,24 +146,19 @@ public class DepartmentDAO {
             statment.setInt(1, department.getId());
             statment.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar um departamento no banco de dados.");
-
-            throw new RuntimeException(
-                    "Erro ao deletar um departamento no banco de dados. Origem=" + ex.getMessage()
-            );
-        } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            String error = "Erro ao excluir departamento.\n\n Origem = " + ex.getMessage();
+            
+            if (ex.getSQLState().startsWith("23"));
+                error = "Erro ao excluir departamento.\n"
+                        + "Existem funcionários associados a ele.\n"
+                        + "Por favor, remova-os ou transfira-os para outro departamento."
+                        + "\n\n Origem = " + ex.getMessage();
+            
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
+        }
+        finally {
+            ConnectionFactory.close(statment, con);
         }
     }
 
@@ -202,27 +168,17 @@ public class DepartmentDAO {
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(updateDirector);
-            statment.setInt(1, department.getIdDirector());
+            statment.setInt(1, department.getDirector().getIdDirector());
             statment.setInt(2, department.getId());
             statment.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new RuntimeException(
-                    "Erro ao alterar um departamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao adicionar diretor ao departamento.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
 
     }
@@ -233,27 +189,17 @@ public class DepartmentDAO {
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(updateManager);
-            statment.setInt(1, department.getIdManager());
+            statment.setInt(1, department.getManager().getIdManager());
             statment.setInt(2, department.getId());
             statment.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new RuntimeException(
-                    "Erro ao alterar um departamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao adicionar gerente ao departamento.\n\n Origem = " + ex.getMessage();
+            
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
 
     }

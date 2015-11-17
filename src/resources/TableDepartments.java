@@ -9,11 +9,13 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableDepartments extends AbstractTableModel {
 
-    private List<Department> departments = Department.getAll();    
-    private Column[] columns =
-    {
-        new Column("Nome", Object.class)
-    };
+    private List<Department> departments = Department.getAll();
+    private Column[] columns
+            = {
+                new Column("Nome", Object.class),
+                new Column("Diretor", String.class),
+                new Column("Gerente", String.class)
+            };
 
     public TableDepartments() {
         this.refreshTable();
@@ -31,13 +33,13 @@ public class TableDepartments extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return columns [column].columnName;
+        return columns[column].columnName;
 
     }
 
     @Override
     public Class getColumnClass(int column) {
-        return columns [column].columnClass;
+        return columns[column].columnClass;
 
     }
 
@@ -50,12 +52,20 @@ public class TableDepartments extends AbstractTableModel {
 
         Department d = departments.get(rowIndex);
 
-        Object[] values = 
-        {
-            d.getName()
-        };
+        Object[] values
+                = {
+                    d.getName(),
+                    "",
+                    ""
+                };
+        if(d.getDirector()!= null)
+            values[1] = d.getDirector().getName();
 
+        if(d.getManager() != null)
+            values[2] = d.getManager().getName();
+        
         return values[columnIndex];
+
     }
 
     @Override
@@ -66,10 +76,13 @@ public class TableDepartments extends AbstractTableModel {
         this.refreshTable();
 
     }
-    
+
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
+        if(columnIndex== 0 || (columnIndex>=1 && getValueAt(rowIndex, columnIndex).equals("")))     
+            return true;
+        return false;
+               
     }
 
     public void delete(int rows[]) {
@@ -80,26 +93,26 @@ public class TableDepartments extends AbstractTableModel {
         }
         this.refreshTable();
     }
-    
+
     public void add(String name) {
 
         Department newDepartment = new Department();
-        
+
         newDepartment.setName(name);
         newDepartment.add();
-        
+
         this.refreshTable();
     }
-    
-    public List<Department> remove(int rows[], List<Department> deps){
-        
-        for (int i=0;i<rows.length;i++){
-            deps.add(departments.remove(rows[i]-i));
+
+    public List<Department> remove(int rows[], List<Department> deps) {
+
+        for (int i = 0; i < rows.length; i++) {
+            deps.add(departments.remove(rows[i] - i));
         }
-        
+
         fireTableDataChanged();
-        return deps;     
-        
+        return deps;
+
     }
 
     public void refreshTable() {
@@ -117,8 +130,8 @@ public class TableDepartments extends AbstractTableModel {
     }
 
     public void addToList(List<Department> deps) {
-        
-        for (Department dep: deps){
+
+        for (Department dep : deps) {
             departments.add(dep);
         }
         this.sort();

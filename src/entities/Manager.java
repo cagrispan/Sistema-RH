@@ -45,9 +45,14 @@ public class Manager extends Employee {
     public void add() {
         EmployeeDAO.add(this);
         EmployeeDAO.addManager(this);
-        dep.setIdManager(idManager);
+        dep.getManager().setIdManager(idManager);
         dep.addManager();
 
+    }
+    
+    public static Manager get(int id)
+    {
+        return EmployeeDAO.getManager(id);
     }
 
     public float calcBonus(float salary) {

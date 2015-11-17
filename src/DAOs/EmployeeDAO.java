@@ -23,7 +23,9 @@ public class EmployeeDAO {
     private static final String selectAll = "SELECT e.*,s.*, o.name as officeName FROM employee e, salary s, office o WHERE e.idSalary=s.idSalary AND s.idOffice = o.id";
     private static final String countDepSize = "SELECT count(*) as size FROM employee WHERE idDepartment=?";
     private static final String getDep = "SELECT d.name, d.id, m.idManager FROM department d, manager m, employee e WHERE e.id=? AND d.id=m.idDepartment AND e.id = m.idEmployee";
-    private static final String getDeps = "SELECT d.name, d.id, dir.idDirector FROM department d, director dir, employee e WHERE e.id=? AND e.id = dir.idEmployee";
+    private static final String getDeps = "SELECT d.name, d.id, dir.idDirector FROM department d, director dir, employee e WHERE d.idDirector = dir.idDirector AND e.id = dir.idEmployee AND e.id=?";
+    private static final String getManager = "SELECT e.*, m.*, s.*,o.name as officeName FROM employee e, manager m, salary s, office o WHERE e.id = m.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND m.idManager = ?";
+    private static final String getDirector = "SELECT e.*, d.*, s.*,o.name as officeName FROM employee e, director d, salary s, office o WHERE e.id = d.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND d.idDirector = ?";
     private static final String selectOfficeName = "SELECT name FROM Office WHERE id=?";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=?, idDepartment=? WHERE id = ?";
@@ -49,10 +51,10 @@ public class EmployeeDAO {
             JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso.");
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir um empregado no banco de dados.");
-            throw new RuntimeException(
-                    "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao inserir um Funcionário no banco de dados.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, con);
         }
@@ -73,7 +75,10 @@ public class EmployeeDAO {
             resultSet.next();
             id = resultSet.getInt("idSalary");
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao buscar id de salario do Funcionario (idOffice:" + (idOffice + 1) + " Level:" + (level + 1) + " Erro: " + ex.getMessage());
+            String error = "Erro ao buscar id de salario do Funcionario (idOffice:" + (idOffice + 1) + " Level:" + (level + 1) + "\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         }
         return id;
     }
@@ -95,7 +100,10 @@ public class EmployeeDAO {
 
             return resultSet.getString("name");
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao buscar nome do cargo pelo id.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, resultSet, con);
         }
@@ -120,9 +128,10 @@ public class EmployeeDAO {
             statment.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new RuntimeException(
-                    "Erro ao alterar um empregado no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao atualizar dados de Funcionário.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, con);
         }
@@ -139,27 +148,21 @@ public class EmployeeDAO {
         PreparedStatement statment = null;
         ResultSet resultSet = null;
         List<Employee> list = new ArrayList();
+
+        Employee employee = new Employee();
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(selectAll);
             resultSet = statment.executeQuery();
             while (resultSet.next()) {
                 Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
-                Employee employee = classes[resultSet.getInt("idOffice") - 1];
+                employee = classes[resultSet.getInt("idOffice") - 1];
                 employee.setName(resultSet.getString("name"));
                 employee.setSurname(resultSet.getString("surname"));
                 employee.setId(resultSet.getInt("id"));
                 employee.setCPF(resultSet.getString("cpf"));
                 employee.setRG(resultSet.getString("rg"));
                 employee.setPhone(resultSet.getString("phone"));
-
-                if (resultSet.getInt("idOffice") == 1) {
-                    getDepsDir((Director) employee);
-                }
-
-                if (resultSet.getInt("idOffice") == 2) {
-                    getDepMan((Manager) employee);
-                }
 
                 Salary s = new Salary();
 
@@ -170,10 +173,15 @@ public class EmployeeDAO {
                 s.setOfficeName(resultSet.getString("officeName"));
                 employee.setSalary(s);
 
-                Department d = new Department();
+                if (resultSet.getInt("idOffice") == 1) {
+                    getDepsDir((Director) employee);
+                }
 
-                d.setId(resultSet.getInt("idDepartment"));
-                d.get();
+                if (resultSet.getInt("idOffice") == 2) {
+                    getDepMan((Manager) employee);
+                }
+
+                Department d = Department.getById(resultSet.getInt("idDepartment"));
 
                 employee.setDepartment(d);
 
@@ -181,7 +189,10 @@ public class EmployeeDAO {
             }
             return list;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao carregar lista de Funcionários.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, resultSet, con);
         }
@@ -197,13 +208,12 @@ public class EmployeeDAO {
             statment.setInt(1, employee.getId());
             statment.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar um empartamento no banco de dados.");
+            String error = "Erro ao deletar um funcionário.\n\n Origem = " + ex.getMessage();
 
-            throw new RuntimeException(
-                    "Erro ao deletar um empartamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-            ConnectionFactory.close(statment,con);
+            ConnectionFactory.close(statment, con);
         }
     }
 
@@ -218,12 +228,12 @@ public class EmployeeDAO {
             director.setIdDirector(setID(statment));
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir um empartamento no banco de dados.");
-            throw new RuntimeException(
-                    "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao adicionar diretor no banco de dados.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-            ConnectionFactory.close(statment,con);
+            ConnectionFactory.close(statment, con);
         }
 
     }
@@ -240,14 +250,117 @@ public class EmployeeDAO {
             manager.setIdManager(setID(statment));
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir um empartamento no banco de dados.");
-            throw new RuntimeException(
-                    "Erro ao inserir um empartamento no banco de dados. Origem=" + ex.getMessage()
-            );
+            String error = "Erro ao adicionar gerente no banco de dados\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, con);
         }
 
+    }
+
+    public static Manager getManager(int id) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        try {
+
+            Manager employee = new Manager();
+
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(getManager);
+            statment.setInt(1, id);
+
+            resultSet = statment.executeQuery();
+
+            if (!resultSet.next()) {
+                return null;
+            }
+
+            employee.setName(resultSet.getString("name"));
+            employee.setSurname(resultSet.getString("surname"));
+            employee.setId(resultSet.getInt("id"));
+            employee.setCPF(resultSet.getString("cpf"));
+            employee.setRG(resultSet.getString("rg"));
+            employee.setPhone(resultSet.getString("phone"));
+
+            Salary s = new Salary();
+
+            s.setId(resultSet.getInt("idSalary"));
+            s.setIdOffice(resultSet.getInt("idOffice") - 1);
+            s.setLevel(resultSet.getInt("level") - 1);
+            s.setValue(resultSet.getFloat("salary"));
+            s.setOfficeName(resultSet.getString("officeName"));
+            employee.setSalary(s);
+
+            Department d = Department.getById(resultSet.getInt("idDepartment"));
+
+            getDepMan((Manager) employee);
+
+            employee.setDepartment(d);
+
+            return employee;
+
+        } catch (SQLException ex) {
+            String error = "Erro ao buscar gerente.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
+        } finally {
+            ConnectionFactory.close(statment, resultSet, con);
+        }
+    }
+
+    public static Director getDirector(int id) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+
+        try {
+
+            Director employee = new Director();
+
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(getDirector);
+            statment.setInt(1, id);
+
+            resultSet = statment.executeQuery();
+
+            if (!resultSet.next()) {
+                return null;
+            }
+
+            employee.setName(resultSet.getString("name"));
+            employee.setSurname(resultSet.getString("surname"));
+            employee.setId(resultSet.getInt("id"));
+            employee.setCPF(resultSet.getString("cpf"));
+            employee.setRG(resultSet.getString("rg"));
+            employee.setPhone(resultSet.getString("phone"));
+
+            getDepsDir((Director) employee);
+
+            Salary s = new Salary();
+
+            s.setId(resultSet.getInt("idSalary"));
+            s.setIdOffice(resultSet.getInt("idOffice") - 1);
+            s.setLevel(resultSet.getInt("level") - 1);
+            s.setValue(resultSet.getFloat("salary"));
+            s.setOfficeName(resultSet.getString("officeName"));
+            employee.setSalary(s);
+
+            //Department d = Department.getById(resultSet.getInt("idDepartment"));
+            //employee.setDepartment(d);
+            return employee;
+
+        } catch (SQLException ex) {
+            String error = "Erro ao buscar diretor.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
+        } finally {
+            ConnectionFactory.close(statment, resultSet, con);
+        }
     }
 
     public static int getDepartmentSize(Manager manager) {
@@ -262,7 +375,10 @@ public class EmployeeDAO {
             resultSet.next();
             return resultSet.getInt("size");
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao buscar quantidade de funcionários de um departamento.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, resultSet, con);
         }
@@ -279,14 +395,21 @@ public class EmployeeDAO {
             statment = con.prepareStatement(getDep);
             statment.setInt(1, manager.getId());
             resultSet = statment.executeQuery();
-            resultSet.next();
+
+            if (!resultSet.next()) {
+                return null;
+            }
+
             manager.setIdManager(resultSet.getInt("idManager"));
             d.setId(resultSet.getInt("id"));
             d.setName(resultSet.getString("name"));
 
             return d;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao buscar departamento do gerente.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, resultSet, con);
         }
@@ -321,7 +444,10 @@ public class EmployeeDAO {
             director.setDeps(deps);
 
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao buscar departamentos do diretor.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, resultSet, con);
         }

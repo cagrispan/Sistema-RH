@@ -44,17 +44,7 @@ public class CompanySystemDAO {
             );
         } finally {
 
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
 
     }
@@ -75,17 +65,7 @@ public class CompanySystemDAO {
             );
         } finally {
 
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
     }
 
@@ -114,21 +94,7 @@ public class CompanySystemDAO {
         } catch (SQLException ex) {
             throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, resultSet, con);
         }
     }
 
@@ -147,18 +113,7 @@ public class CompanySystemDAO {
                     "Erro ao deletar um sistema no banco de dados. Origem=" + ex.getMessage()
             );
         } finally {
-
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-
-            try {
-                con.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, con);
         }
     }
 

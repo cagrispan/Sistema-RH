@@ -6,24 +6,24 @@ import java.util.List;
 public class Department {
     
     private int id;
-    private int idDirector;
-    private int idManager;
+    private Director director;
+    private Manager manager;
     private String name;
 
-    public int getIdDirector() {
-        return idDirector;
+    public Director getDirector() {
+        return director;
     }
 
-    public void setIdDirector(int idDirector) {
-        this.idDirector = idDirector;
+    public void setDirector(Director director) {
+        this.director = director;
     }
 
-    public int getIdManager() {
-        return idManager;
+    public Manager getManager() {
+        return manager;
     }
 
-    public void setIdManager(int idManager) {
-        this.idManager = idManager;
+    public void setManager(Manager manager) {
+        this.manager = manager;
     }
 
     public int getId() {
@@ -68,9 +68,9 @@ public class Department {
         DepartmentDAO.addManager(this);
     }
     
-    public void get()
+    public static Department getById(int id)
     {
-        DepartmentDAO.loadById(this);
+        return DepartmentDAO.loadById(id);
     }
     
     

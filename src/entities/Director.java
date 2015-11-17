@@ -38,7 +38,7 @@ public class Director extends Employee {
         EmployeeDAO.add(this);
         EmployeeDAO.addDirector(this);
         for (Department dep : deps) {
-            dep.setIdDirector(idDirector);
+            dep.getDirector().setIdDirector(idDirector);
             dep.addDirector();
         }
 
