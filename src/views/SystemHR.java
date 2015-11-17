@@ -2,10 +2,12 @@ package views;
 
 import entities.CompanySystem;
 import entities.Employee;
+import java.awt.Label;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.table.TableColumn;
 import resources.TableDepartments;
 import resources.TableEmployee;
@@ -21,8 +23,21 @@ public class SystemHR extends javax.swing.JFrame {
 
     public SystemHR() {
         initComponents();
-        
+
 //        syst = CompanySystem.getAll();
+        
+         String[] values = {"", "", "", ""};
+
+        JLabel[] labels
+                = {
+                    lbPermNameEmp,
+                    lbPermCPFEmp,
+                    lbPermOfficeEmp,
+                    lbPermLevelEmp};
+   
+        for (int i = 0; i < labels.length; i++) {
+            labels[i].setText(values[i]);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -71,7 +86,7 @@ public class SystemHR extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         tbReport = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        tfSearchEmp = new javax.swing.JTextField();
+        tfPermSearchEmp = new javax.swing.JTextField();
         lbPermissions = new javax.swing.JLabel();
         btSearchEmp = new javax.swing.JButton();
         lbPermName = new javax.swing.JLabel();
@@ -391,6 +406,11 @@ public class SystemHR extends javax.swing.JFrame {
         lbPermissions.setText("Permissões");
 
         btSearchEmp.setText("Buscar");
+        btSearchEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSearchEmpActionPerformed(evt);
+            }
+        });
 
         lbPermName.setText("Nome");
 
@@ -459,7 +479,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(lbPermissions)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tfSearchEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfPermSearchEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btSearchEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10))
@@ -481,7 +501,7 @@ public class SystemHR extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tfSearchEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tfPermSearchEmp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btSearchEmp))
                     .addComponent(lbPermissions))
                 .addGap(18, 18, 18)
@@ -613,20 +633,20 @@ public class SystemHR extends javax.swing.JFrame {
                 ((TableEmployee) tbEmployee.getModel()).refreshTable();
                 break;
         };
-        
+
     }//GEN-LAST:event_tabsMouseClicked
 
     private void btGoOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoOnActionPerformed
         int rows[] = tbPermissionAvailable.getSelectedRows();
         ((TableSystems) tbPermissionAvailable.getModel()).remove(rows, syst);
-        
+
         tbPermissionSelected.setModel(new TablePermSystems(syst));
     }//GEN-LAST:event_btGoOnActionPerformed
 
     private void btGoOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoOutActionPerformed
         int rows[] = tbPermissionSelected.getSelectedRows();
         List<CompanySystem> systems = ((TablePermSystems) tbPermissionSelected.getModel()).remove(rows);
-        System.out.println("Tabela esquerda: "+ systems.size());
+        System.out.println("Tabela esquerda: " + systems.size());
         ((TableSystems) tbPermissionAvailable.getModel()).addToList(systems);
     }//GEN-LAST:event_btGoOutActionPerformed
 
@@ -635,6 +655,29 @@ public class SystemHR extends javax.swing.JFrame {
 
         ((TableEmployee) tbEmployee.getModel()).delete(rows);
     }//GEN-LAST:event_btDeleteEmployeeActionPerformed
+
+    private void btSearchEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSearchEmpActionPerformed
+        Employee employee = Employee.getByCPF(tfPermSearchEmp.getText());
+        String[] values = {"", "", "", ""};
+
+        JLabel[] labels
+                = {
+                    lbPermNameEmp,
+                    lbPermCPFEmp,
+                    lbPermOfficeEmp,
+                    lbPermLevelEmp};
+        if (employee != null) {
+            values[0] = employee.getName();
+            values[1] = employee.getCPF();
+            values[2] = employee.getSalary().getOfficeName();
+            values[3] += employee.getSalary().getLevel();
+
+        }
+
+        for (int i = 0; i < labels.length; i++) {
+            labels[i].setText(values[i]);
+        }
+    }//GEN-LAST:event_btSearchEmpActionPerformed
 
     public static void main(String args[]) {
 
@@ -731,6 +774,6 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JTextField tfNewDepartment;
     private javax.swing.JTextField tfNewDepartment1;
     private javax.swing.JTextField tfNewSystem;
-    private javax.swing.JTextField tfSearchEmp;
+    private javax.swing.JTextField tfPermSearchEmp;
     // End of variables declaration//GEN-END:variables
 }

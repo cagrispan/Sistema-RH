@@ -11,10 +11,11 @@ public class Employee extends Person implements Authenticatable {
     private int id;
     private float bonus;
     private String password;
-    private List<String> systems = new ArrayList();
-
+    private List<CompanySystem> systems = new ArrayList();
+    
     private Department department;
     private Salary salary;
+    
 
     // <editor-fold defaultstate="collapsed" desc="Getters and Setters"> 
     public int getId() {
@@ -58,7 +59,7 @@ public class Employee extends Person implements Authenticatable {
     }
     // </editor-fold>
     
-    public List<String> getSystems() {
+    public List<CompanySystem> getSystems() {
         return systems = CompanySystem.getSystems(this.id);
     }
 

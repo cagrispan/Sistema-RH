@@ -48,6 +48,11 @@ public class Salary {
         return SalaryDAO.loadAll();
     }
     
+    public static Salary getById(int id)
+    {
+        return SalaryDAO.getById(id);
+    }
+    
     public void setOfficeName(String name)
     {
         this.officeName = name;

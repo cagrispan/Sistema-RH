@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import DAOs.CompanySystemDAO;
 import java.util.List;
 
-/**
- *
- * @author TUNTS
- */
 public class CompanySystem {
     
     private int id;
@@ -51,7 +42,7 @@ public class CompanySystem {
         CompanySystemDAO.delete(this);
     }
     
-    public static List<String> getSystems(int id) {
+    public static List<CompanySystem> getSystems(int id) {
         return CompanySystemDAO.getSystems(id);
     }
     

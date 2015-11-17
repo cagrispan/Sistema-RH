@@ -165,14 +165,7 @@ public class EmployeeDAO {
                 employee.setRG(resultSet.getString("rg"));
                 employee.setPhone(resultSet.getString("phone"));
 
-                Salary s = new Salary();
-
-                s.setId(resultSet.getInt("idSalary"));
-                s.setIdOffice(resultSet.getInt("idOffice") - 1);
-                s.setLevel(resultSet.getInt("level") - 1);
-                s.setValue(resultSet.getFloat("salary"));
-                s.setOfficeName(resultSet.getString("officeName"));
-                employee.setSalary(s);
+                employee.setSalary(Salary.getById(resultSet.getInt("idSalary")));
 
                 if (resultSet.getInt("idOffice") == 1) {
                     getDepsDir((Director) employee);
@@ -286,14 +279,7 @@ public class EmployeeDAO {
             employee.setRG(resultSet.getString("rg"));
             employee.setPhone(resultSet.getString("phone"));
 
-            Salary s = new Salary();
-
-            s.setId(resultSet.getInt("idSalary"));
-            s.setIdOffice(resultSet.getInt("idOffice") - 1);
-            s.setLevel(resultSet.getInt("level") - 1);
-            s.setValue(resultSet.getFloat("salary"));
-            s.setOfficeName(resultSet.getString("officeName"));
-            employee.setSalary(s);
+            employee.setSalary(Salary.getById(resultSet.getInt("idSalary")));
 
             Department d = Department.getById(resultSet.getInt("idDepartment"));
 
@@ -341,14 +327,7 @@ public class EmployeeDAO {
 
             getDepsDir((Director) employee);
 
-            Salary s = new Salary();
-
-            s.setId(resultSet.getInt("idSalary"));
-            s.setIdOffice(resultSet.getInt("idOffice") - 1);
-            s.setLevel(resultSet.getInt("level") - 1);
-            s.setValue(resultSet.getFloat("salary"));
-            s.setOfficeName(resultSet.getString("officeName"));
-            employee.setSalary(s);
+            employee.setSalary(Salary.getById(resultSet.getInt("idSalary")));
 
             //Department d = Department.getById(resultSet.getInt("idDepartment"));
             //employee.setDepartment(d);
@@ -444,23 +423,12 @@ public class EmployeeDAO {
 
             director.setDeps(deps);
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao buscar departamentos do diretor.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, resultSet, con);
         }
     }
 
@@ -473,20 +441,26 @@ public class EmployeeDAO {
             statment = con.prepareStatement(getByCPF);
             statment.setString(1, cpf);
             resultSet = statment.executeQuery();
-            resultSet.next();
+            
+            if(!resultSet.next())
+                return null;
 
             Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
             Employee employee = classes[resultSet.getInt("idOffice") - 1];
-
+            
+            
+            employee.setName(resultSet.getString("name"));
             employee.setCPF(resultSet.getString("cpf"));
             employee.setId(resultSet.getInt("id"));
             employee.setPassword(resultSet.getString("password"));
+            
+            employee.setSalary(Salary.getById(resultSet.getInt("idSalary")));
             
             employee.setSystems();
 
             return employee;
         } catch (SQLException ex) {
-            String error = "Erro ao buscar departamentos do diretor.\n\n Origem = " + ex.getMessage();
+            String error = "Erro ao buscar Funcionário pelo CPF.\n\n Origem = " + ex.getMessage();
 
             ConnectionFactory.popError(error);
             throw new RuntimeException(error);
@@ -494,5 +468,6 @@ public class EmployeeDAO {
             ConnectionFactory.close(statment, resultSet, con);
         }
     }
+    
 
 }

@@ -635,7 +635,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="lbPermissions" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="tfSearchEmp" min="-2" pref="309" max="-2" attributes="0"/>
+                              <Component id="tfPermSearchEmp" min="-2" pref="309" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btSearchEmp" min="-2" pref="108" max="-2" attributes="0"/>
                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
@@ -663,11 +663,11 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="tfSearchEmp" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="lbPermissions" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="tfPermSearchEmp" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btSearchEmp" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="lbPermissions" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -690,8 +690,8 @@
                               <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                               <Component id="btGoOut" min="-2" pref="204" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jScrollPane8" alignment="1" pref="427" max="32767" attributes="0"/>
-                          <Component id="jScrollPane7" alignment="1" pref="427" max="32767" attributes="0"/>
+                          <Component id="jScrollPane8" alignment="1" pref="430" max="32767" attributes="0"/>
+                          <Component id="jScrollPane7" alignment="1" pref="430" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -699,7 +699,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="tfSearchEmp">
+            <Component class="javax.swing.JTextField" name="tfPermSearchEmp">
             </Component>
             <Component class="javax.swing.JLabel" name="lbPermissions">
               <Properties>
@@ -713,6 +713,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Buscar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btSearchEmpActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lbPermName">
               <Properties>

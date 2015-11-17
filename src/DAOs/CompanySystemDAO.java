@@ -1,11 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DAOs;
 
 import entities.CompanySystem;
+import entities.Employee;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,15 +12,12 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import resources.ConnectionFactory;
 
-/**
- *
- * @author TUNTS
- */
 public class CompanySystemDAO {
 
     private static final String insert = "INSERT INTO company_system(name) VALUES(?)";
     private static final String selectAll = "SELECT * FROM company_system";
-    private static final String getSystems = "SELECT c.name FROM company_system c, permission p, employee e WHERE e.id=? AND p.idEmployee=e.id AND p.idCompanySystem=c.id";
+    private static final String getSystems = "SELECT c.* FROM company_system c, permission p, employee e WHERE p.idEmployee=e.id AND p.idCompanySystem=c.id AND e.id=?";
+    private static final String getOutSystem = "SELECT comp.* FROM company_system comp WHERE comp.id NOT IN(SELECT c.id FROM company_system c, permission p WHERE c.id=p.idCompanySystem AND p.idEmployee=?)";
     private static final String delete = "DELETE FROM company_system WHERE id = ?";
     private static final String update = "UPDATE company_system SET name=? WHERE id = ?";
 
@@ -39,12 +33,11 @@ public class CompanySystemDAO {
             JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso.");
 
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao inserir um sistema no banco de dados.");
-            throw new RuntimeException(
-                    "Erro ao inserir um sistema no banco de dados. Origem=" + ex.getMessage()
-            );
-        } finally {
+            String error = "Erro ao inserir um sistema no banco de dados.\n\n Origem = " + ex.getMessage();
 
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
+        } finally {
             ConnectionFactory.close(statment, con);
         }
 
@@ -61,11 +54,11 @@ public class CompanySystemDAO {
             statment.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new RuntimeException(
-                    "Erro ao alterar um sistema no banco de dados. Origem=" + ex.getMessage()
-            );
-        } finally {
+            String error = "Erro ao atualizar um sistema no banco de dados\n\n Origem = " + ex.getMessage();
 
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
+        } finally {
             ConnectionFactory.close(statment, con);
         }
     }
@@ -93,7 +86,10 @@ public class CompanySystemDAO {
             }
             return list;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao carregar lista de sistemas.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, resultSet, con);
         }
@@ -108,49 +104,71 @@ public class CompanySystemDAO {
             statment.setInt(1, system.getId());
             statment.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao deletar um sistema no banco de dados.");
+            String error = "Erro ao deletar um sistema.\n\n Origem = " + ex.getMessage();
 
-            throw new RuntimeException(
-                    "Erro ao deletar um sistema no banco de dados. Origem=" + ex.getMessage()
-            );
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
             ConnectionFactory.close(statment, con);
         }
     }
 
-    public static List<String> getSystems(int id) {
+    public static List<CompanySystem> getSystems(int id) {
         Connection con = null;
         PreparedStatement statment = null;
         ResultSet resultSet = null;
-        List<String> list = new ArrayList();
+        List<CompanySystem> list = new ArrayList();
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(getSystems);
             statment.setInt(1, id);
             resultSet = statment.executeQuery();
             while (resultSet.next()) {
-                list.add(resultSet.getString("name"));
+                CompanySystem system = new CompanySystem();
+                
+                system.setId(resultSet.getInt("id"));
+                system.setName(resultSet.getString("name"));
+                
+                list.add(system);
+                
             }
             return list;
         } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao consultar uma lista de autores. Origem=" + ex.getMessage());
+            String error = "Erro ao buscar uma lista de sistemas.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
         } finally {
-            try {
-                resultSet.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar result set. Ex=" + ex.getMessage());
-            };
-            try {
-                statment.close();
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar stmt. Ex=" + ex.getMessage());
-            };
-            try {
-                con.close();;
-            } catch (Exception ex) {
-                System.out.println("Erro ao fechar conexão. Ex=" + ex.getMessage());
-            };
+            ConnectionFactory.close(statment, resultSet, con);
         }
     }
+    
+    public static List<CompanySystem> getOutterSystems(int id) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        List<CompanySystem> list = new ArrayList();
+        try {
+            con = ConnectionFactory.getConnection();
+            statment = con.prepareStatement(getOutSystem);
+            statment.setInt(1, id);
+            resultSet = statment.executeQuery();
+            while (resultSet.next()) {
+                CompanySystem system = new CompanySystem();
+                
+                system.setId(resultSet.getInt("id"));
+                system.setName(resultSet.getString("name"));
+                
+                list.add(system);                
+            }
+            return list;
+        } catch (SQLException ex) {
+            String error = "Erro ao buscar uma lista de systemas que o funcionário não possue acesso. Origem=" + ex.getMessage();
 
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
+        } finally {
+            ConnectionFactory.close(statment, resultSet, con);
+        }
+    }
 }
