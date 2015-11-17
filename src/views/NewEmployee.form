@@ -54,8 +54,6 @@
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="tfEmpPhone" alignment="1" pref="332" max="32767" attributes="0"/>
-                                          <Component id="tfEmpCPF" alignment="1" pref="332" max="32767" attributes="0"/>
                                           <Component id="tfEmpRG" alignment="1" pref="332" max="32767" attributes="0"/>
                                           <Component id="tfEmpSurname" alignment="1" pref="332" max="32767" attributes="0"/>
                                           <Group type="102" alignment="1" attributes="0">
@@ -65,6 +63,8 @@
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="cbEmpLevel" min="-2" pref="70" max="-2" attributes="0"/>
                                           </Group>
+                                          <Component id="tfEmpCPF" max="32767" attributes="0"/>
+                                          <Component id="tfEmpPhone" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
@@ -73,20 +73,23 @@
                                       <Component id="tfEmpName" min="-2" pref="332" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                                  <Component id="lbEmpDepartment" alignment="0" min="-2" pref="113" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="cbEmpDepartment" alignment="1" min="-2" pref="332" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="lbEmpDepartment" min="-2" pref="113" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="342" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Component id="lbEmpPassword" alignment="0" min="-2" pref="113" max="-2" attributes="0"/>
                                           <Component id="lbEmpPasswordConfirm" min="-2" pref="113" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="tfEmpPasswordConfirm" min="-2" pref="332" max="-2" attributes="0"/>
-                                          <Component id="tfEmpPassword" alignment="0" min="-2" pref="332" max="-2" attributes="0"/>
+                                          <Component id="tfEmpPassword" max="32767" attributes="0"/>
+                                          <Component id="tfEmpPasswordConfirm" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Component id="cbEmpDepartment" alignment="1" min="-2" pref="332" max="-2" attributes="0"/>
                               </Group>
                               <Component id="pnDirector" alignment="0" min="-2" pref="476" max="-2" attributes="0"/>
                               <Component id="pnManager" alignment="0" max="32767" attributes="0"/>
@@ -120,13 +123,13 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="tfEmpCPF" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbEmpCPF" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfEmpCPF" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="tfEmpPhone" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbEmpPhone" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfEmpPhone" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -142,15 +145,15 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="tfEmpPassword" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lbEmpPassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfEmpPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lbEmpPasswordConfirm" min="-2" max="-2" attributes="0"/>
-                  <Component id="tfEmpPasswordConfirm" alignment="0" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lbEmpPasswordConfirm" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfEmpPasswordConfirm" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Component id="pnManager" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="pnDirector" min="-2" max="-2" attributes="0"/>
@@ -159,7 +162,7 @@
                   <Component id="btCancelNewEmp" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btSaveNewEmp" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -172,18 +175,19 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="tfEmpName">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfEmpNameKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfEmpSurname">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfEmpSurnameKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfEmpRG">
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfEmpCPF">
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfEmpPhone">
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfEmpPassword">
-    </Component>
-    <Component class="javax.swing.JTextField" name="tfEmpPasswordConfirm">
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfEmpRGKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbEmpSurname">
       <Properties>
@@ -458,5 +462,25 @@
         </Container>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JFormattedTextField" name="tfEmpCPF">
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfEmpCPFFocusGained"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JFormattedTextField" name="tfEmpPhone">
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="tfEmpPhoneFocusGained"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="tfEmpPassword">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfEmpPasswordKeyReleased"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="tfEmpPasswordConfirm">
+      <Events>
+        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfEmpPasswordConfirmKeyReleased"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
