@@ -31,7 +31,7 @@ public class SalaryDAO {
 
             Salary salary = new Salary();
             salary.setId(resultSet.getInt("idSalary"));
-            salary.setIdOffice(resultSet.getInt("idOffice"));
+            salary.setIdOffice(resultSet.getInt("idOffice")-1);
             salary.setLevel(resultSet.getInt("level"));
             salary.setValue(resultSet.getFloat("salary"));
             salary.setOfficeName(resultSet.getString("officeName"));
@@ -59,7 +59,7 @@ public class SalaryDAO {
             while (resultSet.next()) {
                 Salary salary = new Salary();
                 salary.setId(resultSet.getInt("idSalary"));
-                salary.setIdOffice(resultSet.getInt("idOffice"));
+                salary.setIdOffice(resultSet.getInt("idOffice")-1);
                 salary.setLevel(resultSet.getInt("level"));
                 salary.setValue(resultSet.getFloat("salary"));
                 salary.setOfficeName(resultSet.getString("officeName"));
