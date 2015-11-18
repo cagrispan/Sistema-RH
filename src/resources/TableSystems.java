@@ -105,25 +105,5 @@ public class TableSystems extends AbstractTableModel {
         });
     }
 
-    public List<CompanySystem> remove(int[] rows, List<CompanySystem> syst) {
-        for (int i=0;i<rows.length;i++){
-            syst.add(systems.remove(rows[i]-i));
-        }
-        
-        fireTableDataChanged();
-        return syst; 
-    }
-
-    public void addToList(List<CompanySystem> systemArray) {
-        
-        System.out.println("Entrei");
-        for (CompanySystem sys: systemArray){
-            
-            System.out.println("iterando " + sys.getName());
-            this.systems.add(sys);
-        }
-        
-        this.sort();
-        fireTableDataChanged();
-    }
+    
 }

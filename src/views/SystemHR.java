@@ -22,7 +22,6 @@ public class SystemHR extends javax.swing.JFrame {
     private final TableDepartments tbDepartment = new TableDepartments();
     private List<CompanySystem> syst = new ArrayList();
     private Employee tmpPermEmployee;
-    
 
     public SystemHR() {
         initComponents();
@@ -106,6 +105,8 @@ public class SystemHR extends javax.swing.JFrame {
         btGoOn = new javax.swing.JButton();
         btGoOut = new javax.swing.JButton();
         btSaveEmpPerm = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         lbInstitution = new javax.swing.JLabel();
         lbCredits = new javax.swing.JLabel();
 
@@ -461,6 +462,10 @@ public class SystemHR extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Permissões disponíveis:");
+
+        jLabel2.setText("Permissões concedidas:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -497,16 +502,21 @@ public class SystemHR extends javax.swing.JFrame {
                         .addComponent(btSaveEmpPerm, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btGoOn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btGoOut, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(391, 391, 391))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -530,14 +540,18 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(lbPermCPFEmp)
                     .addComponent(lbPermLevel)
                     .addComponent(lbPermLevelEmp))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btGoOn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(23, 23, 23)
-                        .addComponent(btGoOut, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+                        .addComponent(btGoOn, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btGoOut, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -651,17 +665,18 @@ public class SystemHR extends javax.swing.JFrame {
     }//GEN-LAST:event_tabsMouseClicked
 
     private void btGoOnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoOnActionPerformed
+        // Select the itens witch selected by use by rows
         int rows[] = tbPermissionAvailable.getSelectedRows();
-        ((TableSystems) tbPermissionAvailable.getModel()).remove(rows, syst);
 
-        tbPermissionSelected.setModel(new TablePermSystems(syst));
+        List<CompanySystem> systems = ((TablePermSystemsAvailable) tbPermissionAvailable.getModel()).remove(rows, syst);
+        ((TablePermSystems) tbPermissionSelected.getModel()).addToList(systems);
+        //tbPermissionSelected.setModel(new TablePermSystems(syst));
     }//GEN-LAST:event_btGoOnActionPerformed
 
     private void btGoOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGoOutActionPerformed
         int rows[] = tbPermissionSelected.getSelectedRows();
         List<CompanySystem> systems = ((TablePermSystems) tbPermissionSelected.getModel()).remove(rows);
-        System.out.println("Tabela esquerda: " + systems.size());
-        ((TableSystems) tbPermissionAvailable.getModel()).addToList(systems);
+        ((TablePermSystemsAvailable) tbPermissionAvailable.getModel()).addToList(systems);
     }//GEN-LAST:event_btGoOutActionPerformed
 
     private void btDeleteEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeleteEmployeeActionPerformed
@@ -690,14 +705,14 @@ public class SystemHR extends javax.swing.JFrame {
         values[3] += tmpPermEmployee.getSalary().getLevel();
 
         tbPermissionAvailable.setModel(new TablePermSystemsAvailable(
-                        CompanySystem.getAvailable(tmpPermEmployee.getId())
-                )
-        );
-        
+                CompanySystem.getAvailable(tmpPermEmployee.getId())
+        ));
+
         tbPermissionSelected.setModel(new TablePermSystems(
-                    CompanySystem.getSystems(tmpPermEmployee.getId())
-                )
-        );
+                CompanySystem.getSystems(tmpPermEmployee.getId())
+        ));
+        
+        syst = new ArrayList();
 
         for (int i = 0; i < labels.length; i++) {
             labels[i].setText(values[i]);
@@ -705,10 +720,12 @@ public class SystemHR extends javax.swing.JFrame {
     }//GEN-LAST:event_btSearchEmpActionPerformed
 
     private void btSaveEmpPermActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveEmpPermActionPerformed
-        if(tmpPermEmployee==null)
+        if (tmpPermEmployee == null) {
             return;
-        
-        //tmpPerEmployee = ((TablePermSystems) tbPermissionSelected.getModel())
+        }
+
+        tmpPermEmployee.setSystems(((TablePermSystems) tbPermissionSelected.getModel()).getList());
+        tmpPermEmployee.update();
     }//GEN-LAST:event_btSaveEmpPermActionPerformed
 
     public static void main(String args[]) {
@@ -760,6 +777,8 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JButton btSaveEmpPerm;
     private javax.swing.JButton btSearchEmp;
     private javax.swing.JComboBox cbEmployeeSearchFilter;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

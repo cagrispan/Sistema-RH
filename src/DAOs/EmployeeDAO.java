@@ -26,10 +26,13 @@ public class EmployeeDAO {
     private static final String getDep = "SELECT d.name, d.id, m.idManager FROM department d, manager m, employee e WHERE e.id=? AND d.id=m.idDepartment AND e.id = m.idEmployee";
     private static final String getDeps = "SELECT d.name, d.id, dir.idDirector FROM department d, director dir, employee e WHERE d.idDirector = dir.idDirector AND e.id = dir.idEmployee AND e.id=?";
     private static final String getManager = "SELECT e.*, m.*, s.*,o.name as officeName FROM employee e, manager m, salary s, office o WHERE e.id = m.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND m.idManager = ?";
-    private static final String getDirector = "SELECT e.*, d.*, s.*,o.name as officeName FROM employee e, director d, salary s, office o WHERE e.id = d.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND d.idDirector = ?";;
+    private static final String getDirector = "SELECT e.*, d.*, s.*,o.name as officeName FROM employee e, director d, salary s, office o WHERE e.id = d.idEmployee AND s.idSalary = e.idSalary AND s.idOffice = o.id AND d.idDirector = ?";
+    ;
     private static final String getByCPF = "SELECT e.*,s.* FROM employee e, salary s, office o WHERE e.cpf=? AND e.idSalary=s.idSalary AND s.idOffice = o.id";
     private static final String selectOfficeName = "SELECT name FROM Office WHERE id=?";
     private static final String delete = "DELETE FROM employee WHERE id = ?";
+    private static final String deletePerms = "DELETE FROM permission WHERE idEmployee = ?";
+    private static final String insertPerm = "INSERT INTO permission(idEmployee, idCompanySystem) VALUES (?,?)";
     private static final String update = "UPDATE employee SET name=?, surname=?, rg=?, cpf=?, phone=?, idSalary=?, idDepartment=? WHERE id = ?";
     private static final String insertDirector = "INSERT INTO director(idEmployee) VALUES(?)";
     private static final String insertManager = "INSERT INTO manager(idEmployee, idDepartment) VALUES(?, ?)";
@@ -48,8 +51,13 @@ public class EmployeeDAO {
             statment.setString(6, employee.getPassword());
             statment.setInt(7, getSalaryId(employee.getSalary().getIdOffice(), employee.getSalary().getLevel(), con));
             statment.setInt(8, employee.getDepartment().getId());
+            
+            System.out.println(statment.toString());
+            
             statment.executeUpdate();
             employee.setId(setID(statment));
+
+
             JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso.");
 
         } catch (SQLException ex) {
@@ -73,6 +81,9 @@ public class EmployeeDAO {
             statment = con.prepareStatement(query);
             statment.setInt(1, idOffice + 1);
             statment.setInt(2, level + 1);
+            
+            System.out.println(statment.toString());
+            
             resultSet = statment.executeQuery();
             resultSet.next();
             id = resultSet.getInt("idSalary");
@@ -96,6 +107,7 @@ public class EmployeeDAO {
             System.out.println("id: " + id);
 
             statment.setInt(1, id);
+            System.out.println(statment.toString());
 
             resultSet = statment.executeQuery();
             resultSet.next();
@@ -127,7 +139,23 @@ public class EmployeeDAO {
             statment.setInt(6, idSalary);
             statment.setInt(7, employee.getDepartment().getId());
             statment.setInt(8, employee.getId());
+            
+            System.out.println(statment.toString());            
             statment.executeUpdate();
+            
+            statment = con.prepareStatement(deletePerms);
+            statment.setInt(1, employee.getId());
+            statment.executeUpdate();
+            System.out.println(statment.toString());
+            
+            statment = con.prepareStatement(insertPerm);
+            
+            for (CompanySystem sys : employee.getSystems()) {
+                statment.setInt(1,employee.getId());                
+                statment.setInt(2, sys.getId());
+                statment.executeUpdate();
+                System.out.println(statment.toString());
+            };
 
         } catch (SQLException ex) {
             String error = "Erro ao atualizar dados de Funcionário.\n\n Origem = " + ex.getMessage();
@@ -155,6 +183,9 @@ public class EmployeeDAO {
         try {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(selectAll);
+            
+            System.out.println(statment.toString());
+            
             resultSet = statment.executeQuery();
             while (resultSet.next()) {
                 Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
@@ -175,6 +206,8 @@ public class EmployeeDAO {
                 if (resultSet.getInt("idOffice") == 2) {
                     getDepMan((Manager) employee);
                 }
+
+                employee.setThisSystems();
 
                 Department d = Department.getById(resultSet.getInt("idDepartment"));
 
@@ -201,6 +234,9 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(delete);
             statment.setInt(1, employee.getId());
+            
+            System.out.println(statment.toString());
+            
             statment.executeUpdate();
         } catch (SQLException ex) {
             String error = "Erro ao deletar um funcionário.\n\n Origem = " + ex.getMessage();
@@ -219,6 +255,9 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(insertDirector, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, director.getId());
+            
+            System.out.println(statment.toString());
+            
             statment.executeUpdate();
             director.setIdDirector(setID(statment));
 
@@ -241,6 +280,9 @@ public class EmployeeDAO {
             statment = con.prepareStatement(insertManager, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, manager.getId());
             statment.setInt(2, manager.getDep().getId());
+            
+            System.out.println(statment.toString());
+            
             statment.executeUpdate();
             manager.setIdManager(setID(statment));
 
@@ -254,8 +296,6 @@ public class EmployeeDAO {
         }
 
     }
-    
-    
 
     public static Manager getManager(int id) {
         Connection con = null;
@@ -268,6 +308,8 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(getManager);
             statment.setInt(1, id);
+            
+            System.out.println(statment.toString());
 
             resultSet = statment.executeQuery();
 
@@ -285,6 +327,8 @@ public class EmployeeDAO {
             employee.setSalary(Salary.getById(resultSet.getInt("idSalary")));
 
             Department d = Department.getById(resultSet.getInt("idDepartment"));
+
+            employee.setThisSystems();
 
             getDepMan((Manager) employee);
 
@@ -315,6 +359,8 @@ public class EmployeeDAO {
             statment = con.prepareStatement(getDirector);
             statment.setInt(1, id);
 
+            System.out.println(statment.toString());
+            
             resultSet = statment.executeQuery();
 
             if (!resultSet.next()) {
@@ -330,6 +376,7 @@ public class EmployeeDAO {
 
             getDepsDir((Director) employee);
 
+            employee.setThisSystems();
             employee.setSalary(Salary.getById(resultSet.getInt("idSalary")));
 
             //Department d = Department.getById(resultSet.getInt("idDepartment"));
@@ -354,6 +401,9 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(countDepSize);
             statment.setInt(1, manager.getDep().getId());
+            
+            System.out.println(statment.toString());
+            
             resultSet = statment.executeQuery();
             resultSet.next();
             if(manager.getDep().getId()==0){
@@ -380,6 +430,9 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(getDep);
             statment.setInt(1, manager.getId());
+            
+            System.out.println(statment.toString());
+            
             resultSet = statment.executeQuery();
 
             if (!resultSet.next()) {
@@ -410,6 +463,8 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(getDeps);
             statment.setInt(1, director.getId());
+            
+            System.out.println(statment.toString());
 
             resultSet = statment.executeQuery();
             boolean set = false;
@@ -446,23 +501,30 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(getByCPF);
             statment.setString(1, cpf);
-            resultSet = statment.executeQuery();
             
-            if(!resultSet.next())
+            System.out.println(statment.toString());
+            
+            resultSet = statment.executeQuery();
+
+            if (!resultSet.next()) {
                 return null;
+            }
 
             Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
             Employee employee = classes[resultSet.getInt("idOffice") - 1];
-            
-            
+
             employee.setName(resultSet.getString("name"));
-            employee.setCPF(resultSet.getString("cpf"));
+            employee.setSurname(resultSet.getString("surname"));
             employee.setId(resultSet.getInt("id"));
-            employee.setPassword(resultSet.getString("password"));
-            
+            employee.setCPF(resultSet.getString("cpf"));
+            employee.setRG(resultSet.getString("rg"));
+            employee.setPhone(resultSet.getString("phone"));
+
             employee.setSalary(Salary.getById(resultSet.getInt("idSalary")));
-            
-            employee.setSystems();
+
+            employee.setDepartment(Department.getById(resultSet.getInt("idDepartment")));
+
+            employee.setThisSystems();
 
             return employee;
         } catch (SQLException ex) {
@@ -474,6 +536,5 @@ public class EmployeeDAO {
             ConnectionFactory.close(statment, resultSet, con);
         }
     }
-    
 
 }

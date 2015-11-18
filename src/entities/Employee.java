@@ -59,13 +59,23 @@ public class Employee extends Person implements Authenticatable {
     }
     // </editor-fold>
     
-    public List<CompanySystem> getSystems() {
+    public List<CompanySystem> getSystems()
+    {
+        return this.systems;
+    }
+    
+    public List<CompanySystem> loadSystems() {
         return systems = CompanySystem.getSystems(this.id);
     }
 
     // <editor-fold defaultstate="collapsed" desc="Database Access">
-    public void setSystems() {    
+    public void setThisSystems() {    
         this.systems = CompanySystem.getSystems(id);
+    }
+    
+    public void setSystems(List<CompanySystem> systems)
+    {
+        this.systems = systems;
     }
 
     public void add() {
@@ -75,7 +85,7 @@ public class Employee extends Person implements Authenticatable {
     public void update() {
         EmployeeDAO.update(this);
     }
-
+    
     public void delete() {
         EmployeeDAO.delete(this);
     }
