@@ -142,15 +142,13 @@ public class TableEmployee extends AbstractTableModel {
         this.refreshTable();
     }
 
-    public void delete(int[] rows)
-    {
-        for(int i=0; i < rows.length ; i++)
-        {
-           employees.get(rows[i]).delete();
+    public void delete(int[] rows) {
+        for (int i = 0; i < rows.length; i++) {
+            employees.get(rows[i]).delete();
         }
         this.refreshTable();
     }
-    
+
     public void refreshTable() {
 
         employees = Employee.getAll();
@@ -175,13 +173,15 @@ public class TableEmployee extends AbstractTableModel {
         for (int i = 0; i < departments.getItemCount(); i++) {
             for (Department dep : departmentsList) {
                 if (dep.getName().equals(departments.getItemAt(i))) {
-                    aux2=false;
+                    aux2 = false;
                 }
             }
-            if(aux2) departments.removeItemAt(i);
+            if (aux2) {
+                departments.removeItemAt(i);
+            }
             aux2 = true;
         }
-        
+
         //        for (Department dep : departmentsList) {
 //            if (departmentModel.getIndexOf(dep.getName()) == -1) 
 //                departmentModel.addElement(dep.getName());
@@ -191,13 +191,45 @@ public class TableEmployee extends AbstractTableModel {
 //            if(departmentsList.contains(departmentModel.getElementAt(i)))
 //                departmentModel.removeElement(departmentModel.getElementAt(i));
 //        }
-
         fireTableDataChanged();
     }
 
-    public void setEmployeeList(List<Employee> list)
-    {
+    public void setEmployeeList(List<Employee> list) {
         this.employees = list == null ? new ArrayList<>() : list;
+        fireTableDataChanged();
+    }
+
+    public void orderBy(int filter) {
+        switch (filter) {
+            case 0:
+                Collections.sort(employees, new Comparator<Employee>() {
+                    @Override
+                    public int compare(Employee arg0, Employee arg1) {
+                        return arg0.getName().compareToIgnoreCase(arg1.getName());
+                    }
+                });
+                break;
+            case 1:
+                Collections.sort(employees, new Comparator<Employee>() {
+                    @Override
+                    public int compare(Employee arg0, Employee arg1) {
+                        return arg0.getSurname().compareToIgnoreCase(arg1.getSurname());
+                    }
+                });
+                break;
+            case 2:
+                Collections.sort(employees, new Comparator<Employee>() {
+                    @Override
+                    public int compare(Employee arg0, Employee arg1) {
+                        String salary0 = ""+ arg0.getSalary().getValue();
+                        String salary1 = ""+ arg1.getSalary().getValue();
+                        
+                        return salary1.compareToIgnoreCase(salary0);                        
+                    }
+                });
+                break;
+        }
+        
         fireTableDataChanged();
     }
 }

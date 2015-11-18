@@ -186,7 +186,12 @@ public class SystemHR extends javax.swing.JFrame {
 
         lbOrderEmployee.setText("Ordenar por:");
 
-        cbEmployeeOrderFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbEmployeeOrderFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "Sobrenome", "Salário" }));
+        cbEmployeeOrderFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEmployeeOrderFilterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpEmployeeLayout = new javax.swing.GroupLayout(jpEmployee);
         jpEmployee.setLayout(jpEmployeeLayout);
@@ -763,9 +768,12 @@ public class SystemHR extends javax.swing.JFrame {
         int filter = cbEmployeeSearchFilter.getSelectedIndex();
         
         ((TableEmployee) tbEmployee.getModel()).setEmployeeList(Employee.searchBy(filter, keyword));
-        System.out.println("-========================= BUSCANDO FUNCIONÀRIOS ===========================");
         
     }//GEN-LAST:event_btEmployeeSearchActionPerformed
+
+    private void cbEmployeeOrderFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEmployeeOrderFilterActionPerformed
+       ((TableEmployee) tbEmployee.getModel()).orderBy(cbEmployeeOrderFilter.getSelectedIndex());
+    }//GEN-LAST:event_cbEmployeeOrderFilterActionPerformed
 
     public static void main(String args[]) {
 
