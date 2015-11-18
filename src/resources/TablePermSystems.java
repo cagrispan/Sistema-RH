@@ -113,4 +113,27 @@ public class TablePermSystems extends AbstractTableModel {
             }
         });
     }
+    
+    public List<CompanySystem> remove(int[] rows, List<CompanySystem> syst) {
+        for (int i=0;i<rows.length;i++){
+            syst.add(sys.remove(rows[i]-i));
+        }
+        
+        fireTableDataChanged();
+        return syst; 
+    }
+
+    public void addToList(List<CompanySystem> systemArray) {
+        
+        for (CompanySystem sys: systemArray){
+            this.sys.add(sys);
+        }
+        
+        this.sort();
+        fireTableDataChanged();
+    }
+
+    public List<CompanySystem> getList() {
+        return sys;
+    }
 }

@@ -31,8 +31,8 @@ public class SalaryDAO {
 
             Salary salary = new Salary();
             salary.setId(resultSet.getInt("idSalary"));
-            salary.setIdOffice(resultSet.getInt("idOffice"));
-            salary.setLevel(resultSet.getInt("level"));
+            salary.setIdOffice(resultSet.getInt("idOffice")-1);
+            salary.setLevel(resultSet.getInt("level")-1);
             salary.setValue(resultSet.getFloat("salary"));
             salary.setOfficeName(resultSet.getString("officeName"));
 
