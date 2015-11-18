@@ -73,6 +73,12 @@ public class Department {
         return DepartmentDAO.loadById(id);
     }
     
+    @Override
+    public String toString()
+    {
+        return this.getName();
+    }
+    
     
        
 }

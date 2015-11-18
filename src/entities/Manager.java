@@ -7,12 +7,14 @@ package entities;
 
 import DAOs.EmployeeDAO;
 import entities.Department;
+import java.util.List;
 
 /**
  *
  * @author TUNTS
  */
 public class Manager extends Employee {
+
 
     private int office = 3;
     private int idManager;

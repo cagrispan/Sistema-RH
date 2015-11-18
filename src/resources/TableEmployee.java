@@ -194,4 +194,10 @@ public class TableEmployee extends AbstractTableModel {
 
         fireTableDataChanged();
     }
+
+    public void setEmployeeList(List<Employee> list)
+    {
+        this.employees = list == null ? new ArrayList<>() : list;
+        fireTableDataChanged();
+    }
 }
