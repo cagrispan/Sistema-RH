@@ -22,6 +22,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import resources.TableDepDirectors;
 import resources.TableDepartments;
@@ -39,6 +40,9 @@ public class NewEmployee extends javax.swing.JFrame {
     private String[] combo;
     private List<String> notNullDepartments = new ArrayList();
     private String[] comboMan;
+    boolean name, surname, rg, cpf, password, allValid;
+    private boolean[] validate = {name, surname, rg, cpf, password};
+    private String[] sValidate = {"nome", "sobrenome", "rg", "cpf", "password"};
 
     /**
      * Creates new form NewEmployee
@@ -56,20 +60,18 @@ public class NewEmployee extends javax.swing.JFrame {
             dep = departments.get(i);
             this.combo[i] = dep.getName();
         }
-        
-        for(Department d: departments){
-            if (d.getManager().getIdManager()==0){              
+
+        for (Department d : departments) {
+            if (d.getManager().getIdManager() == 0) {
                 this.notNullDepartments.add(d.getName());
-            } 
+            }
         }
-        
+
         this.comboMan = new String[notNullDepartments.size()];
 
         for (int i = 0; i < notNullDepartments.size(); i++) {
-            this.comboMan[i] = notNullDepartments.get(i);   
+            this.comboMan[i] = notNullDepartments.get(i);
         }
-        
-        
 
         initComponents();
 
@@ -81,16 +83,26 @@ public class NewEmployee extends javax.swing.JFrame {
 
     private NewEmployee() {
 
-        this.calledBy = calledBy;
-
         this.departments = Department.getAll();
         int size = departments.size();
         this.combo = new String[size];
 
-        for (int i = 0; i < departments.size(); i++) {
+        for (int i = 0; i < size; i++) {
             Department dep;
             dep = departments.get(i);
             this.combo[i] = dep.getName();
+        }
+
+        for (Department d : departments) {
+            if (d.getManager().getIdManager() == 0) {
+                this.notNullDepartments.add(d.getName());
+            }
+        }
+
+        this.comboMan = new String[notNullDepartments.size()];
+
+        for (int i = 0; i < notNullDepartments.size(); i++) {
+            this.comboMan[i] = notNullDepartments.get(i);
         }
 
         initComponents();
@@ -445,39 +457,52 @@ public class NewEmployee extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSaveNewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveNewEmpActionPerformed
-
-        int idOffice = cbEmpOffice.getSelectedIndex();
-
-        Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
-        Employee emp = classes[idOffice];
-        emp.setSalary(new Salary());
-
-        switch (cbEmpOffice.getSelectedIndex()) {
-            case 0:
-                emp.setDeps(deps);
+        validate[3] = Validation.validarCpf(tfEmpCPF.getText());
+        
+        for (int i = 0; i < validate.length; i++) {
+            if (!validate[i]) {
+                allValid = false;
+                JOptionPane.showMessageDialog(null, "Preeencha corretamente o campo "+sValidate[i]+".");
                 break;
-            case 1:
-                emp.setDep(departments.get(cbEmpDep.getSelectedIndex()));
-                break;
-            case 4:
-                cbEmpLevel.setSelectedIndex(0);
-                break;
+            }
         }
+        
+        
+                
+        if (allValid) {
+            int idOffice = cbEmpOffice.getSelectedIndex();
 
-        emp.setName(tfEmpName.getText());
-        emp.setSurname(tfEmpSurname.getText());
-        emp.setRG(tfEmpRG.getText());
-        emp.setCPF(tfEmpCPF.getText());
-        emp.setPhone(tfEmpPhone.getText());
-        emp.getSalary().setIdOffice(cbEmpOffice.getSelectedIndex());
-        emp.getSalary().setLevel(cbEmpLevel.getSelectedIndex());
-        emp.setPassword(tfEmpPassword.getText());
-        emp.setDepartment(departments.get(cbEmpDepartment.getSelectedIndex()));
+            Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
+            Employee emp = classes[idOffice];
+            emp.setSalary(new Salary());
 
-        emp.add();
+            switch (cbEmpOffice.getSelectedIndex()) {
+                case 0:
+                    emp.setDeps(deps);
+                    break;
+                case 1:
+                    emp.setDep(departments.get(cbEmpDep.getSelectedIndex()));
+                    break;
+                case 4:
+                    cbEmpLevel.setSelectedIndex(0);
+                    break;
+            }
 
-        this.dispose();
-        calledBy.setEnabled(true);
+            emp.setName(tfEmpName.getText());
+            emp.setSurname(tfEmpSurname.getText());
+            emp.setRG(tfEmpRG.getText());
+            emp.setCPF(tfEmpCPF.getText());
+            emp.setPhone(tfEmpPhone.getText());
+            emp.getSalary().setIdOffice(cbEmpOffice.getSelectedIndex());
+            emp.getSalary().setLevel(cbEmpLevel.getSelectedIndex());
+            emp.setPassword(new String(tfEmpPassword.getPassword()));
+            emp.setDepartment(departments.get(cbEmpDepartment.getSelectedIndex()));
+
+            emp.add();
+
+            this.dispose();
+            calledBy.setEnabled(true);
+        }
     }//GEN-LAST:event_btSaveNewEmpActionPerformed
 
     private void btCancelNewEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelNewEmpActionPerformed
@@ -522,15 +547,15 @@ public class NewEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_btGoOutActionPerformed
 
     private void tfEmpNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpNameKeyPressed
-        Validation.validateTextField(tfEmpName);        // TODO add your handling code here:
+        validate[0] = Validation.validateTextField(tfEmpName);        // TODO add your handling code here:
     }//GEN-LAST:event_tfEmpNameKeyPressed
 
     private void tfEmpSurnameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpSurnameKeyPressed
-        Validation.validateTextField(tfEmpSurname);
+        validate[1] = Validation.validateTextField(tfEmpSurname);
     }//GEN-LAST:event_tfEmpSurnameKeyPressed
 
     private void tfEmpRGKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpRGKeyPressed
-        Validation.validateNumberField(tfEmpRG);
+        validate[2] = Validation.validateNumberField(tfEmpRG);
     }//GEN-LAST:event_tfEmpRGKeyPressed
 
     private void tfEmpCPFFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfEmpCPFFocusGained
@@ -550,23 +575,11 @@ public class NewEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_tfEmpPhoneFocusGained
 
     private void tfEmpPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpPasswordKeyReleased
-        if (new String(tfEmpPassword.getPassword()).equals(new String(tfEmpPasswordConfirm.getPassword()))) {
-            Validation.setBorderGreen(tfEmpPassword);
-            Validation.setBorderGreen(tfEmpPasswordConfirm);
-        } else {
-            Validation.setBorderRed(tfEmpPassword);
-            Validation.setBorderRed(tfEmpPasswordConfirm);
-        }   
+        validate[4] = Validation.checkPassword(tfEmpPassword, tfEmpPasswordConfirm);
     }//GEN-LAST:event_tfEmpPasswordKeyReleased
 
     private void tfEmpPasswordConfirmKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpPasswordConfirmKeyReleased
-        if (new String(tfEmpPassword.getPassword()).equals(new String(tfEmpPasswordConfirm.getPassword()))) {
-            Validation.setBorderGreen(tfEmpPassword);
-            Validation.setBorderGreen(tfEmpPasswordConfirm);
-        } else {
-            Validation.setBorderRed(tfEmpPassword);
-            Validation.setBorderRed(tfEmpPasswordConfirm);
-        }   
+        password = Validation.checkPassword(tfEmpPassword, tfEmpPasswordConfirm);
     }//GEN-LAST:event_tfEmpPasswordConfirmKeyReleased
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
