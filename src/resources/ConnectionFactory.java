@@ -76,7 +76,7 @@ public class ConnectionFactory {
         }
         finally
         {
-            System.out.println("Conexões abertas: " + num);
+            //System.out.println("Conexões abertas: " + num);
         }
         return false;
     }

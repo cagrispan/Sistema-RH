@@ -43,7 +43,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -227,7 +227,7 @@
                     </Property>
                   </Properties>
                   <AuxValues>
-                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="TableColumn officeColumn = tbEmployee.getColumnModel().getColumn(5);&#xa;TableColumn levelColumn = tbEmployee.getColumnModel().getColumn(6);&#xa;TableColumn deparmentColumn = tbEmployee.getColumnModel().getColumn(7);&#xa;&#xa;officeColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).offices));&#xa;levelColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).levels));&#xa;deparmentColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).departments));&#xa;&#xa;&#xa;&#xa;tbEmployee.setAutoCreateRowSorter(true);&#xa;tbEmployee.getTableHeader().setReorderingAllowed(false);"/>
+                    <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="TableColumn officeColumn = tbEmployee.getColumnModel().getColumn(5);&#xa;TableColumn levelColumn = tbEmployee.getColumnModel().getColumn(6);&#xa;TableColumn deparmentColumn = tbEmployee.getColumnModel().getColumn(7);&#xa;&#xa;officeColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).offices));&#xa;levelColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).levels));&#xa;deparmentColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).departments));&#xa;&#xa;tbEmployee.getTableHeader().setReorderingAllowed(false);"/>
                   </AuxValues>
                 </Component>
               </SubComponents>

@@ -1,6 +1,7 @@
 package DAOs;
 
 import entities.Department;
+import entities.Director;
 import entities.Manager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -121,9 +122,21 @@ public class DepartmentDAO {
                 Department department = new Department();
                 department.setName(resultSet.getString("name"));
                 department.setId(resultSet.getInt("id"));
+                if(idManager!=0){
+                    department.setManager(EmployeeDAO.getManager(idManager));
+                }else{
+                    department.setManager(new Manager());
+                    department.getManager().setIdManager(0);
+                }
                 
-                department.setManager(EmployeeDAO.getManager(idManager));
-                department.setDirector(EmployeeDAO.getDirector(idDirector));
+                if(idDirector!=0){
+                    department.setDirector(EmployeeDAO.getDirector(idDirector));
+                }else{
+                    department.setDirector(new Director());
+                    department.getDirector().setIdDirector(0);
+                }
+                
+                
                 list.add(department);
             }
             return list;

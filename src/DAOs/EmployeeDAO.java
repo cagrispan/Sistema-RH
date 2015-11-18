@@ -356,10 +356,13 @@ public class EmployeeDAO {
             statment.setInt(1, manager.getDep().getId());
             resultSet = statment.executeQuery();
             resultSet.next();
-            return resultSet.getInt("size");
+            if(manager.getDep().getId()==0){
+                return 0;
+            }
+            
+            return resultSet.getInt("size")>0 ? resultSet.getInt("size"):0;
         } catch (SQLException ex) {
             String error = "Erro ao buscar quantidade de funcionários de um departamento.\n\n Origem = " + ex.getMessage();
-
             ConnectionFactory.popError(error);
             throw new RuntimeException(error);
         } finally {

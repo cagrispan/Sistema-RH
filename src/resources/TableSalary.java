@@ -64,7 +64,7 @@ public class TableSalary extends AbstractTableModel
         Object[] values = 
         {
             s.getOfficeName(),
-            s.getLevel(),
+            s.getLevel()+1,
             s.getValue()
         };
                 
