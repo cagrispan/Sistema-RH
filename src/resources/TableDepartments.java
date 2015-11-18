@@ -1,10 +1,13 @@
 package resources;
 
 import entities.Department;
+import entities.Director;
+import entities.Manager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.table.AbstractTableModel;
 
 public class TableDepartments extends AbstractTableModel {
@@ -13,12 +16,23 @@ public class TableDepartments extends AbstractTableModel {
     private Column[] columns
             = {
                 new Column("Nome", Object.class),
-                new Column("Diretor", String.class),
-                new Column("Gerente", String.class)
+                new Column("Diretor", Director.class),
+                new Column("Gerente", Manager.class)
             };
+    
+    public JComboBox directors = new JComboBox();
+    public JComboBox managers = new JComboBox();
 
     public TableDepartments() {
         this.refreshTable();
+        
+        directors.addItem(new Director());
+        managers.addItem(new Manager());
+        
+//        for(Manager manager : Manager.getAvailables())
+//        {
+//            managers.addItem(manager);
+//        }
     }
 
     @Override
@@ -69,9 +83,12 @@ public class TableDepartments extends AbstractTableModel {
     }
 
     @Override
-    public void setValueAt(Object newName, int rowIndex, int columnIndex) {
+    public void setValueAt(Object value, int rowIndex, int columnIndex) {
         Department dep = departments.get(rowIndex);
-        dep.setName(newName.toString());
+        
+        if(columnIndex == 0)
+            dep.setName(value.toString());
+        
         dep.update();
         this.refreshTable();
 
@@ -79,7 +96,7 @@ public class TableDepartments extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if(columnIndex== 0 || (columnIndex>=1 && getValueAt(rowIndex, columnIndex).equals("")))     
+        if(columnIndex== 0 || columnIndex>=1)     
             return true;
         return false;
                

@@ -52,10 +52,9 @@ public class EmployeeDAO {
             statment.setInt(8, employee.getDepartment().getId());
             
             //System.out.println(statment.toString());
-            
+
             statment.executeUpdate();
             employee.setId(setID(statment));
-
 
             JOptionPane.showMessageDialog(null, "Registro adicionado com sucesso.");
 
@@ -80,9 +79,9 @@ public class EmployeeDAO {
             statment = con.prepareStatement(query);
             statment.setInt(1, idOffice + 1);
             statment.setInt(2, level + 1);
-            
+
             //System.out.println(statment.toString());
-            
+
             resultSet = statment.executeQuery();
             resultSet.next();
             id = resultSet.getInt("idSalary");
@@ -140,17 +139,18 @@ public class EmployeeDAO {
             statment.setInt(8, employee.getId());
             
             ////System.out.println(statment.toString());            
+
             statment.executeUpdate();
-            
+
             statment = con.prepareStatement(deletePerms);
             statment.setInt(1, employee.getId());
             statment.executeUpdate();
             //System.out.println(statment.toString());
-            
+
             statment = con.prepareStatement(insertPerm);
-            
+
             for (CompanySystem sys : employee.getSystems()) {
-                statment.setInt(1,employee.getId());                
+                statment.setInt(1, employee.getId());
                 statment.setInt(2, sys.getId());
                 statment.executeUpdate();
                 //System.out.println(statment.toString());
@@ -235,7 +235,7 @@ public class EmployeeDAO {
             statment.setInt(1, employee.getId());
             
             //System.out.println(statment.toString());
-            
+
             statment.executeUpdate();
         } catch (SQLException ex) {
             String error = "Erro ao deletar um funcionário.\n\n Origem = " + ex.getMessage();
@@ -279,7 +279,7 @@ public class EmployeeDAO {
             statment = con.prepareStatement(insertManager, PreparedStatement.RETURN_GENERATED_KEYS);
             statment.setInt(1, manager.getId());
             statment.setInt(2, manager.getDep().getId());
-            
+
             //System.out.println(statment.toString());
             
             statment.executeUpdate();
@@ -307,7 +307,7 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(getManager);
             statment.setInt(1, id);
-            
+
             //System.out.println(statment.toString());
 
             resultSet = statment.executeQuery();
@@ -354,7 +354,7 @@ public class EmployeeDAO {
             statment.setInt(1, id);
 
             //System.out.println(statment.toString());
-            
+
             resultSet = statment.executeQuery();
 
             if (!resultSet.next()) {
@@ -400,11 +400,11 @@ public class EmployeeDAO {
             
             resultSet = statment.executeQuery();
             resultSet.next();
-            if(manager.getDep().getId()==0){
+            if (manager.getDep().getId() == 0) {
                 return 0;
             }
-            
-            return resultSet.getInt("size")>0 ? resultSet.getInt("size"):0;
+
+            return resultSet.getInt("size") > 0 ? resultSet.getInt("size") : 0;
         } catch (SQLException ex) {
             String error = "Erro ao buscar quantidade de funcionários de um departamento.\n\n Origem = " + ex.getMessage();
             ConnectionFactory.popError(error);
@@ -426,7 +426,7 @@ public class EmployeeDAO {
             statment.setInt(1, manager.getId());
             
             //System.out.println(statment.toString());
-            
+
             resultSet = statment.executeQuery();
 
             if (!resultSet.next()) {
@@ -457,7 +457,7 @@ public class EmployeeDAO {
             con = ConnectionFactory.getConnection();
             statment = con.prepareStatement(getDeps);
             statment.setInt(1, director.getId());
-            
+
             //System.out.println(statment.toString());
 
             resultSet = statment.executeQuery();
@@ -497,7 +497,7 @@ public class EmployeeDAO {
             statment.setString(1, cpf);
             
             //System.out.println(statment.toString());
-            
+
             resultSet = statment.executeQuery();
 
             if (!resultSet.next()) {
@@ -523,6 +523,72 @@ public class EmployeeDAO {
             return employee;
         } catch (SQLException ex) {
             String error = "Erro ao buscar Funcionário pelo CPF.\n\n Origem = " + ex.getMessage();
+
+            ConnectionFactory.popError(error);
+            throw new RuntimeException(error);
+        } finally {
+            ConnectionFactory.close(statment, resultSet, con);
+        }
+    }
+
+    public static List<Employee> searchBy(int filter, String keyword) {
+        Connection con = null;
+        PreparedStatement statment = null;
+        ResultSet resultSet = null;
+        try {
+            con = ConnectionFactory.getConnection();
+            List<Employee> list = new ArrayList<>();
+
+            String query = "SELECT e.*,s.*, d.name, o.name as officeName FROM employee e, salary s, department d, office o WHERE d.id = e.idDepartment AND e.idSalary=s.idSalary AND s.idOffice = o.id ";
+
+            String[] complements
+                    = {
+                        "AND e.name LIKE ?",
+                        "AND e.surname LIKE ?",
+                        "AND e.cpf LIKE ?",
+                        "AND e.rg LIKE ?",
+                        "AND e.phone LIKE ?",
+                        "AND o.name LIKE ?",
+                        "AND d.name LIKE ?"
+                    };
+
+            
+            query = query.concat(complements[filter]);
+            keyword = "%"+keyword+"%";
+            
+            System.out.println(query);            
+            statment = con.prepareStatement(query);
+            statment.setString(1, keyword);
+
+            System.out.println(statment.toString());
+
+            resultSet = statment.executeQuery();
+
+            if (!resultSet.next()) {
+                return null;
+            }
+
+            Employee[] classes = {new Director(), new Manager(), new Analyst(), new Programmer(), new Janitor()};
+            Employee employee = classes[resultSet.getInt("idOffice") - 1];
+
+            employee.setName(resultSet.getString("name"));
+            employee.setSurname(resultSet.getString("surname"));
+            employee.setId(resultSet.getInt("id"));
+            employee.setCPF(resultSet.getString("cpf"));
+            employee.setRG(resultSet.getString("rg"));
+            employee.setPhone(resultSet.getString("phone"));
+
+            employee.setSalary(Salary.getById(resultSet.getInt("idSalary")));
+
+            employee.setDepartment(Department.getById(resultSet.getInt("idDepartment")));
+
+            employee.setThisSystems();
+            
+            list.add(employee);
+
+            return list;
+        } catch (SQLException ex) {
+            String error = "Erro ao buscar Funcionário.\n\n Origem = " + ex.getMessage();
 
             ConnectionFactory.popError(error);
             throw new RuntimeException(error);

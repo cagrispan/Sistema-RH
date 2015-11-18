@@ -123,5 +123,16 @@ public class Employee extends Person implements Authenticatable {
     public void setDep(Department get) {
         //Function overrided by Director and Manager class
     }
+    
+    public static List<Employee> searchBy(int filter, String keyword)
+    {
+        return EmployeeDAO.searchBy(filter, keyword);
+    }
+    
+    @Override
+    public String toString()
+    {
+        return this.getName();
+    }
     // </editor-fold>
 }

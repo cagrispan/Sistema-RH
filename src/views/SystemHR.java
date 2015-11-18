@@ -62,6 +62,8 @@ public class SystemHR extends javax.swing.JFrame {
         cbEmployeeSearchFilter = new javax.swing.JComboBox();
         jScrollPane3 = new javax.swing.JScrollPane();
         tbEmployee = new javax.swing.JTable();
+        lbOrderEmployee = new javax.swing.JLabel();
+        cbEmployeeOrderFilter = new javax.swing.JComboBox();
         jpDepartments = new javax.swing.JPanel();
         lbDepTitle = new javax.swing.JLabel();
         tfNewDepartment = new javax.swing.JTextField();
@@ -162,8 +164,13 @@ public class SystemHR extends javax.swing.JFrame {
         });
 
         btEmployeeSearch.setText("Buscar");
+        btEmployeeSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEmployeeSearchActionPerformed(evt);
+            }
+        });
 
-        cbEmployeeSearchFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbEmployeeSearchFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "Sobrenome", "CPF", "RG", "Telefone", "Cargo", "Departamento" }));
 
         tbEmployee.setModel(new TableEmployee());
         TableColumn officeColumn = tbEmployee.getColumnModel().getColumn(5);
@@ -174,48 +181,72 @@ public class SystemHR extends javax.swing.JFrame {
         levelColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).levels));
         deparmentColumn.setCellEditor(new DefaultCellEditor(((TableEmployee)tbEmployee.getModel()).departments));
 
-        tbEmployee.setAutoCreateRowSorter(true);
         tbEmployee.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tbEmployee);
+
+        lbOrderEmployee.setText("Ordenar por:");
+
+        cbEmployeeOrderFilter.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nome", "Sobrenome", "Salário" }));
+        cbEmployeeOrderFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEmployeeOrderFilterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpEmployeeLayout = new javax.swing.GroupLayout(jpEmployee);
         jpEmployee.setLayout(jpEmployeeLayout);
         jpEmployeeLayout.setHorizontalGroup(
             jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEmployeeLayout.createSequentialGroup()
+            .addGroup(jpEmployeeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3)
                     .addGroup(jpEmployeeLayout.createSequentialGroup()
-                        .addComponent(lbEmployee)
-                        .addGap(103, 103, 103)
-                        .addComponent(lbEmployeeSearch)
-                        .addGap(110, 110, 110)
-                        .addComponent(tfEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(jpEmployeeLayout.createSequentialGroup()
+                                .addComponent(lbEmployee)
+                                .addGap(269, 269, 269)
+                                .addComponent(lbEmployeeSearch)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jpEmployeeLayout.createSequentialGroup()
+                                .addComponent(btNewEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btDeleteEmployee)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbOrderEmployee)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbEmployeeOrderFilter, 0, 227, Short.MAX_VALUE)
+                            .addComponent(cbEmployeeSearchFilter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbEmployeeSearchFilter, 0, 65, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btNewEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btDeleteEmployee)))
+                        .addComponent(btEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jpEmployeeLayout.setVerticalGroup(
             jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpEmployeeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbEmployee)
-                    .addComponent(lbEmployeeSearch)
-                    .addComponent(tfEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btDeleteEmployee)
-                    .addComponent(btNewEmployee)
-                    .addComponent(btEmployeeSearch)
-                    .addComponent(cbEmployeeSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpEmployeeLayout.createSequentialGroup()
+                        .addComponent(lbEmployee)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEmployeeLayout.createSequentialGroup()
+                        .addGap(0, 6, Short.MAX_VALUE)
+                        .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tfEmployeeSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbEmployeeSearch)
+                            .addComponent(btEmployeeSearch)
+                            .addComponent(cbEmployeeSearchFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btNewEmployee)
+                        .addComponent(btDeleteEmployee))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbEmployeeOrderFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbOrderEmployee)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -242,6 +273,11 @@ public class SystemHR extends javax.swing.JFrame {
 
         tbDepartments.setModel(new TableDepartments());
         tbDepartments.setColumnSelectionAllowed(true);
+        TableColumn directorColumn = tbDepartments.getColumnModel().getColumn(1);
+        TableColumn managerColumn = tbDepartments.getColumnModel().getColumn(2);
+
+        directorColumn.setCellEditor(new DefaultCellEditor(((TableDepartments) tbDepartments.getModel()).directors));
+        managerColumn.setCellEditor(new DefaultCellEditor(((TableDepartments )tbDepartments.getModel()).managers));
         tbDepartments.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbDepartments);
 
@@ -255,7 +291,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addGroup(jpDepartmentsLayout.createSequentialGroup()
                         .addComponent(lbDepTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
                         .addComponent(lbNewDepartment)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNewDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -276,7 +312,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(btNewDepartment)
                     .addComponent(lbNewDepartment))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -315,7 +351,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(jScrollPane2)
                     .addGroup(jpSystemsLayout.createSequentialGroup()
                         .addComponent(lbSysTitle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 288, Short.MAX_VALUE)
                         .addComponent(lbNewSystem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(tfNewSystem, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -336,7 +372,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(btNewSystem)
                     .addComponent(lbNewSystem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -356,7 +392,7 @@ public class SystemHR extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpSalaryLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jpSalaryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE)
                     .addGroup(jpSalaryLayout.createSequentialGroup()
                         .addComponent(lbSalary)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -391,7 +427,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lbReports)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1043, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1063, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -400,7 +436,7 @@ public class SystemHR extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(lbReports)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -505,10 +541,8 @@ public class SystemHR extends javax.swing.JFrame {
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btGoOn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btGoOut, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btGoOn, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                            .addComponent(btGoOut, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
@@ -540,7 +574,7 @@ public class SystemHR extends javax.swing.JFrame {
                     .addComponent(lbPermCPFEmp)
                     .addComponent(lbPermLevel)
                     .addComponent(lbPermLevelEmp))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
@@ -570,13 +604,13 @@ public class SystemHR extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabs)
                     .addComponent(lbSystemTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lbInstitution)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lbCredits)))
                 .addContainerGap())
+            .addComponent(tabs)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -593,6 +627,7 @@ public class SystemHR extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btNewDepartmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNewDepartmentActionPerformed
@@ -728,6 +763,18 @@ public class SystemHR extends javax.swing.JFrame {
         tmpPermEmployee.update();
     }//GEN-LAST:event_btSaveEmpPermActionPerformed
 
+    private void btEmployeeSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEmployeeSearchActionPerformed
+        String keyword = tfEmployeeSearch.getText();
+        int filter = cbEmployeeSearchFilter.getSelectedIndex();
+        
+        ((TableEmployee) tbEmployee.getModel()).setEmployeeList(Employee.searchBy(filter, keyword));
+        
+    }//GEN-LAST:event_btEmployeeSearchActionPerformed
+
+    private void cbEmployeeOrderFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEmployeeOrderFilterActionPerformed
+       ((TableEmployee) tbEmployee.getModel()).orderBy(cbEmployeeOrderFilter.getSelectedIndex());
+    }//GEN-LAST:event_cbEmployeeOrderFilterActionPerformed
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -776,6 +823,7 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JButton btNewSystem;
     private javax.swing.JButton btSaveEmpPerm;
     private javax.swing.JButton btSearchEmp;
+    private javax.swing.JComboBox cbEmployeeOrderFilter;
     private javax.swing.JComboBox cbEmployeeSearchFilter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -801,6 +849,7 @@ public class SystemHR extends javax.swing.JFrame {
     private javax.swing.JLabel lbNewDepartment;
     private javax.swing.JLabel lbNewDepartment1;
     private javax.swing.JLabel lbNewSystem;
+    private javax.swing.JLabel lbOrderEmployee;
     private javax.swing.JLabel lbPermCPF;
     private javax.swing.JLabel lbPermCPFEmp;
     private javax.swing.JLabel lbPermLevel;
