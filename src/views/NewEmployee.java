@@ -579,7 +579,7 @@ public class NewEmployee extends javax.swing.JFrame {
     }//GEN-LAST:event_tfEmpPasswordKeyReleased
 
     private void tfEmpPasswordConfirmKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfEmpPasswordConfirmKeyReleased
-        password = Validation.checkPassword(tfEmpPassword, tfEmpPasswordConfirm);
+        validate[4] = Validation.checkPassword(tfEmpPassword, tfEmpPasswordConfirm);
     }//GEN-LAST:event_tfEmpPasswordConfirmKeyReleased
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
