@@ -130,4 +130,16 @@ public class Validation {
             return true;
     }
 
+    public static boolean checkPassword(JPasswordField tfEmpPassword, JPasswordField tfEmpPasswordConfirm) {
+        if (new String(tfEmpPassword.getPassword()).equals(new String(tfEmpPasswordConfirm.getPassword()))) {
+            Validation.setBorderGreen(tfEmpPassword);
+            Validation.setBorderGreen(tfEmpPasswordConfirm);
+            return true;
+        } else {
+            Validation.setBorderRed(tfEmpPassword);
+            Validation.setBorderRed(tfEmpPasswordConfirm);
+            return false;
+        }  
+    }
+
 }

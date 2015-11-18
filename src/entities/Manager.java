@@ -19,7 +19,10 @@ public class Manager extends Employee {
     private Department dep;
 
     public Department getDep() {
-        return EmployeeDAO.getDepMan(this);
+        if(dep==null){
+            dep =EmployeeDAO.getDepMan(this);
+        }
+        return dep;
     }
 
     public void setDep(Department dep) {
@@ -45,7 +48,7 @@ public class Manager extends Employee {
     public void add() {
         EmployeeDAO.add(this);
         EmployeeDAO.addManager(this);
-        dep.getManager().setIdManager(idManager);
+        dep.setManager(this);
         dep.addManager();
 
     }
@@ -60,6 +63,7 @@ public class Manager extends Employee {
     }
 
     private int depSize() {
+        if(this.getDep()==null){return 0;}
         return EmployeeDAO.getDepartmentSize(this);
     }
 }
