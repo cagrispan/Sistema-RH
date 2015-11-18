@@ -465,10 +465,11 @@ public class NewEmployee extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Preeencha corretamente o campo "+sValidate[i]+".");
                 break;
             }
+            allValid = true;
         }
         
         
-                
+                System.out.println(allValid);
         if (allValid) {
             int idOffice = cbEmpOffice.getSelectedIndex();
 
@@ -490,14 +491,14 @@ public class NewEmployee extends javax.swing.JFrame {
 
             emp.setName(tfEmpName.getText());
             emp.setSurname(tfEmpSurname.getText());
-            emp.setRG(tfEmpRG.getText());
-            emp.setCPF(tfEmpCPF.getText());
-            emp.setPhone(tfEmpPhone.getText());
+            emp.setRG(tfEmpRG.getText().replaceAll("[-|.]", ""));
+            emp.setCPF(tfEmpCPF.getText().replaceAll("[-|.]", ""));
+            emp.setPhone(tfEmpPhone.getText().replaceAll("[(|)| ]", ""));
             emp.getSalary().setIdOffice(cbEmpOffice.getSelectedIndex());
             emp.getSalary().setLevel(cbEmpLevel.getSelectedIndex());
             emp.setPassword(new String(tfEmpPassword.getPassword()));
             emp.setDepartment(departments.get(cbEmpDepartment.getSelectedIndex()));
-
+            System.out.println(emp.getCPF());
             emp.add();
 
             this.dispose();
