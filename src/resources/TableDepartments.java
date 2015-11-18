@@ -19,16 +19,16 @@ public class TableDepartments extends AbstractTableModel {
                 new Column("Diretor", Director.class),
                 new Column("Gerente", Manager.class)
             };
-    
+
     public JComboBox directors = new JComboBox();
     public JComboBox managers = new JComboBox();
 
     public TableDepartments() {
         this.refreshTable();
-        
+
         directors.addItem(new Director());
         managers.addItem(new Manager());
-        
+
 //        for(Manager manager : Manager.getAvailables())
 //        {
 //            managers.addItem(manager);
@@ -72,12 +72,14 @@ public class TableDepartments extends AbstractTableModel {
                     "",
                     ""
                 };
-        if(d.getDirector()!= null)
+        if (d.getDirector() != null) {
             values[1] = d.getDirector().getName();
+        }
 
-        if(d.getManager() != null)
+        if (d.getManager() != null) {
             values[2] = d.getManager().getName();
-        
+        }
+
         return values[columnIndex];
 
     }
@@ -85,10 +87,11 @@ public class TableDepartments extends AbstractTableModel {
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
         Department dep = departments.get(rowIndex);
-        
-        if(columnIndex == 0)
+
+        if (columnIndex == 0 && !Validation.validateEmpty(value.toString()) && Validation.validateText(value.toString())) {
             dep.setName(value.toString());
-        
+        }
+
         dep.update();
         this.refreshTable();
 
@@ -96,10 +99,8 @@ public class TableDepartments extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        if(columnIndex== 0 || columnIndex>=1)     
-            return true;
-        return false;
-               
+        return true;
+
     }
 
     public void delete(int rows[]) {

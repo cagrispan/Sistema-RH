@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -77,11 +78,33 @@ public class Validation {
         return String.valueOf(digGerado);
     }
 
+    public static void popInfo(String message) {
+        JOptionPane.showMessageDialog(null, message, "Erro", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static boolean validateEmpty(String field) {
+        if (field.trim().equals("")) {
+            Validation.popInfo("Não é possível deixar o campo vazio.");
+            return true;
+        }
+        return false;
+    }
+
     public static boolean validateEmptyField(JTextField field) {
         if (field.getText().trim().equals("")) {
             return true;
         }
         return false;
+    }
+
+    public static boolean validateNumber(String field) {
+        if (field.trim().matches("[0-9.-]+")) {
+            return true;
+        }
+
+        Validation.popInfo("Não é possível adicionar caracteres além números");
+        return false;
+
     }
 
     public static boolean validateNumberField(JTextField field) {
@@ -95,6 +118,15 @@ public class Validation {
         }
     }
 
+    public static boolean validateText(String field) {
+        if (field.trim().matches("[a-zA-z ]+")) {
+            return true;
+        }
+
+        Validation.popInfo("Não é possivel adicionar caracteres além letras");
+        return false;
+    }
+
     public static boolean validateTextField(JTextField field) {
         if (field.getText().trim().matches("[a-zA-z ]+")) {
             field.setBorder(borderGreen);
@@ -103,7 +135,6 @@ public class Validation {
             field.setBorder(borderRed);
             return false;
         }
-
     }
 
     public static void maskCPF(JFormattedTextField field) throws ParseException {
@@ -112,22 +143,22 @@ public class Validation {
         formatter.install(field);
 
     }
-    
+
     public static void maskPhone(JFormattedTextField field) throws ParseException {
         MaskFormatter formatter = new MaskFormatter("(##) #########");
         formatter.setValidCharacters("0123456789");
         formatter.install(field);
 
     }
-    
+
     public static boolean setBorderRed(JPasswordField field) {
-            field.setBorder(borderRed);
-            return false;
+        field.setBorder(borderRed);
+        return false;
     }
 
     public static boolean setBorderGreen(JPasswordField field) {
-            field.setBorder(borderGreen);
-            return true;
+        field.setBorder(borderGreen);
+        return true;
     }
 
     public static boolean checkPassword(JPasswordField tfEmpPassword, JPasswordField tfEmpPasswordConfirm) {
@@ -139,7 +170,7 @@ public class Validation {
             Validation.setBorderRed(tfEmpPassword);
             Validation.setBorderRed(tfEmpPasswordConfirm);
             return false;
-        }  
+        }
     }
 
 }

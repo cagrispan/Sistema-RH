@@ -77,6 +77,9 @@ public class TableEmployee extends AbstractTableModel {
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         Employee e = employees.get(rowIndex);
 
+        if(columnIndex == 8)
+            return false;
+            
         if (columnIndex == 6 && e.getSalary().getIdOffice() == 4) {
             e.getSalary().setLevel(0);
             return false;
@@ -113,17 +116,17 @@ public class TableEmployee extends AbstractTableModel {
 
         Employee e = employees.get(rowIndex);
 
-        if (columnIndex == 0) {
+        if (columnIndex == 0 && !Validation.validateEmpty(aValue.toString()) && Validation.validateText(aValue.toString()) ) {
             e.setName(aValue.toString());
-        } else if (columnIndex == 1) {
+        } else if (columnIndex == 1 && !Validation.validateEmpty(aValue.toString()) && Validation.validateText(aValue.toString())) {
             e.setSurname(aValue.toString());
-        } else if (columnIndex == 2) {
+        } else if (columnIndex == 2 && !Validation.validateEmpty(aValue.toString()) && Validation.validateNumber(aValue.toString())) {
             e.setRG(aValue.toString());
-        } else if (columnIndex == 3) {
+        } else if (columnIndex == 3 && !Validation.validateEmpty(aValue.toString()) && Validation.validateNumber(aValue.toString())) {
             e.setCPF(aValue.toString());
-        } else if (columnIndex == 4) {
+        } else if (columnIndex == 4 && !Validation.validateEmpty(aValue.toString()) && Validation.validateNumber(aValue.toString())) {
             e.setPhone(aValue.toString());
-        } else if (columnIndex == 5) {
+        } else if (columnIndex == 5 ) {
             e.getSalary().setIdOffice(offices.getSelectedIndex());
 
             if (e.getSalary().getIdOffice() == 4) {

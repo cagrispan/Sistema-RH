@@ -2,6 +2,7 @@ package resources;
 
 import entities.CompanySystem;
 import DAOs.CompanySystemDAO;
+import com.sun.org.apache.xerces.internal.impl.validation.ValidationState;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,10 +12,10 @@ import javax.swing.table.AbstractTableModel;
 public class TableSystems extends AbstractTableModel {
 
     private List<CompanySystem> systems = CompanySystem.getAll();
-    private Column[] columns =
-    {
-        new Column("Nome", Object.class)
-    };
+    private Column[] columns
+            = {
+                new Column("Nome", Object.class)
+            };
 
     public TableSystems() {
         this.refreshTable();
@@ -32,13 +33,13 @@ public class TableSystems extends AbstractTableModel {
 
     @Override
     public String getColumnName(int column) {
-        return columns [column].columnName;
+        return columns[column].columnName;
 
     }
 
     @Override
     public Class getColumnClass(int column) {
-        return columns [column].columnClass;
+        return columns[column].columnClass;
     }
 
     @Override
@@ -50,10 +51,10 @@ public class TableSystems extends AbstractTableModel {
 
         CompanySystem s = systems.get(rowIndex);
 
-        Object[] values =
-        {
-          s.getName()
-        };
+        Object[] values
+                = {
+                    s.getName()
+                };
 
         return values[columnIndex];
     }
@@ -61,9 +62,12 @@ public class TableSystems extends AbstractTableModel {
     @Override
     public void setValueAt(Object newName, int rowIndex, int columnIndex) {
         CompanySystem sys = systems.get(rowIndex);
-        sys.setName(newName.toString());
-        sys.update();
-        this.refreshTable();
+
+        if (columnIndex == 0&& !Validation.validateEmpty(newName.toString()) && Validation.validateText(newName.toString())) {
+            sys.setName(newName.toString());
+            sys.update();
+            this.refreshTable();
+        }
 
     }
 
@@ -75,14 +79,14 @@ public class TableSystems extends AbstractTableModel {
         }
         this.refreshTable();
     }
-    
+
     public void add(String name) {
 
         CompanySystem newCompanySystem = new CompanySystem();
-        
+
         newCompanySystem.setName(name);
         newCompanySystem.add();
-        
+
         this.refreshTable();
     }
 
@@ -105,5 +109,4 @@ public class TableSystems extends AbstractTableModel {
         });
     }
 
-    
 }

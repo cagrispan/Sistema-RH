@@ -75,7 +75,8 @@ public class TableSalary extends AbstractTableModel
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         Salary s = salarys.get(rowIndex);
         
-        if(columnIndex == 2) s.setValue(Float.parseFloat(aValue.toString()));
+        if(columnIndex == 2 && !Validation.validateEmpty(aValue.toString()) && Validation.validateNumber(aValue.toString()))
+            s.setValue(Float.parseFloat(aValue.toString()));
         
         s.update();
         this.refreshTable();
