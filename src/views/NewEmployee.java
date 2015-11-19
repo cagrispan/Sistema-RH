@@ -468,8 +468,6 @@ public class NewEmployee extends javax.swing.JFrame {
             allValid = true;
         }
         
-        
-                System.out.println(allValid);
         if (allValid) {
             int idOffice = cbEmpOffice.getSelectedIndex();
 
@@ -498,10 +496,10 @@ public class NewEmployee extends javax.swing.JFrame {
             emp.getSalary().setLevel(cbEmpLevel.getSelectedIndex());
             emp.setPassword(new String(tfEmpPassword.getPassword()));
             emp.setDepartment(departments.get(cbEmpDepartment.getSelectedIndex()));
-            System.out.println(emp.getCPF());
             emp.add();
 
             this.dispose();
+            calledBy.refresh();
             calledBy.setEnabled(true);
         }
     }//GEN-LAST:event_btSaveNewEmpActionPerformed

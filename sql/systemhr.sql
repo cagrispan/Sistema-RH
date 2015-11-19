@@ -101,10 +101,10 @@ CREATE TABLE IF NOT EXISTS `employee` (
 -- Copiando dados para a tabela sistemarh.employee: ~4 rows (aproximadamente)
 /*!40000 ALTER TABLE `employee` DISABLE KEYS */;
 INSERT INTO `employee` (`id`, `name`, `surname`, `rg`, `cpf`, `phone`, `password`, `idSalary`, `idDepartment`) VALUES
-	(1, 'Lucas', 'Kindinger', '4.032.894-40', '099.643.419-46', '(41) 99910215', '12345678', 1, 6),
-	(2, 'Carlos', 'Grispan', '41.875.789-6', '807.032.036-22', '(41) 98337122', '12345678', 1, 1),
-	(3, 'Alisson', 'Krul', '4.032.894-4', '740.729.695-24', '(41) 73622812', '12345678', 4, 1),
-	(4, 'Bruno', 'Henrique', '91.122.534-1', '865.227.167-47', '(41) 12873212', '12345678', 4, 1);
+	(1, 'Lucas', 'Kindinger', '403289440', '09964341946', '4199910215', '12345678', 1, 6),
+	(2, 'Carlos', 'Grispan', '418757896', '80703203622', '4198337122', '12345678', 1, 1),
+	(3, 'Alisson', 'Krul', '4032894904', '74072969524', '4173622812', '12345678', 4, 1),
+	(4, 'Bruno', 'Henrique', '911225341', '86522716747', '4112873212', '12345678', 4, 1);
 /*!40000 ALTER TABLE `employee` ENABLE KEYS */;
 
 
