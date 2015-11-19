@@ -13,4 +13,4 @@
 
 
 Para executar o projeto é necessário rodar o SQL que se encon|
-tra na pasta ../sql e dar um duplo clique no SistemaRH.jar. 
+tra na pasta ../sql e dar um duplo clique no dist/SistemaRH.jar. 
