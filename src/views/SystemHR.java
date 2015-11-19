@@ -774,7 +774,9 @@ public class SystemHR extends javax.swing.JFrame {
     private void cbEmployeeOrderFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEmployeeOrderFilterActionPerformed
        ((TableEmployee) tbEmployee.getModel()).orderBy(cbEmployeeOrderFilter.getSelectedIndex());
     }//GEN-LAST:event_cbEmployeeOrderFilterActionPerformed
-
+    public void refresh(){
+        ((TableEmployee) tbEmployee.getModel()).refreshTable();
+    }
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
