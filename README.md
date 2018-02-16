@@ -1,8 +1,8 @@
  ============================================================
 
- Este trabalho foi desenvolvido para fins de obenção de nota  
+ Este trabalho foi desenvolvido para fins de obtenção de nota  
  parcial na Disciplina de Linguagens de Programação Orientada 
- a objetos, ministrada pelo professor Rafael.                 
+ a Objetos, ministrada pelo professor Rafael.                 
 
  ============================================================ 
 
